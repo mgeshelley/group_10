@@ -59,6 +59,8 @@
 \usepackage{titling} % Customizing the title section
 
 \usepackage{hyperref} % For hyperlinks in the PDF
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -68,15 +70,15 @@
 
 \pretitle{\begin{center}\Huge\bfseries} % Article title formatting
 \posttitle{\end{center}} % Article title closing formatting
-\title{Article Title} % Article title
+\title{This is a template Article - lets fill in on the way as we finish parts} % Article title
 \author{%
-\textsc{John Smith}\thanks{A thank you or further information} \\[1ex] % Your name
-\normalsize University of California \\ % Your institution
-\normalsize \href{mailto:john@smith.com}{john@smith.com} % Your email address
-%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
-%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
-%\normalsize University of Utah \\ % Second author's institution
-%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+\textsc{[your names fix later], Ina k. B. Kullmann}\thanks{A thank you or further information - fill in} \\[1ex] % Your name
+\normalsize University of Oslo \\ % Your institution
+\normalsize \href{mailto:i.k.b.kullmann@fys.uio.no}{i.k.b.kullmann@fys.uio.no} % Your email address
+\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+\normalsize University of Utah \\ % Second author's institution
+\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
 }
 \date{\today} % Leave empty to omit a date
 \renewcommand{\maketitlehookd}{%
@@ -104,6 +106,38 @@
 \blindtext % Dummy text
 
 %------------------------------------------------
+
+\section{part 1 - rename sections later, do not need the numbering of the exercises}
+\subsection{ Exe. 1a}
+
+\textbf{Show that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commute both with $\hat{S}_z$ and $\hat{S}^2$. }
+
+\begin{align*}
+\hat{H}_0 = \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma}
+\hat{S}_z = \frac{1}{2} \Sigma_{pq} \sigma a_{p\sigma}^\dagger a_{p\sigma}
+\end{align*}
+
+first rewriting the products: 
+
+\begin{align*}
+\hat{S}_z \hat{H}_0 &= \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \cdot  \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{p\sigma}^\dagger a_{p\sigma}  a_{qb}^\dagger a_{qb} \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta \\
+\hat{H}_0 \hat{S}_z  &= \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \cdot  \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{qb}^\dagger a_{qb} a_{p\sigma}^\dagger a_{p\sigma} \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
+\end{align*}
+
+so that the commutation relation becomes:
+
+\begin{align*}
+[\hat{S}_z, \hat{H}_0] &= \hat{S}_z \hat{H}_0 - \hat{H}_0  \hat{S}_z \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
+&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) \big( a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \big) \\
+\end{align*}
+
+which can only be zero if 
+
 
 \section{Methods}
 
