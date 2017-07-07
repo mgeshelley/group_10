@@ -31,9 +31,11 @@ for i in range(len(j_pi_info)):
         A = isotopes[i,0]
         Z = isotopes[i,1]
 
+        #for n in range()
         n = i
         step_out = 0
         while step_out == 0:
+
 
             if j_pi_info[n] == '8+':
                 e_state_six.append(energy[i])
@@ -46,7 +48,6 @@ for i in range(len(j_pi_info)):
                 step_out = 1
             if isotopes[n,1] != Z:
                 step_out = 1
-
             n += 1
 
 # The ratio of the energy of the states 8+/6+
@@ -63,7 +64,7 @@ plt.plot(z_number, np.ones(len(z_number)))
 
 # These statements makes a pretty plot:
 plt.xlabel('Neutron nr')
-plt.ylabel('Spin ratio 8+/6+')
+plt.ylabel('Energy ratio of spins 8+/6+')
 plt.legend(['Ratio', '12/7', '1'])
 plt.title('Question 4, HW1')
 
