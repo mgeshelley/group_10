@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 # Read in Z,N,A from 'rms13.dat'
 isotopes = np.genfromtxt('rms13.dat',skip_header=2, usecols=(0,1,2))
@@ -15,6 +15,8 @@ Columns are:
 # Read in binding energies from 'rms13.dat' into separate array
 rms = np.genfromtxt('rms13.dat',skip_header=2, usecols=3)
 
+difference = []
+n_list = []
 
 for i in range(0,len(isotopes)):
     # Only check if isotope has > 1 neutron
@@ -33,7 +35,19 @@ for i in range(0,len(isotopes)):
         continue
 
     # Calculate difference
-    difference = rms[i] - rms[n_1_isotope]
+    difference.append( rms[i] - rms[n_1_isotope])
+    n_list.append(n)
+
 
     # Print difference between isotope with N and N-1
-    print n, difference [0]
+    # print n, difference [0]
+
+plt.plot(n_list,difference,'ro')
+plt.axvline(x=2)
+plt.axvline(x=8)
+plt.axvline(x=20)
+plt.axvline(x=28)
+plt.axvline(x=50)
+plt.axvline(x=82)
+plt.axvline(x=126)
+plt.show()
