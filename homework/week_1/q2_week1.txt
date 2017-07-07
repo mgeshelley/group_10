@@ -1,0 +1,27 @@
+Notes
+
+q2_week1.py is a symply program that calculate the neutron driplines according to the liquid drop model (LDM). 
+
+To execute (in Linux) type:
+
+python q2_week1.py 
+
+Results:
+
+--------------------------------
+driplines from liquid-drop model
+  Z   N    A     BE/A 
+ 36  239  275   0.020
+ 37  247  284   0.001
+ 38  254  292   0.007
+ 39  261  300   0.013
+ 40  268  308   0.018
+ 41  276  317   0.001
+ 42  283  325   0.006
+ 43  290  333   0.012
+ 44  297  341   0.017
+--------------------------------
+
+The neutron driplines predicted by LDM are larger than the ones predicted by HFB-27 (around A=120-150 in these region of the nuclear chart).
+
+Possible interpretation: the liquid drop model consider the nucleons as "classical" fluid in the volume and surface terms, with corrections from Coulomb interaction and from symmetry energy. The quantum mechanics properties of nucleons are missed as well as the features of nuclear interaction.
