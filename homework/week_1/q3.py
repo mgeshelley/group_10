@@ -39,15 +39,12 @@ for i in range(0,len(isotopes)):
     n_list.append(n)
 
 
-    # Print difference between isotope with N and N-1
-    # print n, difference [0]
-
+# Plot difference between isotope with N and N-1
+magic_n = [2,8,20,28,50,82,126]
 plt.plot(n_list,difference,'ro')
-plt.axvline(x=2)
-plt.axvline(x=8)
-plt.axvline(x=20)
-plt.axvline(x=28)
-plt.axvline(x=50)
-plt.axvline(x=82)
-plt.axvline(x=126)
+for magic in magic_n:
+    plt.axvline(x=magic)
+
+plt.axhline(y=0)
+
 plt.show()
