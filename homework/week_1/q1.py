@@ -25,13 +25,13 @@ for i in range(0,len(isotopes)):
     a = isotopes[i,1]
     n = isotopes[i,2]
 
+    # Check if unbound to 2p-decay
+    p2_isotope = np.where((isotopes[:,0] == z-2) & (isotopes[:,2] == n))
 
     # Skip if there isn't a measured isotope with 2 fewer protons
     if len(p2_isotope[0]) == 0:
         continue
 
-    # Check if unbound to 2p-decay
-    p2_isotope = np.where((isotopes[:,0] == z-2) & (isotopes[:,2] == n))
     # If B.E. of isotope with 2 fewer protons is smaller, skip
     if bind_energies[p2_isotope] - bind_energies[i] < 0:
         continue
