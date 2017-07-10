@@ -22,6 +22,8 @@ jmax = 5
 
 # filename for the basis:
 sp_basis_filename = '3s.sp'
+SD_filename = "3s_slater_det.sd"
+
 
 # read the number of particles in the system
 N_particles = 4
@@ -85,7 +87,7 @@ def read_basis(sp_basis_filename):
 	return particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix
 
 
-def create_SD(N_particles, nr_sp_states, sp_matrix):
+def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
 	"""
 	Writes all the possible slater determinants to a .sd file.
 	Every row identifies a different slater determinant.
@@ -131,7 +133,7 @@ def create_SD(N_particles, nr_sp_states, sp_matrix):
 	SD_states = SD_array.reshape(dim_SD,5)
 
 
-	out_sd = open("3s_slater_det.sd","w")
+	out_sd = open(SD_filename,"w")
 	out_sd.write("! Tot Slater Determinants = %d \n" % (dim_SD))
 	for i in range(0,dim_SD,1):
 		out_sd.write('%2d %2d %2d %2d %2d \n' % (SD_states[i,0],SD_states[i,1],SD_states[i,2],SD_states[i,3],SD_states[i,4]))
@@ -142,12 +144,11 @@ def create_SD(N_particles, nr_sp_states, sp_matrix):
 if os.path.isfile(sp_basis_filename) == False:
 	sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos)
 
-
 particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix = read_basis(sp_basis_filename)
 
+if os.path.isfile(SD_filename) == False:
+	create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
 
-#test this N_particles=4 fixed routine create_SD
-create_SD(N_particles, nr_sp_states, sp_matrix)
 
 
 
