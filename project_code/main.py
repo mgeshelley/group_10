@@ -1,10 +1,9 @@
 from basis import *
 import os.path
 
-
 # Input parameters:
 ##############################################################
-#nmax = 3
+nmax = 3
 nmin = 0
 lmax = 0
 lmin = 0
@@ -24,10 +23,9 @@ jmax = 5
 # filename for the basis:
 sp_basis_filename = '3s.sp'
 
-
-#if len(sys.argv) != 
-
-nmax = sys.argv[1]
+# How to use command line input:
+#if len(sys.argv) == ... :
+	#nmax = int(sys.argv[1])
 
 # Functions
 ##############################################################
@@ -91,6 +89,14 @@ if os.path.isfile(sp_basis_filename) == False:
 particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix = read_basis(sp_basis_filename)
 
 
-#print nr_sp_states
-print sp_matrix
+
+
+
+
+
+
+
+
+
+
 
