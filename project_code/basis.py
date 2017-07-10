@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 ############################
 '''
 DEFINITIONS OF FUNCTION TO CALCULATE SINGLE PARTICLE STATES
@@ -15,8 +16,8 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos):
 #
   if lmin == lmax: 
     l = lmax
-  else:
-    print 'ERROR: lmin != lmax not allowed in pairing sp-basis'
+  if lmin != lmax:
+    sys.exit('ERROR: lmin != lmax not allowed in pairing sp-basis')
 # CALCULATE THE DIMENSION OF THE SP-BASIS
   print 'MODEL SINGLE-PARTICLE STATES'
   print 'index n  l 2j 2m 2tz'
@@ -30,7 +31,7 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos):
     tz_min = -1
     tz_max = 1
   else:
-    print 'ERROR: wrong number of isospin species' 
+    sys.exit('ERROR: wrong number of isospin species')
 #
   for tz in range (tz_min, tz_max+2, 2):
     for n in range(0, nmax+1, 1):
@@ -60,8 +61,7 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos):
 #
 # write an output in a NutshellX similar file .ps
   out_sp = open("3s.sp","w")
-  out_sp.write("!4 level 2j=1 l=0 single-particle states\n")
-  out_sp.write("!this describes a system with paired particles of the same isospin\n")
+  out_sp.write("!4 level 2j=1 l=0 single-particle states. This describes a system with paired particles of the same isospin\n")
   out_sp.write("n \n")
   out_sp.write("0  0 \n")# assuming A=0 nad Z=0 for the core
   out_sp.write("%d \n" % dim_basis) # total number of sp states
@@ -87,7 +87,7 @@ def sp_harmoscill(nmin,nmax,lmin, lmax,jmin, jmax, isos):
     tz_min = -1
     tz_max = 1
   else:
-    print 'ERROR: wrong number of isospin species' 
+    sys.exit('ERROR: wrong number of isospin species')
 #
   for tz in range (tz_min, tz_max+2, 2):
     for ntot in range(nmin, nmax+1, 1):
@@ -129,21 +129,4 @@ def sp_harmoscill(nmin,nmax,lmin, lmax,jmin, jmax, isos):
   out_sp.close()
   return sp_matrix
 ##############################################################
-#
-nmax = 3
-nmin = 0
-lmax = 0
-lmin = 0
-jmin = 1
-jmax = 1
-isos = 1
-# test of the fuction sp_pairing
-sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos)
-#
-#
-nmax = 2
-lmax = 2
-jmax = 5
-# test of the function sp_harmoscill
-sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
-#
+
