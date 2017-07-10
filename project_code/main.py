@@ -91,8 +91,8 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
 	"""
 	Writes all the possible slater determinants to a .sd file.
 	Every row identifies a different slater determinant.
-	First column in the file is the index of the slater determinants.
-	The four last columns gives the occupied single particle states. 
+	First column: the index of the slater determinants.
+	In the last four columns the labels of the occupied single particle states are listed.
 
 	Input
 
@@ -139,6 +139,31 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
 		out_sd.write('%2d %2d %2d %2d %2d \n' % (SD_states[i,0],SD_states[i,1],SD_states[i,2],SD_states[i,3],SD_states[i,4]))
 	out_sd.close()
 
+
+def read_SD(SD_filename):
+	"""
+	Reads in data from the .sd file
+
+	Input	
+
+	SD_filename:string,
+				filename of the slater determinant file to read data from
+
+	Returns 
+	
+	SD_matrix: 	ndarray,
+				matrix containing the slater determinants.
+				Every row identifies a different slater determinant.
+				First column: the index of the slater determinants.
+				In the last four columns the labels of the occupied single particle states are listed.
+				
+	"""
+
+	SD_matrix = np.genfromtxt(SD_filename,skip_header=1, usecols=(0,1,2,3,4))
+
+	return SD_matrix
+
+
 ##############################################################
 
 if os.path.isfile(sp_basis_filename) == False:
@@ -149,9 +174,9 @@ particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix =
 if os.path.isfile(SD_filename) == False:
 	create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
 
+SD_matrix = read_SD(SD_filename)
 
 
-
-
+print SD_matrix
 
 
