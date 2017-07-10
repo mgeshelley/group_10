@@ -1,4 +1,3 @@
-import math
 import numpy as np
 ############################
 dim_basis = 8
