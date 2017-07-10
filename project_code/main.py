@@ -1,29 +1,35 @@
 from basis import *
+import os.path
 
 
 # Input parameters:
 ##############################################################
-nmax = 3
+#nmax = 3
 nmin = 0
 lmax = 0
 lmin = 0
 jmin = 1
 jmax = 1
 isos = 1
-# test of the fuction sp_pairing
-#sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos)
-#
-#
+
+"""
+# for the harmonic oscillator:
 nmax = 2
 lmax = 2
 jmax = 5
 # test of the function sp_harmoscill
 #sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
-#
+"""
 
 # filename for the basis:
 sp_basis_filename = '3s.sp'
 
+
+#if len(sys.argv) != 
+
+nmax = sys.argv[1]
+
+# Functions
 ##############################################################
 
 def read_basis(sp_basis_filename):
@@ -78,9 +84,13 @@ def read_basis(sp_basis_filename):
 ##############################################################
 
 
-a, b, ... = read_basis(sp_basis_filename)
+if os.path.isfile(sp_basis_filename) == False:
+	sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos)
+
+
+particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix = read_basis(sp_basis_filename)
 
 
 #print nr_sp_states
-#print matrix
+print sp_matrix
 

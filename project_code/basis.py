@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 ############################
 '''
 DEFINITIONS OF FUNCTION TO CALCULATE SINGLE PARTICLE STATES
@@ -15,8 +16,8 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos):
 #
   if lmin == lmax: 
     l = lmax
-  else:
-    print 'ERROR: lmin != lmax not allowed in pairing sp-basis'
+  if lmin != lmax:
+    sys.exit('ERROR: lmin != lmax not allowed in pairing sp-basis')
 # CALCULATE THE DIMENSION OF THE SP-BASIS
   print 'MODEL SINGLE-PARTICLE STATES'
   print 'index n  l 2j 2m 2tz'
@@ -30,7 +31,7 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos):
     tz_min = -1
     tz_max = 1
   else:
-    print 'ERROR: wrong number of isospin species' 
+    sys.exit('ERROR: wrong number of isospin species')
 #
   for tz in range (tz_min, tz_max+2, 2):
     for n in range(0, nmax+1, 1):
@@ -86,7 +87,7 @@ def sp_harmoscill(nmin,nmax,lmin, lmax,jmin, jmax, isos):
     tz_min = -1
     tz_max = 1
   else:
-    print 'ERROR: wrong number of isospin species' 
+    sys.exit('ERROR: wrong number of isospin species')
 #
   for tz in range (tz_min, tz_max+2, 2):
     for ntot in range(nmin, nmax+1, 1):
