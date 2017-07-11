@@ -246,12 +246,12 @@ SD_matrix = read_SD(SD_filename)
 if os.path.isfile(tbme_filename) == False:
 	create_tbme_pairing(tbme_filename,nr_sp_states,g)
 
-
+# Here we should read in the hamiltonian matrix
 
 
 # Finding the eigenvalues and eigenvectors
 ##############################################################
-eigval, eigvec = np.linalg.eigh(hamiltonian_matrix)
+#eigval, eigvec = np.linalg.eigh(hamiltonian_matrix)
 
 
 
