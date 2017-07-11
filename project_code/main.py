@@ -24,6 +24,8 @@ jmax = 5
 sp_basis_filename = '3s.sp'
 SD_filename = "3s_slater_det.sd"
 
+g = 1
+tbme_filename = "pairing_1.int" #this need to be updated with the current value of g
 
 # read the number of particles in the system
 N_particles = 4
@@ -164,6 +166,65 @@ def read_SD(SD_filename):
 	return SD_matrix
 
 
+def create_tbme_pairing(tbme_filename,nr_sp_states,g):
+	"""
+	Produce tbme_filename file with tbme 
+
+	Input	
+
+	tbme_filename:		string,
+				filename of the file to produce
+	nr_sp_states:		float,
+				nr of possible single-particle states
+	g:			float,
+				parameter of the pairing interaction
+
+
+	Output 
+	
+	tbme_filename:	 	file that contains the tbme for the pairing interaction
+				1st line: tbme_dim, E0, E1, E2, E3, d, n, espon
+					tbme_dim: number of non-zero matrix elements
+					E0,E1,E2,E3 are the energy of the sp levels (p-1 in our case)
+                                        d,n,espon 
+                                other lines: sp_1, sp_2, sp_3, sp_4, J_tot, T_tot, matrix element				
+	"""
+
+
+	# g is the value of the pairing parameter
+	index = 0
+	tbme_list = []
+        J = 0
+        T = 1
+
+	p_1=1
+	p_2=2
+	p_3=3
+	p_4=4
+
+        d= 0
+        n= 0
+        espon= 0
+
+	nr_sp_states = int(nr_sp_states)
+
+	for a in range(1, nr_sp_states+1,2):
+		for b in range(a, nr_sp_states+1,2):
+			index += 1
+			tbme_list.extend([a,a+1,b,b+1,J,T,-g])
+	dim_tbme = index
+	tbme_array = np.array(tbme_list)
+	tmbe_matrix = tbme_array.reshape(dim_tbme,7)
+
+
+	out_tbme = open(tbme_filename,"w")
+	out_tbme.write("! %s matrix elements\n" % (tbme_filename))
+	out_tbme.write("! list of states\n")
+	out_tbme.write("%d 7%7.3f" % (dim_tbme, p_0-1, p_1-1, p_2-1, p_3-1, d, n, espon))
+	for i in range(0,dim_tbme):
+		out_tbme.write('6%2d %7.3f \n' % (tbme_matrix[i,0:5],tbme_matrix[i,6]))
+	out_tbme.close()
+	
 ##############################################################
 
 if os.path.isfile(sp_basis_filename) == False:
