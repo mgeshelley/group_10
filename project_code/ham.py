@@ -20,9 +20,7 @@ def Hamiltonian():
 	neo = np.zeros((nos, nos))
 	# Starting loop over NSD
 	for alpha in range(0, nos, 1):
-		print s_d[alpha,1:5]
-
-		# Loop over two body me
+			# Loop over two body me
 		for tbme in range(0, nme, 1):
 			# fetching the p, q, r, s indices from the text file
 			v = two_body_me[tbme,6]
@@ -34,27 +32,53 @@ def Hamiltonian():
 			if v == 0:
 				continue
 			else:
-
-
-
 			# applying the two body operator
-
 				r = int(round(r))
 				s = int(round(s))
 				q = int(round(q))
 				p = int(round(p))
+				if s in s_d[alpha,:] and r in s_d[alpha,:]:
+					# Temporarily saving variables s, r
+					stemp = s
+					rtemp = r
+
+					alpha_temp = s_d[alpha,1:5]
+
+
+					# Renaming these
+					s_loc = np.where(alpha_temp == s)
+					r_loc = np.where(alpha_temp == r)
+
+					alpha_temp[s_loc] = p
+					alpha_temp[r_loc] = q
+
+					alpha_temp = np.sort(alpha_temp)
+					alpha_temp = alpha_temp.astype(int)
+
+					# UP UNTIL HERE IT WORKS
+					for slater in range(0,nos,1):
+						beta = s_d[slater, 1:5]
+						"""HERE WE NEED A WAY TO PICK ONLY THE SDS THAT HAVE
+						ALL ELEMENTS DIFFERENT!!! (P!=Q!=R!=S)
+"""
+
+						print beta
 
 
 
-
-			for beta in range(0, nos, 1):
-				if s in s_d[beta,:] and r in s_d[beta,:]:
-					s = p
-					r = q
 					neo[alpha,beta] = neo[alpha,beta] + v
-					neo[beta,alpha] = neo[beta,alpha] + v
 
-					print neo
+					if alpha != beta:
+						neo[beta,alpha] = neo[beta,alpha] + v
+						# print 'YES'
+						print neo
+
+					# print 'yes'
+
+					s = stemp
+					r = rtemp
+
+
 
 				else:
 					phase = 0
@@ -72,7 +96,7 @@ def Hamiltonian():
 				# #phase needs to be entered later
 
 
-	# print neo
+	print neo
 
 
 Hamiltonian()
