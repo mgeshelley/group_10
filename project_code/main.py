@@ -3,6 +3,48 @@ import os.path
 
 # Input parameters:
 ##############################################################
+"""
+while True:
+    try:
+        # Note: Python 2.x users should use raw_input, the equivalent of 3.x's input
+        age = int(input("Please enter your age: "))
+        if age <= 0:
+        	raise NameError
+    except NameError:
+        print("Sorry, I didn't understand that.")
+        #better try again... Return to the start of the loop
+        continue
+    else:
+        #age was successfully parsed!
+        #we're ready to exit the loop.
+        break
+if age >= 18: 
+    print("You are able to vote in the United States!")
+else:
+    print("You are not able to vote in the United States.")
+
+"""
+
+nmin, nmax = raw_input("Write: nmin nmax ").split(' ')
+lmin, lmax = raw_input("Write: lmin lmax ").split(' ')
+jmin, jmax = raw_input("Write: jmin jmax ").split(' ')
+isos = raw_input("Write: isospin species (n or np) ")
+g = raw_input("Write: g ")
+N_particles = raw_input("Write: N_particles ")
+
+
+#if nmax < 0:
+#	nmax = raw_input("nmax must be a positive number! provide nmax again: ")
+
+
+
+print nmin, nmax
+sys.exit()
+
+
+
+##############################################################
+
 nmax = 3
 nmin = 0
 lmax = 0
@@ -12,6 +54,9 @@ jmax = 1
 isos = 1
 
 g = 1
+
+# read the number of particles in the system
+N_particles = 4
 
 """
 # for the harmonic oscillator:
@@ -29,12 +74,6 @@ SD_filename = "3s_slater_det.sd"
 
 tbme_filename = "pairing_g%s.int" %(g) #this need to be updated with the current value of g
 
-# read the number of particles in the system
-N_particles = 4
-
-# How to use command line input:
-#if len(sys.argv) == ... :
-	#nmax = int(sys.argv[1])
 
 # Functions
 ##############################################################
