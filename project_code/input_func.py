@@ -49,7 +49,7 @@ def command_line_input():
                 maximum j
 
     isos:       string,
-                the 
+                the (?)
 
     g:          float, 
                 a constant (?)
@@ -134,7 +134,6 @@ def command_line_input():
             print("ERROR: Please write either 'n' or 'np'.")
         else:
             break
-
 
     while True:
         try:

@@ -206,7 +206,7 @@ def manual_input(model='pairing'):
         lmax = 0
         jmin = 1
         jmax = 1
-        isos = 1 #isospin ?
+        isos = 'n'
         g = 1
         N_particles = 4 # read the number of particles in the system
 
@@ -232,8 +232,8 @@ def manual_input(model='pairing'):
 
 # Choose if you want to read the input from command line or inside this program:
 # (uncomment your choice and comment the other)
-#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
-nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 
 #print nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 #sys.exit() #when developing the code you may stop the program here by uncommenting this line

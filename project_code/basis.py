@@ -24,10 +24,10 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, folder_name):
 #
   sp = []
   index = 0
-  if isos == 1:
+  if isos == 'n':
     tz_min = 1
     tz_max = 1
-  elif isos == 2:
+  elif isos == 'np':
     tz_min = -1
     tz_max = 1
   else:
@@ -80,10 +80,10 @@ def sp_harmoscill(nmin,nmax,lmin, lmax,jmin, jmax, isos):
 #
   sp = []
   index = 0
-  if isos == 1:
+  if isos == 'n':
     tz_min = 1
     tz_max = 1
-  elif isos == 2:
+  elif isos == 'np':
     tz_min = -1
     tz_max = 1
   else:
