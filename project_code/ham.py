@@ -15,23 +15,42 @@ def Hamiltonian_one_body():
 	s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0)
 
 	# nos is number of states
-	nos = s_d.shape[0]
+	nr_sd = s_d.shape[0]
 
 	# Read in one-body matrix elements
 	one_body_me = np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[1:5]	
 	
 	# nme is the number of two body matrix elements	
-	nme = one_body_me.shape[0]
+	nr_matrix_el = one_body_me.shape[0]
+
+	nr_sp_states = 8
 
 	# neo is the hamiltonian with zero elements
-	neo = np.zeros((nos, nos))
+	hamiltonian = np.zeros((nr_sd, nr_sd))
 
 	# Starting loop over NSD
-	for beta in range(0, nos, 1):
-		for alpha in range(0, nos, 1):
+	for beta in range(0, nr_sd, 1):
+		for alpha in range(0, nr_sd, 1):
 				# Loop over two body me
-			for tbme in range(0, nme, 1):
-				# fetching the p, q, r, s indices from the text file
+			for p in range(nr_sp_states):
+				for q in range(nr_sp_states):
+
+					#index = np.argwhere(s_d[alpha,1:]-q)
+					print s_d[alpha,1:]
+					print q
+					print index
+
+					#s_d[alpha,index] = p
+
+					s_d[alpha,1:5] = np.where(q==s_d[alpha,1:], p, s_d[alpha,1:])
+
+					sys.exit()
+					#if q in s_d[alpha]: #if any s_q[] is equal to q
+
+						
+
+			
+			
 
 
 
@@ -51,7 +70,11 @@ def Hamiltonian_one_body():
 
 
 
-	print neo
+
+
+
+
+	print hamiltonian
 
 
 def Hamiltonian():
