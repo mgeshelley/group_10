@@ -49,10 +49,10 @@ def command_line_input():
                 maximum j
 
     isos:       string,
-                the (?)
+                the species of the nucleons for the simulation
 
     g:          float, 
-                a constant (?)
+                the pairing constant
 
     N_particles: int,
                 the number of particles in the simulation
