@@ -241,14 +241,15 @@ nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 
 # filename for the basis, slater det and tbme:
 # (we could also implement the file names into the input functions)
-sp_basis_filename = 'table_files/3s.sp'
-SD_filename = "table_files/3s_slater_det.sd"
-tbme_filename = "table_files/pairing_g%s.int" %(g) 
+folder_name = 'table_files/'
+sp_basis_filename = folder_name+'3s.sp'
+SD_filename = folder_name+"3s_slater_det.sd"
+tbme_filename = folder_name+"pairing_g%s.int" %(g) 
 
 
 #checking if the basis file exist, if not create the basis
 if os.path.isfile(sp_basis_filename) == False: 
-    sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos)
+    sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, folder_name)
 
 particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix = read_basis(sp_basis_filename)
 
