@@ -9,6 +9,50 @@ that will use the single particle states
 folder_name = 'table_files/'
 
 
+def Hamiltonian_one_body():
+	counter = 0 
+	# s_d is slater determinant
+	s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0)
+
+	# nos is number of states
+	nos = s_d.shape[0]
+
+	# Read in one-body matrix elements
+	one_body_me = np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[1:5]	
+	
+	# nme is the number of two body matrix elements	
+	nme = one_body_me.shape[0]
+
+	# neo is the hamiltonian with zero elements
+	neo = np.zeros((nos, nos))
+
+	# Starting loop over NSD
+	for beta in range(0, nos, 1):
+		for alpha in range(0, nos, 1):
+				# Loop over two body me
+			for tbme in range(0, nme, 1):
+				# fetching the p, q, r, s indices from the text file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	print neo
+
 
 def Hamiltonian():
 	counter = 0 
@@ -22,6 +66,8 @@ def Hamiltonian():
 
 	# Read in two-body matrix elements
 	two_body_me = np.loadtxt(folder_name+"pairing_g1.int", comments = "!", skiprows=3)
+
+	
 	
 	# nme is the number of two body matrix elements	
 	nme = two_body_me.shape[0]
@@ -125,4 +171,4 @@ def Hamiltonian():
 	print neo
 
 
-Hamiltonian()
+Hamiltonian_one_body()
