@@ -196,8 +196,42 @@ def create_tbme_pairing(tbme_filename,nr_sp_states,g):
     out_tbme.close()
 
 def manual_input(model='pairing'):
-    # "Standard" input parameters
-    # (copy the documentation from the other function when done)
+    
+    """
+    "Standard" input parameters (when to lazy to give the input on the command line)
+    
+    Input (None)
+
+    Returns 
+    
+    nmin:       int,
+                minumum n
+
+    nmax:       int,
+                maximum n
+
+    lmin:       int,
+                minumum l
+
+    lmax:       int,
+                maximum l
+
+    jmin:       int,
+                minumum j
+
+    jmax:       int,
+                maximum j
+
+    isos:       string,
+                the species of the nucleons for the simulation
+
+    g:          float, 
+                the pairing constant
+
+    N_particles: int,
+                the number of particles in the simulation
+
+    """
     if model=='pairing':
         
         nmin = 0
