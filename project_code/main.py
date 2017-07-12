@@ -1,165 +1,53 @@
 from basis import *
+from input_func import command_line_input
 import os.path
 
 # Input parameters:
 ##############################################################
-
-
-class Error(Exception):
-    """Base class for other exceptions"""
-    pass
-
-class ValueBelowZeroError(Error):
-    """Raised when the input value is too small"""
-    pass
-
-class minValueLargerThanMaxError(Error):
-    """Raised when the input value is too large"""
-    pass
-
-class FloatError(Error):
-    """Raised when the input value is not a float"""
-    pass
-
-class IsosError(Error):
-    """Raised when the input value is not a n or np"""
-    pass
-"""
-while True:
-    try:
-        nmin, nmax = map(int,raw_input("Write: nmin nmax ").split(' '))
-        if np.logical_or(nmin < 0, nmax < 0):
-            raise ValueBelowZeroError
-        if nmin > nmax:
-            raise minValueLargerThanMaxError
-    except ValueBelowZeroError:
-        print("Please provide numbers above zero.")
-        #better try again... Return to the start of the loop
-        continue
-    except ValueError:
-        print("Please provide integers.")
-        #better try again... Return to the start of the loop
-        continue
-    except minValueLargerThanMaxError:
-        print("The maximum value must be larger than the minimum value.")
-        #better try again... Return to the start of the loop
-        continue
-    else:
-        #age was successfully parsed!
-        #we're ready to exit the loop.
-        break
-
-while True:
-    try:
-        lmin, lmax = map(int,raw_input("Write: lmin lmax ").split(' '))
-        if np.logical_or(lmin < 0, lmax < 0):
-            raise ValueBelowZeroError
-        if lmin > lmax:
-            raise minValueLargerThanMaxError
-
-    except ValueBelowZeroError:
-        print("Please provide numbers above zero.")
-        continue
-    except ValueError:
-        print("Please provide integers.")
-        continue
-    except minValueLargerThanMaxError:
-        print("The maximum value must be larger than the minimum value.")
-        continue
-    else:
-        break
-
-while True:
-    try:
-        jmin, jmax = map(int,raw_input("Write: 2jmin 2jmax ").split(' '))
-        if np.logical_or(jmin < 0, jmax < 0):
-            raise ValueBelowZeroError
-        if jmin > jmax:
-            raise minValueLargerThanMaxError
+def manual_input(model='pairing'):
+    
+    if model=='pairing':
         
-    except ValueBelowZeroError:
-        print("Please provide numbers above zero.")
-        continue
-    except ValueError:
-        print("Please provide integers.")
-        continue
-    except minValueLargerThanMaxError:
-        print("The maximum value must be larger than the minimum value.")
-        continue
-    else:
-        break
+        nmin = 0
+        nmax = 3
+        lmin = 0
+        lmax = 0
+        jmin = 1
+        jmax = 1
+        isos = 1 #isospin ?
+        g = 1
+        N_particles = 4 # read the number of particles in the system
 
-while True:
-    try:
-        isos = raw_input("Write: isospin species (n or np) ")
-        if isos not in ['n', 'np']:
-            raise IsosError
+    """
+    # for the harmonic oscillator:
+    if model == 'HO':
 
-    except IsosError:
-        print("Please write either 'n' or 'np'.")
-    else:
-        break
-"""
-while True:
-    try:
-        g = float(raw_input("Write: g "))
-        print type(g)
-        if not isinstance(g, (float, int)):
-            raise FloatError
-    except FloatError:
-        print("Please provide a float / real number.")
+        nmax = 2
+        lmax = 2
+        jmax = 5
+        ....
 
-    else:
-        break
+    # test of the function sp_harmoscill
+    #sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
+    """
 
-while True:
-    try:        
-        N_particles = int(raw_input("Write: N_particles "))
-    except ValueBelowZeroError:
-        print("Please provide numbers above zero.")
-        continue
-    except ValueError:
-        print("Please provide integers.")
-        continue
-    else:
-        break
-        
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 
-print g
-sys.exit()
+# Choose if you want to read the input from command line or inside this program
+
+nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+
+print nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
+
+#sys.exit()
 
 
-
-##############################################################
-
-nmax = 3
-nmin = 0
-lmax = 0
-lmin = 0
-jmin = 1
-jmax = 1
-isos = 1
-
-g = 1
-
-# read the number of particles in the system
-N_particles = 4
-
-"""
-# for the harmonic oscillator:
-nmax = 2
-lmax = 2
-jmax = 5
-# test of the function sp_harmoscill
-#sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
-"""
-
-# filename for the basis:
+# filename for the basis, slater det and tbme:
 sp_basis_filename = '3s.sp'
 SD_filename = "3s_slater_det.sd"
 
-
-tbme_filename = "pairing_g%s.int" %(g) #this need to be updated with the current value of g
+tbme_filename = "pairing_g%s.int" %(g) 
 
 
 # Functions
