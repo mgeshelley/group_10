@@ -5,3 +5,5 @@
 *.aux
 *.sp
 .DS_Store
+*.pyc
+*.int

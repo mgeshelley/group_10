@@ -62,20 +62,21 @@ def command_line_input():
     while True:
         try:
             nmin, nmax = map(int,raw_input("Write: nmin nmax ").split(' '))
+
             if np.logical_or(nmin < 0, nmax < 0):
                 raise ValueBelowZeroError
             if nmin > nmax:
                 raise minValueLargerThanMaxError
         except ValueBelowZeroError:
-            print("Please provide numbers above zero.")
+            print("ERROR: Please provide numbers above zero.")
             #better try again... Return to the start of the loop
             continue
         except ValueError:
-            print("Please provide integers.")
+            print("ERROR: Please provide integers (without whitespace behind the last number).")
             #better try again... Return to the start of the loop
             continue
         except minValueLargerThanMaxError:
-            print("The maximum value must be larger than the minimum value.")
+            print("ERROR: The maximum value must be larger than the minimum value.")
             #better try again... Return to the start of the loop
             continue
         else:
@@ -92,13 +93,13 @@ def command_line_input():
                 raise minValueLargerThanMaxError
 
         except ValueBelowZeroError:
-            print("Please provide numbers above zero.")
+            print("ERROR: Please provide numbers above zero.")
             continue
         except ValueError:
-            print("Please provide integers.")
+            print("ERROR: Please provide integers (without whitespace behind the last number).")
             continue
         except minValueLargerThanMaxError:
-            print("The maximum value must be larger than the minimum value.")
+            print("ERROR: The maximum value must be larger than the minimum value.")
             continue
         else:
             break
@@ -112,25 +113,25 @@ def command_line_input():
                 raise minValueLargerThanMaxError
             
         except ValueBelowZeroError:
-            print("Please provide numbers above zero.")
+            print("ERROR: Please provide numbers above zero.")
             continue
         except ValueError:
-            print("Please provide integers.")
+            print("ERROR: Please provide integers (without whitespace behind the last number).")
             continue
         except minValueLargerThanMaxError:
-            print("The maximum value must be larger than the minimum value.")
+            print("ERROR: The maximum value must be larger than the minimum value.")
             continue
         else:
             break
 
     while True:
         try:
-            isos = raw_input("Write: isospin species (n or np) ")
+            isos = raw_input("Write: isospin species ('n' or 'np' without whitespace behind) ")
             if isos not in ['n', 'np']:
                 raise IsosError
 
         except IsosError:
-            print("Please write either 'n' or 'np'.")
+            print("ERROR: Please write either 'n' or 'np'.")
         else:
             break
 
@@ -139,7 +140,7 @@ def command_line_input():
         try:
             g = float(raw_input("Write: g "))
         except ValueError:
-            print("Please provide g as a float / real number.")
+            print("ERROR: Please provide g as a float / real number (without whitespace behind the last number).")
 
         else:
             break
@@ -148,10 +149,10 @@ def command_line_input():
         try:        
             N_particles = int(raw_input("Write: N_particles "))
         except ValueBelowZeroError:
-            print("Please provide numbers above zero.")
+            print("ERROR: Please provide numbers above zero.")
             continue
         except ValueError:
-            print("Please provide the number of particles as an integer.")
+            print("ERROR: Please provide the number of particles as an integer (without whitespace behind the last number).")
             continue
         else:
             break
