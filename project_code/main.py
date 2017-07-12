@@ -19,7 +19,7 @@ def manual_input(model='pairing'):
         N_particles = 4 # read the number of particles in the system
 
     """
-    # for the harmonic oscillator:
+    # for the harmonic oscillator: (this is some old stuff)
     if model == 'HO':
 
         nmax = 2

@@ -2,24 +2,62 @@
 
 import numpy as np
 
-
+# These classes are needed for the function below. 
 class Error(Exception):
     """Base class for other exceptions"""
     pass
 
 class ValueBelowZeroError(Error):
-    """Raised when the input value is too small"""
+    """Raised when the input value is below zero"""
     pass
 
 class minValueLargerThanMaxError(Error):
-    """Raised when the input value is too large"""
+    """Raised when the min value is larger than the max value"""
     pass
 
 class IsosError(Error):
-    """Raised when the input value is not a n or np"""
+    """Raised when the input value is not 'n' or 'np'"""
     pass
 
 def command_line_input():
+    """
+    This function asks the user to provide the input parameter on the command line. 
+    It makes sure that the provided input is of correct type and within the allowed limits.
+    If the input is not correct the program gives an error message and asks the user to provide
+    the input again. 
+    
+    Input (None)
+
+    Returns 
+    
+    nmin:       int,
+                minumum n
+
+    nmax:       int,
+                maximum n
+
+    lmin:       int,
+                minumum l
+
+    lmax:       int,
+                maximum l
+
+    jmin:       int,
+                minumum j
+
+    jmax:       int,
+                maximum j
+
+    isos:       string,
+                the 
+
+    g:          float, 
+                a constant (?)
+
+    N_particles: int,
+                the number of particles in the simulation
+
+    """
 
     while True:
         try:
@@ -118,5 +156,5 @@ def command_line_input():
         else:
             break
            
-    return nmax, nmin, lmax, lmin, jmin, jmax, isos, g, N_particles
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 
