@@ -6,36 +6,6 @@ import os.path
 # Functions
 ##############################################################
 
-def manual_input(model='pairing'):
-    # "Standard" input parameters
-    # (copy the documentation from the other function when done)
-    if model=='pairing':
-        
-        nmin = 0
-        nmax = 3
-        lmin = 0
-        lmax = 0
-        jmin = 1
-        jmax = 1
-        isos = 1 #isospin ?
-        g = 1
-        N_particles = 4 # read the number of particles in the system
-
-    """
-    # for the harmonic oscillator: (this is some old stuff ?)
-    if model == 'HO':
-
-        nmax = 2
-        lmax = 2
-        jmax = 5
-        ....
-
-    # test of the function sp_harmoscill
-    #sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
-    """
-
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
-
 def read_basis(sp_basis_filename):
     """
     Reads in data from the .sp file
@@ -224,26 +194,56 @@ def create_tbme_pairing(tbme_filename,nr_sp_states,g):
     for i in range(0,dim_tbme):
         out_tbme.write('%2d %2d %2d %2d %2d %2d %7.3f \n' % (tuple(tbme_matrix[i,0:6])+tuple([tbme_matrix[i,6]])))
     out_tbme.close()
-    
+
+def manual_input(model='pairing'):
+    # "Standard" input parameters
+    # (copy the documentation from the other function when done)
+    if model=='pairing':
+        
+        nmin = 0
+        nmax = 3
+        lmin = 0
+        lmax = 0
+        jmin = 1
+        jmax = 1
+        isos = 1 #isospin ?
+        g = 1
+        N_particles = 4 # read the number of particles in the system
+
+    """
+    # for the harmonic oscillator: (this is some old stuff ?)
+    if model == 'HO':
+
+        nmax = 2
+        lmax = 2
+        jmax = 5
+        ....
+
+    # test of the function sp_harmoscill
+    #sp_harmoscill(0,nmax,0, lmax,1, jmax, 2)
+    """
+
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
+
+
 ##############################################################
 # This part of program is to run the whole simulation:
 ##############################################################
 
 # Choose if you want to read the input from command line or inside this program:
 # (uncomment your choice and comment the other)
-nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
-#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
+nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 
-print nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
-
+#print nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 #sys.exit() #when developing the code you may stop the program here by uncommenting this line
 
 
 # filename for the basis, slater det and tbme:
 # (we could also implement the file names into the input functions)
-sp_basis_filename = '3s.sp'
-SD_filename = "3s_slater_det.sd"
-tbme_filename = "pairing_g%s.int" %(g) 
+sp_basis_filename = 'table_files/3s.sp'
+SD_filename = "table_files/3s_slater_det.sd"
+tbme_filename = "table_files/pairing_g%s.int" %(g) 
 
 
 #checking if the basis file exist, if not create the basis
