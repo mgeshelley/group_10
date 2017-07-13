@@ -134,7 +134,7 @@ def unit_test_hamiltonian_pairing(N_particles, g, numerical_hamiltonian):
         sys.exit()
         
     if unit_test:
-        print "\nSUCCESS: The hamiltonian matrix was set up corectly (for the pairing problem).\n"
+        print "\nSUCCESS: The hamiltonian matrix was set up correctly (for the pairing problem).\n"
 
 ##############################################################
 # To test the unit test:

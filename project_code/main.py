@@ -101,14 +101,14 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
                                 SD_list.append(index)
                                 SD_list.extend([a,b,c,d])
 
-    dim_SD = index
+    nr_SD = index
     SD_array = np.array(SD_list)
-    SD_states = SD_array.reshape(dim_SD,5)
+    SD_states = SD_array.reshape(nr_SD,5)
 
 
     out_sd = open(SD_filename,"w")
-    out_sd.write("! Tot Slater Determinants = %d \n" % (dim_SD))
-    for i in range(0,dim_SD,1):
+    out_sd.write("! Tot Slater Determinants = %d \n" % (nr_SD))
+    for i in range(0,nr_SD,1):
         out_sd.write('%2d %2d %2d %2d %2d \n' % (SD_states[i,0],SD_states[i,1],SD_states[i,2],SD_states[i,3],SD_states[i,4]))
     out_sd.close()
 
@@ -294,31 +294,27 @@ if os.path.isfile(SD_filename) == False:
     create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
 
 SD_matrix = read_SD(SD_filename)
+nr_SD = SD_matrix.shape[0]
 
 #creating the pairing interaction
 if os.path.isfile(tbme_filename) == False:
     create_tbme_pairing(tbme_filename,nr_sp_states,g)
 
-# Here we should read in the hamiltonian matrix
-# hamiltonian_matrix = .....
+# The 1-body and 2-body hamiltonian matrices are added together to form hamiltonian_total
+# hamiltonian_total is initialized to zeros
+hamiltonian_total = np.zeros((nr_SD, nr_SD))
+hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
+hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
+hamiltonian_total = hamiltonian_1body+hamiltonian_2body
+#print hamiltonian_total
 
 # Finding the eigenvalues and eigenvectors
 ##############################################################
-eigval, eigvec = np.linalg.eigh(test_ham)
+eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
-
+print 'eigenvalues'
 print eigval
+print 'eigenvectors'
 print eigvec
-
-
-
-
-
-
-
-
-
-
-
 

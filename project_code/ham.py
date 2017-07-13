@@ -1,12 +1,12 @@
 import numpy as np
 import sys
 
-nr_sp_states = 8
-N_particles = 4
+#nr_sp_states = 8
+#N_particles = 4
 
-folder_name = 'table_files/'
-SD_filename = "table_files/3s_slater_det.sd"
-tbme_filename = "table_files/pairing_g1.int"
+#folder_name = 'table_files/'
+#SD_filename = "table_files/3s_slater_det.sd"
+#tbme_filename = "table_files/pairing_g1.int"
 
 def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	"""
@@ -31,6 +31,9 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
     hamiltonian_1body:    ndarray,
     				Hamiltonian matrix with the one-body interaction terms
 	"""
+
+	nr_sp_states = int(nr_sp_states)
+	N_particles = int(N_particles)
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
 	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
@@ -118,6 +121,9 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
     hamiltonian_2body:    ndarray,
     				Hamiltonian matrix with the one-body interaction terms
 	"""
+
+	nr_sp_states = int(nr_sp_states)
+	N_particles = int(N_particles)
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
 	#s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
