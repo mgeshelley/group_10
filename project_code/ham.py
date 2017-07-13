@@ -1,52 +1,73 @@
 import numpy as np
 import sys
 
-"""
-This a function that will build the Hamiltonian matrix
-that will use the single particle states
-"""
+nr_sp_states = 8
+N_particles = 4
 
 folder_name = 'table_files/'
 
 
-def Hamiltonian_one_body():
-	counter = 0 
-	# s_d is slater determinant
-	s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0)
+def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
+	"""
+	This function builds the one-body part of the Hamiltonian <beta_SD|H|alpha_SD>
 
-	# nos is number of states
+	To call it
+	Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename)	
+
+	Input   
+
+    N_particles:    float,
+                    number of particles
+    nr_sp_states:   float,  
+                    the total number of single-particle states 
+    SD_filename:    string,
+                	filename of the file with the Slater Determinants
+    tbme_filename:  string,
+                	filename of the file with the interaction .int
+
+    Output 
+    
+    hamiltonian:    ndarray,
+    				Hamiltonian matrix with the one-body interaction terms
+	"""
+
+	# The file with Slater Determinants (s_d) is loaded [index, sp states]
+	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
+	# number of Slater determinants
 	nr_sd = s_d.shape[0]
 
-	# Read in one-body matrix elements
-	one_body_me = np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[1:5]	
-	#print one_body_me
+	# Read the single-particle energies from the first line of .int file 
+	sp_energies = np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[1:5]	
 
-	nr_sp_states = 8
-	Nr_particles = 4
-
+	# Make a matrix with the single-particle energies on the diagonal <p|h_1body|q>
 	H_diag = np.zeros((nr_sp_states, nr_sp_states))
 	for i in range(nr_sp_states):
-		H_diag[i,i] = one_body_me[i/2] #this is an integer division 
-	#print H_diag	
-	# neo is the hamiltonian with zero elements
+		H_diag[i,i] = sp_energies[i/2] #this is an integer division 
+
+	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
 	hamiltonian = np.zeros((nr_sd, nr_sd))
-	#print hamiltonian
-	#sys.exit()
-	# Starting loop over NSD
-	count = 0
+
+	# loop over <beta_SD|
 	for beta in range(0, nr_sd, 1):
+
 		beta_list = s_d[beta,1:]
+		# loop over |alpha_SD>
 		for alpha in range(0, nr_sd, 1):
-				# Loop over two body me
 			
+			# sum_p,q <p|h_1body|q> a_p^+ a_q
 			for p in range(1,nr_sp_states+1):
 				for q in range(1,nr_sp_states+1):
+
 					alpha_list = s_d[alpha,1:]
+					# index = -1 means not index found
+
+					# this part substitutes a_p^+ with a_i^+ if q == i, producing |alpha'_SD> 
+					# if it does not exist i that is equal to q, the code executes continue
 					index = -1
 					index_bol = True
-					i = 0
+					i = 0 # variable to count the position in alpha_list 
 				
-					while index_bol and i < Nr_particles:
+					while index_bol and i < N_particles:
 				
 						if q == int(alpha_list[i]):
 							index = i
@@ -54,35 +75,22 @@ def Hamiltonian_one_body():
 						else:
 							i += 1
 				
-					count +=1
-				
-					#if index < 0:
-					#	continue		
-					#index = np.argwhere(alpha_list-q)
-					#print index
-					#print alpha_list
-					#sys.exit()
+					if index < 0:
+						continue
+
 					alpha_list = np.insert(alpha_list,index,p)
-					#alpha_list = alpha_list.add(p)
 					alpha_list = np.delete(alpha_list,index+1)
 					alpha_list = np.sort(alpha_list)
 
+					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
 					if np.array_equal(beta_list,alpha_list):
 						hamiltonian[beta, alpha] = hamiltonian[beta, alpha] + H_diag[p-1,q-1]
+	# print the Hamiltonian matrix
+	# print hamiltonian
+	return SD_matrix
 
-	print hamiltonian
-					
-#					if count > 1:
-#						sys.exit()
-					#if q in s_d[alpha]: #if any s_q[] is equal to q
-					
-						
+##########################################################################################################
 
-			
-Hamiltonian_one_body()			
-
-
-####################################################################################
 
 
 def Hamiltonian():
