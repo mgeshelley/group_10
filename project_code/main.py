@@ -1,4 +1,6 @@
 from basis import *
+from unit_tests import *
+from ham import *
 from input_func import command_line_input
 import os.path
 
@@ -300,9 +302,14 @@ if os.path.isfile(tbme_filename) == False:
 # Here we should read in the hamiltonian matrix
 # hamiltonian_matrix = .....
 
+
 # Finding the eigenvalues and eigenvectors
 ##############################################################
-#eigval, eigvec = np.linalg.eigh(hamiltonian_matrix)
+eigval, eigvec = np.linalg.eigh(test_ham)
+
+
+print eigval
+print eigvec
 
 
 
