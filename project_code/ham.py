@@ -87,11 +87,8 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 						hamiltonian[beta, alpha] = hamiltonian[beta, alpha] + H_diag[p-1,q-1]
 	# print the Hamiltonian matrix
 	# print hamiltonian
-<<<<<<< HEAD
 	return hamiltonian
-=======
-	return Hamiltonian
->>>>>>> 48a44e6386bb7b260ea00a4535351727705a675b
+
 
 ##########################################################################################################
 
@@ -100,7 +97,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 def Hamiltonian():  #used only for testing 
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
-	s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
+	#s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
 	#s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
 	
 	# number of Slater determinants
