@@ -5,7 +5,8 @@ nr_sp_states = 8
 N_particles = 4
 
 folder_name = 'table_files/'
-
+SD_filename = "table_files/3s_slater_det.sd"
+tbme_filename = "table_files/pairing_g1.int"
 
 def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	"""
@@ -27,7 +28,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
     Output 
     
-    hamiltonian:    ndarray,
+    hamiltonian_1body:    ndarray,
     				Hamiltonian matrix with the one-body interaction terms
 	"""
 
@@ -45,7 +46,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 		H_diag[i,i] = sp_energies[i/2] #this is an integer division 
 
 	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
-	hamiltonian = np.zeros((nr_sd, nr_sd))
+	hamiltonian_1body = np.zeros((nr_sd, nr_sd))
 
 	# loop over <beta_SD|
 	for beta in range(0, nr_sd, 1):
@@ -84,43 +85,65 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
 					if np.array_equal(beta_list,alpha_list):
-						hamiltonian[beta, alpha] = hamiltonian[beta, alpha] + H_diag[p-1,q-1]
+						hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + H_diag[p-1,q-1]
 	# print the Hamiltonian matrix
-	# print hamiltonian
-	return hamiltonian
+	#print hamiltonian
+	return hamiltonian_1body
 
 
 ##########################################################################################################
 
 
-#def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
-def Hamiltonian():  #used only for testing 
+def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
+
+	"""
+	This function builds the two-body part of the Hamiltonian <beta_SD|H|alpha_SD>
+
+	To call it
+	Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)	
+
+	Input   
+
+    N_particles:    float,
+                    number of particles
+    nr_sp_states:   float,  
+                    the total number of single-particle states 
+    SD_filename:    string,
+                	filename of the file with the Slater Determinants
+    tbme_filename:  string,
+                	filename of the file with the interaction .int
+
+    Output 
+    
+    hamiltonian_2body:    ndarray,
+    				Hamiltonian matrix with the one-body interaction terms
+	"""
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
 	#s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
-	#s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
+	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
 	
 	# number of Slater determinants
 	nr_sd = s_d.shape[0]
 
 	# Read the two-body matrix elements from the .int file 
-	two_body_me = np.loadtxt(folder_name+"pairing_g1.int", comments = "!", skiprows=3) #only for testing
-	#two_body_me = np.loadtxt(tbme_filename, comments = "!", skiprows=3)
+	#two_body_me = np.loadtxt(folder_name+"pairing_g1.int", comments = "!", skiprows=3) #only for testing
+	two_body_me = np.loadtxt(tbme_filename, comments = "!", skiprows=3)
 	
 	
 	# nr_2bme is the number of two body matrix elements	
 	nr_2bme = two_body_me.shape[0]
-	if np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
-		sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!") #only for testing
-	#if np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
-	#	sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
+	#if np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
+	#	sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!") #only for testing
+	if np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
+		sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
 
 
 	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
 	hamiltonian_2body = np.zeros((nr_sd, nr_sd))
 
 
-# loop over <beta_SD|
+	# loop over <beta_SD|
 	for beta in range(0, nr_sd, 1):
 
 		beta_list = s_d[beta,1:]
@@ -187,9 +210,11 @@ def Hamiltonian():  #used only for testing
 					if np.array_equal(beta_list,alpha_list):
 						hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
 			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha] 
-	print hamiltonian_2body
-
+	# print the Hamiltonian matrix
+	#print hamiltonian_2body
+	return hamiltonian_2body
 '''
+old code
 					if s in alpha_list and r in s_d[alpha,1:]:
 						# Temporarily saving variables s, r
 						stemp = s
@@ -260,5 +285,4 @@ def Hamiltonian():  #used only for testing
 
 	print neo
 '''
-Hamiltonian()
 
