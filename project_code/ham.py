@@ -87,7 +87,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 						hamiltonian[beta, alpha] = hamiltonian[beta, alpha] + H_diag[p-1,q-1]
 	# print the Hamiltonian matrix
 	# print hamiltonian
-	return SD_matrix
+	return Hamiltonian
 
 ##########################################################################################################
 
