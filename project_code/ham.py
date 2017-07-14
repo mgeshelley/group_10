@@ -1,3 +1,5 @@
+# Creates the one-body and the two body hamiltonian matrix for the pairing problem
+
 import numpy as np
 import sys
 
@@ -208,76 +210,14 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 						hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
 			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha] 
 	return hamiltonian_2body
-'''
-old code
-					if s in alpha_list and r in s_d[alpha,1:]:
-						# Temporarily saving variables s, r
-						stemp = s
-						rtemp = r
-
-						alpha_temp = s_d[alpha,1:5]
-
-						counter += 1
-
-						# Renaming these
-						stemp = np.where(alpha_temp == s)
-						rtemp = np.where(alpha_temp == r)
-
-						print 'b', s_d[beta,1:5]
-						
-						alpha_temp[stemp] = p
-						alpha_temp[rtemp] = q
-						
-						print 'a', s_d[beta,1:5]
-
-						print s_d2[beta,1:5]
-						alpha_temp = np.sort(alpha_temp)
-						alpha_temp = alpha_temp.astype(int)
-						#print alpha_temp
-						#print s_d[beta,1:5]
-						#sys.exit()
-
-						
-						
-						if np.array_equal(alpha_temp,s_d2[beta,1:5]):
-							neo[alpha,beta] = neo[alpha,beta] + v
-							print alpha_temp
-							print 'if'
-							if alpha != beta:
-								neo[beta,alpha] = neo[alpha,beta] + v
-
-						# UP UNTIL HERE IT WORKS
-						"""for slater in range(0,nr_sd,1):
-							beta = s_d[slater, 1:5]
-							#HERE WE NEED A WAY TO PICK ONLY THE SDS THAT HAVE
-							#ALL ELEMENTS DIFFERENT!!! (P!=Q!=R!=S)
-
-							print beta
-						"""
-
-						#neo[alpha,beta] = neo[alpha,beta] + v
-
-						#if alpha != beta:
-						#	neo[beta,alpha] = neo[beta,alpha] + v
-							# print 'YES'
-						#	print neo
-
-						# print 'yes'
-						
 
 
-						s = stemp
-						r = rtemp
 
-					else:
-						phase = 0
 
-						# print s, r
-					# else:
-						# print 'yes'
 
-					# #phase needs to be entered later
 
-	print neo
-'''
+
+
+
+
 
