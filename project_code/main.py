@@ -12,7 +12,7 @@ from input_func import command_line_input
 import os.path
 
 ##############################################################
-# Functions
+# Function to give standard input (without command line)
 ##############################################################
 
 def manual_input(model='pairing'):

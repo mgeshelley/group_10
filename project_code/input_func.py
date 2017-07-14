@@ -158,3 +158,15 @@ def command_line_input():
            
     return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 
+
+def give_file_names(g):
+    folder_name = 'table_files/'
+
+    sp_basis_filename = folder_name+'3s.sp'
+    SD_filename = folder_name+"3s_slater_det.sd"
+    tbme_filename = folder_name+"pairing_g%s.int" %(g) 
+
+    return sp_basis_filename, sp_basis_filename, sp_basis_filename
+
+
+

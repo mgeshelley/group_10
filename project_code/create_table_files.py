@@ -1,8 +1,5 @@
 # Creating table files
 
-
-
-
 def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
     """
     Writes all the possible slater determinants to a .sd file.
