@@ -53,17 +53,12 @@ def manual_input(model='pairing'):
         g = 1
         N_particles = 4 # read the number of particles in the system
 
-        folder_name = 'table_files/'
-        sp_basis_filename = folder_name+'3s.sp'
-        SD_filename = folder_name+"3s_slater_det.sd"
-        tbme_filename = folder_name+"pairing_g%s.int" %(g) 
-
     if model=='harmonic':
         #do stuff
         n = 0
         #...
 
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename, folder_name
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
 
 
 
@@ -141,7 +136,7 @@ def command_line_input():
                     raise FileNameError
 
             if yn == 'y':
-                nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename, folder_name = manual_input()
+                nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 
             if yn == 'n':
                 standard_input = False
@@ -261,7 +256,7 @@ def command_line_input():
                 raise FileNameError
 
             if file_type == 'y':
-                sp_basis_filename, SD_filename, tbme_filename, folder_name = give_file_names(g)
+                sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
 
             if file_type == 'n':
                 extension = raw_input("Provide your extension to the file names: ")
@@ -269,7 +264,8 @@ def command_line_input():
                 if not extension.isalpha():
                     raise ExtensionError
                 
-                sp_basis_filename, SD_filename, tbme_filename, folder_name =  give_file_names(g, extension+'_')
+                sp_basis_filename, SD_filename, tbme_filename =  give_file_names(g, extension+'_')
+            #print sp_basis_filename, SD_filename, tbme_filename
 
         except FileNameError:
             print("\nERROR: Please write either 'y' or 'n'.\n")
@@ -281,7 +277,7 @@ def command_line_input():
 
 
            
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename, folder_name
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
 
 
 def give_file_names(g, extension=''):
@@ -291,7 +287,7 @@ def give_file_names(g, extension=''):
     SD_filename = folder_name+"%s3s_slater_det.sd" %extension
     tbme_filename = folder_name+"%spairing_g%s.int" %(extension, g) 
 
-    return sp_basis_filename, SD_filename, tbme_filename, folder_name
+    return sp_basis_filename, SD_filename, tbme_filename
 
 
 

@@ -12,7 +12,7 @@ lmin, lmax are the min and max of orbital angular moments
 jmin and jmax are the min and max of total angular moments
 isos is the number of different isospin species only n -> isos=1, np -> isos=2
 '''
-def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, folder_name):
+def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, sp_basis_filename):
 #
   if lmin == lmax: 
     l = lmax
@@ -60,7 +60,7 @@ def sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, folder_name):
   sp_matrix = sp_array.reshape(dim_basis,6)
 #
 # write an output in a NutshellX similar file .ps
-  out_sp = open(folder_name+"3s.sp","w")
+  out_sp = open(sp_basis_filename,"w")
   out_sp.write("!4 level 2j=1 l=0 single-particle states. This describes a system with paired particles of the same isospin\n")
   out_sp.write("n \n")
   out_sp.write("0  0 \n")# assuming A=0 nad Z=0 for the core
