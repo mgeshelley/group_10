@@ -1,13 +1,6 @@
 import numpy as np
 import sys
 
-#nr_sp_states = 8
-#N_particles = 4
-
-#folder_name = 'table_files/'
-#SD_filename = "table_files/3s_slater_det.sd"
-#tbme_filename = "table_files/pairing_g1.int"
-
 def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	"""
 	This function builds the one-body part of the Hamiltonian <beta_SD|H|alpha_SD>
@@ -89,8 +82,6 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
 					if np.array_equal(beta_list,alpha_list):
 						hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + H_diag[p-1,q-1]
-	# print the Hamiltonian matrix
-	#print hamiltonian
 	return hamiltonian_1body
 
 
@@ -216,8 +207,6 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 					if np.array_equal(beta_list,alpha_list):
 						hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
 			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha] 
-	# print the Hamiltonian matrix
-	#print hamiltonian_2body
 	return hamiltonian_2body
 '''
 old code
