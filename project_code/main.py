@@ -309,12 +309,21 @@ hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename,
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 #print hamiltonian_total
 
+# test if the hamiltonian is correct for the pairing problem:
+unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
+
 # Finding the eigenvalues and eigenvectors
 ##############################################################
 eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
-print 'eigenvalues'
+print 'Eigenvalues:'
 print eigval
-print 'eigenvectors'
+print '\n'
+print 'Eigenvectors:'
 print eigvec
+print '\n'
+
+
+
+
 
