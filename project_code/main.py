@@ -15,65 +15,6 @@ import os.path
 # Function to give standard input (without command line)
 ##############################################################
 
-def manual_input(model='pairing'):
-    
-    """
-    "Standard" input parameters (when to lazy to give the input on the command line)
-    
-    Input (None)
-
-    Returns 
-    
-    nmin:       int,
-                minumum n
-
-    nmax:       int,
-                maximum n
-
-    lmin:       int,
-                minumum l
-
-    lmax:       int,
-                maximum l
-
-    jmin:       int,
-                minumum j
-
-    jmax:       int,
-                maximum j
-
-    isos:       string,
-                the species of the nucleons for the simulation
-
-    g:          float, 
-                the pairing constant
-
-    N_particles: int,
-                the number of particles in the simulation
-
-    """
-    if model=='pairing':
-        
-        nmin = 0
-        nmax = 3
-        lmin = 0
-        lmax = 0
-        jmin = 1
-        jmax = 1
-        isos = 'n'
-        g = 1
-        N_particles = 4 # read the number of particles in the system
-
-        folder_name = 'table_files/'
-        sp_basis_filename = folder_name+'3s.sp'
-        SD_filename = folder_name+"3s_slater_det.sd"
-        tbme_filename = folder_name+"pairing_g%s.int" %(g) 
-
-    if model=='harmonic':
-        #do stuff
-        n = 0
-
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
 
 
 ##############################################################
@@ -82,8 +23,8 @@ def manual_input(model='pairing'):
 # Choose if you want to read the input from command line or inside this program:
 # (uncomment your choice and comment the other):
 
-#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = command_line_input()
-nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = manual_input()
+nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename, folder_name = command_line_input()
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename, folder_name = manual_input()
 
 
 # filename for the basis, slater det and tbme:
