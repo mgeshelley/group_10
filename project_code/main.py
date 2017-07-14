@@ -1,7 +1,7 @@
 # This program runs the whole simulation by calling the functions from the other programs
 
 # Importing the files containing the needed functions (that we wrote our selves)
-from basis import *
+#from basis import *
 from create_table_files import *
 from read_files import *
 from unit_tests import *
@@ -59,7 +59,6 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 ##############################################################
 # Test if the hamiltonian is correct for the pairing problem:
 unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
-
 
 ##############################################################
 # Finding the eigenvalues and eigenvectors
