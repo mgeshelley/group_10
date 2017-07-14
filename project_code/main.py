@@ -35,6 +35,8 @@ if os.path.isfile(SD_filename) == False:
 SD_matrix = read_SD(SD_filename)
 nr_SD = SD_matrix.shape[0]
 
+#for g in (loop over g values)
+
 # Creating the file containing the pairing interaction:
 if os.path.isfile(tbme_filename) == False:
     create_tbme_pairing(tbme_filename,nr_sp_states,g)
@@ -70,6 +72,8 @@ print '\n'
 print 'Eigenvectors:'
 print eigvec
 print '\n'
+print "Number of particles: ", N_particles
+print 'g =',g
 
 
 # DONE!

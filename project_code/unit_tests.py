@@ -14,6 +14,7 @@ def unit_test_hamiltonian_pairing(N_particles, g, numerical_hamiltonian):
 
     numerical_hamiltonian:  ndarray,
                             the hamiltonian matrix to be tested
+    
     g:                      float, 
                             the pairing constant
 
@@ -48,7 +49,7 @@ def unit_test_hamiltonian_pairing(N_particles, g, numerical_hamiltonian):
         sys.exit()
         
     if unit_test:
-        print "\nSUCCESS: The hamiltonian matrix was set up correctly (for the pairing problem).\n"
+        print "\nUNIT TEST SUCCESS: The hamiltonian matrix was set up correctly (for the pairing problem).\n"
 
 
 ##############################################################

@@ -258,7 +258,7 @@ def command_line_input():
     
     while True:
         try:
-            file_type = raw_input("\nWould you like standard file names? \nThe standard file names will be: \n'3s_slater_det.sd', '3s.sp' and 'pairing_g1.int' for g=1 \n y/n:")
+            file_type = raw_input("\nWould you like standard file names? \nThe standard file names will be: \n'3s_slater_det.sd', '3s.sp' and 'pairing_g1.int' for g=1 \n y/n: ")
 
             if file_type not in ['y', 'n']:
                 raise FileNameError
