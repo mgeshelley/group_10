@@ -6,30 +6,18 @@ from create_table_files import *
 from read_files import *
 from unit_tests import *
 from ham import *
-from input_func import command_line_input
+from input_func import *
 
 # other imports:
 import os.path
 
 ##############################################################
-# Function to give standard input (without command line)
-##############################################################
-
-
-
-##############################################################
-# This part of program is to run the whole simulation:
-##############################################################
-# Choose if you want to read the input from command line or inside this program:
+# Choose if you want to interact with the terminal:
 # (uncomment your choice and comment the other):
 
 nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = command_line_input()
-#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = manual_input()
-
-
-# filename for the basis, slater det and tbme:
-# (we could also implement the file names into the input functions)
-
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+#sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
 
 ##############################################################
 # Checking if the files containing the basis and the slater 
@@ -66,12 +54,10 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 ##############################################################
 # Uncomment here to demonstrate the unit test:
 ##############################################################
-#hamiltonian_total_error_test = hamiltonian_total
-#hamiltonian_total_error_test[0,1] = 0
-#unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total_error_test)
+#hamiltonian_total[0,1] = 100
 
 ##############################################################
-# test if the hamiltonian is correct for the pairing problem:
+# Test if the hamiltonian is correct for the pairing problem:
 unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
 
 
