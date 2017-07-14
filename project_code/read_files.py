@@ -1,5 +1,7 @@
 # Functions to read files
 
+import numpy as np
+
 def read_basis(sp_basis_filename):
     """
     Reads in data from the .sp file
