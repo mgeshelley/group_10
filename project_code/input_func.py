@@ -2,6 +2,14 @@
 
 import numpy as np
 
+def give_file_names(g, extension=''):
+    folder_name = 'table_files/'
+
+    sp_basis_filename = folder_name+'%s3s.sp' %extension
+    SD_filename = folder_name+"%s3s_slater_det.sd" %extension
+    tbme_filename = folder_name+"%spairing_g%s.int" %(extension, g) 
+
+    return sp_basis_filename, SD_filename, tbme_filename
 
 
 def manual_input(model='pairing'):
@@ -280,14 +288,7 @@ def command_line_input():
     return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
 
 
-def give_file_names(g, extension=''):
-    folder_name = 'table_files/'
 
-    sp_basis_filename = folder_name+'%s3s.sp' %extension
-    SD_filename = folder_name+"%s3s_slater_det.sd" %extension
-    tbme_filename = folder_name+"%spairing_g%s.int" %(extension, g) 
-
-    return sp_basis_filename, SD_filename, tbme_filename
 
 
 
