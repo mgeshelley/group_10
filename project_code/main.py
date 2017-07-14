@@ -282,6 +282,8 @@ sp_basis_filename = folder_name+'3s.sp'
 SD_filename = folder_name+"3s_slater_det.sd"
 tbme_filename = folder_name+"pairing_g%s.int" %(g) 
 
+##############################################################
+
 
 #checking if the basis file exist, if not create the basis
 if os.path.isfile(sp_basis_filename) == False: 
@@ -300,6 +302,7 @@ nr_SD = SD_matrix.shape[0]
 if os.path.isfile(tbme_filename) == False:
     create_tbme_pairing(tbme_filename,nr_sp_states,g)
 
+
 # The 1-body and 2-body hamiltonian matrices are added together to form hamiltonian_total
 # hamiltonian_total is initialized to zeros
 hamiltonian_total = np.zeros((nr_SD, nr_SD))
@@ -309,6 +312,14 @@ hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename,
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 #print hamiltonian_total
 
+##############################################################
+# Uncomment here to demonstrate the unit test:
+##############################################################
+#hamiltonian_total_error_test = hamiltonian_total
+#hamiltonian_total_error_test[0,1] = 0
+#unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total_error_test)
+
+##############################################################
 # test if the hamiltonian is correct for the pairing problem:
 unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
 

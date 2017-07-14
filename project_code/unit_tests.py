@@ -36,13 +36,15 @@ def unit_test_hamiltonian_pairing(N_particles, g, numerical_hamiltonian):
     unit_test = np.array_equal(numerical_hamiltonian, analytical_hamiltonian)
 
     if not unit_test:
-        print "\nERROR IN UNIT TEST: The numerical and analytical hamiltonian matrix are not equal!"
+        print "\nERROR IN UNIT TEST: The numerical and analytical hamiltonian matrix are not equal!\n"
         print 'The numerical hamiltonian matrix (shape):'
         print np.shape(numerical_hamiltonian)
         print numerical_hamiltonian
+        print '\n'
         print 'The analytical hamiltonian matrix (shape):'
         print np.shape(numerical_hamiltonian)
         print analytical_hamiltonian
+        print '\n'
         sys.exit()
         
     if unit_test:
