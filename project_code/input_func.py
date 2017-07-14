@@ -156,7 +156,7 @@ def command_line_input():
         else:
             break
            
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
 
 
 def give_file_names(g):
@@ -166,7 +166,7 @@ def give_file_names(g):
     SD_filename = folder_name+"3s_slater_det.sd"
     tbme_filename = folder_name+"pairing_g%s.int" %(g) 
 
-    return sp_basis_filename, sp_basis_filename, sp_basis_filename
+    return sp_basis_filename, SD_filename, tbme_filename
 
 
 

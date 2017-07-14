@@ -63,11 +63,17 @@ def manual_input(model='pairing'):
         isos = 'n'
         g = 1
         N_particles = 4 # read the number of particles in the system
+
+        folder_name = 'table_files/'
+        sp_basis_filename = folder_name+'3s.sp'
+        SD_filename = folder_name+"3s_slater_det.sd"
+        tbme_filename = folder_name+"pairing_g%s.int" %(g) 
+
     if model=='harmonic':
         #do stuff
         n = 0
 
-    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
+    return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
 
 
 ##############################################################
@@ -76,16 +82,13 @@ def manual_input(model='pairing'):
 # Choose if you want to read the input from command line or inside this program:
 # (uncomment your choice and comment the other):
 
-#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = command_line_input()
-nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = command_line_input()
+nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = manual_input()
 
 
 # filename for the basis, slater det and tbme:
 # (we could also implement the file names into the input functions)
-folder_name = 'table_files/'
-sp_basis_filename = folder_name+'3s.sp'
-SD_filename = folder_name+"3s_slater_det.sd"
-tbme_filename = folder_name+"pairing_g%s.int" %(g) 
+
 
 ##############################################################
 # Checking if the files containing the basis and the slater 
