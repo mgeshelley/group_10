@@ -187,6 +187,80 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
         out_sd.write('%2d %2d %2d %2d %2d \n' % (SD_states[i,0],SD_states[i,1],SD_states[i,2],SD_states[i,3],SD_states[i,4]))
     out_sd.close()
 
+#############################################################################################
+
+def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictions): 
+
+	#this function is generalized for arbitrary N_particles
+	"""
+	Writes all the possible slater determinants to a .sd file.
+	Every row identifies a different slater determinant.
+	First column: the index of the slater determinants.
+	In the last four columns the labels of the occupied single particle states are listed.
+
+	Input
+
+	N_particles:    float,
+	            number of particles
+	nr_sp_states:   float,  
+	            the total number of single-particle states  
+	sp_matrix:      ndarray,
+	            matrix containing the single particle states and the quantum numbers.
+	            data organized in the following way, columns labeld as:
+	            index, n, l, 2j, 2mj, 2t_z
+	SD_filename:	string,
+			name of the file where to save the Slater Determinants
+	restrictions:	string,
+			'pair' indicates system with pairs of nucleons (only N_particles even)          
+
+	Returns:
+	the file '3s_slater_det.sd'
+
+	"""
+
+	nr_sp_states = int(nr_sp_states)
+	sp_list = []
+	for i in range(1, nr_sp_states+1):
+		sp_list.append(i)
+	sp_tuple = tuple(sp_list)
+	#print sp_tuple
+	index = 0
+	SD_list = []
+	act_list = []
+	for x in itertools.combinations(sp_tuple, N_particles):
+ 		m_tot = 0
+		for k in range (N_particles):
+			m_tot = m_tot + sp_matrix[x[k]-1,4]
+
+		if restrictions == 'pair':
+			if N_particles%2 == 0:
+				pair_bool = 0
+				for j in range (0,N_particles,2):
+					if np.array_equal(sp_matrix[x[j]-1,1:3], sp_matrix[x[j+1]-1,1:3]):
+						pair_bool = pair_bool 
+					else:
+						pair_bool = pair_bool +1
+				if m_tot == 0 and pair_bool == 0:
+					index +=1
+					SD_list.append(index)
+					SD_list.extend(list(x))
+		else:
+			index +=1
+			SD_list.append(index)
+			SD_list.extend(list(x))
+	
+	nr_SD = index
+	SD_array = np.array(SD_list)
+	SD_states = SD_array.reshape(nr_SD,N_particles+1)
+
+
+	out_sd = open(SD_filename,"w")
+	#out_sd.write("! Tot Slater Determinants = %d \n" % (nr_SD))
+	np.savetxt(SD_filename,SD_states,fmt='%2d')
+	out_sd.close()
+
+##################################################################################
+
 def create_tbme_pairing(tbme_filename,nr_sp_states,g):
     """
     Produce tbme_filename file with tbme 
