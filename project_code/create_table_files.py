@@ -1,6 +1,7 @@
 # Creating table files
 
 import numpy as np
+import itertools
 
 ############################
 '''
