@@ -3,7 +3,7 @@
 import numpy as np
 import sys
 
-def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
+def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename, tbme_filename):
 	"""
 	This function builds the one-body part of the Hamiltonian <beta_SD|H|alpha_SD>
 
@@ -36,12 +36,14 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	nr_sd = s_d.shape[0]
 
 	# Read the single-particle energies from the first line of .int file
-	sp_energies = np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[1:5]
+	sp_energies = matrix[:,-1]
+	print sp_energies
+	sys.exit()
 
 	# Make a matrix with the single-particle energies on the diagonal <p|h_1body|q>
 	H_diag = np.zeros((nr_sp_states, nr_sp_states))
 	for i in range(nr_sp_states):
-		H_diag[i,i] = sp_energies[i/2] #this is an integer division
+		H_diag[i,i] = sp_energies[i] #this is an integer division
 
 	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
 	hamiltonian_1body = np.zeros((nr_sd, nr_sd))
