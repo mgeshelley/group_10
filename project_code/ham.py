@@ -127,12 +127,23 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 		beta_list = s_d[beta,1:]
 		# loop over |alpha_SD>
 		for alpha in range(0, nr_sd, 1):
+			alpha_list = s_d[alpha,1:]
+
+			alpha_beta_compare = list( set(alpha_list).symmetric_difference(set(beta_list)) )
+			if len(alpha_beta_compare) == 0:
+				# Sum over i and j (all 2-body matrix elements)
+				for i in range(0,nr_sp_states):
+			elif len(alpha_beta_compare) == 2:
+
+			elif len(alpha_beta_compare) == 4:
 
 			# sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
 
 				# Loop over two body me
 			for tbme in range(0, nr_2bme, 1):
-				alpha_list = s_d[alpha,1:]
+
+
+
 				# fetching the p, q, r, s indices from the text file
 				p = int(two_body_me[tbme,0])
 				q = int(two_body_me[tbme,1])
