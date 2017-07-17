@@ -8,21 +8,21 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	This function builds the one-body part of the Hamiltonian <beta_SD|H|alpha_SD>
 
 	To call it
-	Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename)	
+	Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
-	Input   
+	Input
 
     N_particles:    float,
                     number of particles
-    nr_sp_states:   float,  
-                    the total number of single-particle states 
+    nr_sp_states:   float,
+                    the total number of single-particle states
     SD_filename:    string,
                 	filename of the file with the Slater Determinants
     tbme_filename:  string,
                 	filename of the file with the interaction .int
 
-    Output 
-    
+    Output
+
     hamiltonian_1body:    ndarray,
     				Hamiltonian matrix with the one-body interaction terms
 	"""
@@ -35,13 +35,13 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	# number of Slater determinants
 	nr_sd = s_d.shape[0]
 
-	# Read the single-particle energies from the first line of .int file 
-	sp_energies = np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[1:5]	
+	# Read the single-particle energies from the first line of .int file
+	sp_energies = np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1)[1:5]
 
 	# Make a matrix with the single-particle energies on the diagonal <p|h_1body|q>
 	H_diag = np.zeros((nr_sp_states, nr_sp_states))
 	for i in range(nr_sp_states):
-		H_diag[i,i] = sp_energies[i/2] #this is an integer division 
+		H_diag[i,i] = sp_energies[i/2] #this is an integer division
 
 	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
 	hamiltonian_1body = np.zeros((nr_sd, nr_sd))
@@ -52,38 +52,17 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 		beta_list = s_d[beta,1:]
 		# loop over |alpha_SD>
 		for alpha in range(0, nr_sd, 1):
-			
-			# sum_p,q <p|h_1body|q> a_p^+ a_q
-			for p in range(1,nr_sp_states+1):
-				for q in range(1,nr_sp_states+1):
 
-					alpha_list = s_d[alpha,1:]
-					# index = -1 means not index found
+			alpha_list = s_d[alpha,1:]
+			# index = -1 means not index found
 
-					# this part substitutes a_p^+ with a_i^+ if q == i, producing |alpha'_SD> 
-					# if it does not exist i that is equal to q, the code executes continue
-					index = -1
-					index_bol = True
-					i = 0 # variable to count the position in alpha_list 
-				
-					while index_bol and i < N_particles:
-				
-						if q == int(alpha_list[i]):
-							index = i
-							index_bol = False
-						else:
-							i += 1
-				
-					if index < 0:
-						continue
+			# Add single-particle energies to diagonal of Hamiltonian
+			if alpha == beta:
 
-					alpha_list = np.insert(alpha_list,index,p)
-					alpha_list = np.delete(alpha_list,index+1)
-					alpha_list = np.sort(alpha_list)
+				for i in range(0,N_particles):
+					eps_i = sp_energies[alpha_list[i]]
+					hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + eps_i
 
-					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
-					if np.array_equal(beta_list,alpha_list):
-						hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + H_diag[p-1,q-1]
 	return hamiltonian_1body
 
 
@@ -96,21 +75,21 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	This function builds the two-body part of the Hamiltonian <beta_SD|H|alpha_SD>
 
 	To call it
-	Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)	
+	Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
-	Input   
+	Input
 
     N_particles:    float,
                     number of particles
-    nr_sp_states:   float,  
-                    the total number of single-particle states 
+    nr_sp_states:   float,
+                    the total number of single-particle states
     SD_filename:    string,
                 	filename of the file with the Slater Determinants
     tbme_filename:  string,
                 	filename of the file with the interaction .int
 
-    Output 
-    
+    Output
+
     hamiltonian_2body:    ndarray,
     				Hamiltonian matrix with the one-body interaction terms
 	"""
@@ -121,16 +100,16 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
 	#s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
 	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
-	
+
 	# number of Slater determinants
 	nr_sd = s_d.shape[0]
 
-	# Read the two-body matrix elements from the .int file 
+	# Read the two-body matrix elements from the .int file
 	#two_body_me = np.loadtxt(folder_name+"pairing_g1.int", comments = "!", skiprows=3) #only for testing
 	two_body_me = np.loadtxt(tbme_filename, comments = "!", skiprows=3)
-	
-	
-	# nr_2bme is the number of two body matrix elements	
+
+
+	# nr_2bme is the number of two body matrix elements
 	nr_2bme = two_body_me.shape[0]
 	#if np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
 	#	sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!") #only for testing
@@ -148,7 +127,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 		beta_list = s_d[beta,1:]
 		# loop over |alpha_SD>
 		for alpha in range(0, nr_sd, 1):
-			
+
 			# sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
 
 				# Loop over two body me
@@ -167,10 +146,10 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 					#print v_pqrs
 					index_r = -1
 					index_r_bol = True
-					i = 0 # variable to count the position in alpha_list 
-				
+					i = 0 # variable to count the position in alpha_list
+
 					while index_r_bol and i < N_particles:
-				
+
 						if r == int(alpha_list[i]):
 							index_r = i
 							index_r_bol = False
@@ -184,10 +163,10 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 					index_s = -1
 					index_s_bol = True
-					j = 0 # variable to count the position in alpha_list 
-				
+					j = 0 # variable to count the position in alpha_list
+
 					while index_s_bol and j < N_particles-1:
-				
+
 						if s == int(alpha_list[j]):
 							index_s = j
 							index_s_bol = False
@@ -199,7 +178,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 					alpha_list = np.delete(alpha_list,index_s) # remove s state from list
 
-					# insert phase that should be related with index_r and index_s and the permutation of a^+ 
+					# insert phase that should be related with index_r and index_s and the permutation of a^+
 					alpha_list = np.append(alpha_list,p)
 					alpha_list = np.append(alpha_list,q)
 
@@ -208,16 +187,5 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
 					if np.array_equal(beta_list,alpha_list):
 						hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
-			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha] 
+			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha]
 	return hamiltonian_2body
-
-
-
-
-
-
-
-
-
-
-
