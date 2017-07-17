@@ -3,8 +3,6 @@
 *.out
 *.log
 *.aux
-*.sp
 .DS_Store
 *.pyc
-*.int
 *.sd
