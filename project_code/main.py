@@ -25,14 +25,14 @@ sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
 sd_shell = 'sd'
 
 if sd_shell == 'sd':
-    sp_sd_shell_matrix = read_sd_basis('table_files/sd_shell.sp')
-    nr_sp_states = np.shape(sp_sd_shell_matrix)[0]
+    sp_matrix = read_sd_basis('table_files/sd_shell.sp')
+    nr_sp_states = np.shape(sp_matrix)[0]
 
 
 elif sd_shell != 'sd':
-    # Checking if the files containing the basis and the slater 
+    # Checking if the files containing the basis and the slater
     # determinants  already exist, if not create them:
-    if os.path.isfile(sp_basis_filename) == False: 
+    if os.path.isfile(sp_basis_filename) == False:
         sp_pairing(nmin, nmax, lmin, lmax, jmin, jmax, isos, sp_basis_filename)
 
     # Read in the basis from file
@@ -60,8 +60,10 @@ if os.path.isfile(tbme_filename) == False:
 # The 1-body and 2-body hamiltonian matrices are added together to form hamiltonian_total
 # hamiltonian_total is initialized to zeros
 hamiltonian_total = np.zeros((nr_SD, nr_SD))
-hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_sd_shell_matrix, SD_filename, tbme_filename)
-hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
+hamiltonian_1body = np.zeros((nr_SD, nr_SD))
+hamiltonian_2body = np.zeros((nr_SD, nr_SD))
+hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, SD_filename, tbme_filename)
+# hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 #print hamiltonian_total
@@ -90,5 +92,3 @@ print 'g =',g
 
 
 # DONE!
-
-

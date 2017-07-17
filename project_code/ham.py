@@ -31,14 +31,12 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename, tbme_fi
 	N_particles = int(N_particles)
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
-	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
+	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0, dtype = 'int')
 	# number of Slater determinants
 	nr_sd = s_d.shape[0]
 
 	# Read the single-particle energies from the first line of .int file
 	sp_energies = matrix[:,-1]
-	print sp_energies
-	sys.exit()
 
 	# Make a matrix with the single-particle energies on the diagonal <p|h_1body|q>
 	H_diag = np.zeros((nr_sp_states, nr_sp_states))
@@ -62,7 +60,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename, tbme_fi
 			if alpha == beta:
 
 				for i in range(0,N_particles):
-					eps_i = sp_energies[alpha_list[i]]
+					eps_i = sp_energies[alpha_list[i] - 1]
 					hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + eps_i
 
 	return hamiltonian_1body
@@ -135,11 +133,12 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 			if len(alpha_beta_compare) == 0:
 				# Sum over i and j (all 2-body matrix elements)
 				for i in range(0,nr_sp_states):
+					
 			elif len(alpha_beta_compare) == 2:
 
 			elif len(alpha_beta_compare) == 4:
 
-			# sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
+			sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
 
 				# Loop over two body me
 			for tbme in range(0, nr_2bme, 1):
