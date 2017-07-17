@@ -95,7 +95,7 @@ def read_SD(SD_filename):
                 
     """
 
-    SD_matrix = np.genfromtxt(SD_filename,skip_header=1, usecols=(0,1,2,3,4))
+    SD_matrix = np.genfromtxt(SD_filename, usecols=(0,1,2,3,4))
 
     return SD_matrix
 

@@ -42,7 +42,8 @@ elif sd_shell != 'sd':
 ##############################################################
 
 if os.path.isfile(SD_filename) == False:
-    create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
+    #create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
+    create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'pair')
 
 # Read in the SD from files:
 SD_matrix = read_SD(SD_filename)
@@ -75,7 +76,8 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 
 ##############################################################
 # Test if the hamiltonian is correct for the pairing problem:
-unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
+
+#unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
 
 ##############################################################
 # Finding the eigenvalues and eigenvectors
