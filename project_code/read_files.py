@@ -76,7 +76,7 @@ def read_basis(sp_basis_filename):
 
     return particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix
 
-def read_SD(SD_filename):
+def read_SD(N_particles, SD_filename):
     """
     Reads in data from the .sd file
 
@@ -95,7 +95,7 @@ def read_SD(SD_filename):
                 
     """
 
-    SD_matrix = np.genfromtxt(SD_filename, usecols=(0,1,2,3,4))
+    SD_matrix = np.genfromtxt(SD_filename)
 
     return SD_matrix
 

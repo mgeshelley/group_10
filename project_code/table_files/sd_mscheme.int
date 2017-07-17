@@ -1,4 +1,5 @@
-# number of matrix elements in m-scheme 
+! number of matrix elements in m-scheme 
+! antisymmetric matrix elements
 343
    1   2   1   2  -1.69130
    1   2   3   6  -0.71771

@@ -19,6 +19,9 @@ import os.path
 nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
 
+#FOR TESTING PURPOUSE ONLY
+tbme_filename = 'table_files/sd_mscheme.int'
+
 ##############################################################
 # Deciding if using the sd shell or not:
 
@@ -46,7 +49,7 @@ if os.path.isfile(SD_filename) == False:
     create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'pair')
 
 # Read in the SD from files:
-SD_matrix = read_SD(SD_filename)
+SD_matrix = read_SD(N_particles, SD_filename)
 nr_SD = SD_matrix.shape[0]
 
 #for g in (loop over g values)
@@ -63,8 +66,8 @@ if os.path.isfile(tbme_filename) == False:
 hamiltonian_total = np.zeros((nr_SD, nr_SD))
 hamiltonian_1body = np.zeros((nr_SD, nr_SD))
 hamiltonian_2body = np.zeros((nr_SD, nr_SD))
-hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, SD_filename, tbme_filename)
-# hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
+hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, SD_filename)
+hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 #print hamiltonian_total
