@@ -99,7 +99,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 	# The file with Slater Determinants (s_d) is loaded [index, sp states]
 	#s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
-	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0)
+	s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0, dtype = 'int')
 
 	# number of Slater determinants
 	nr_sd = s_d.shape[0]
@@ -126,78 +126,114 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 		beta_list = s_d[beta,1:]
 		# loop over |alpha_SD>
-		for alpha in range(0, nr_sd, 1):
+		for alpha in range(beta, nr_sd, 1):
 			alpha_list = s_d[alpha,1:]
 
-			alpha_beta_compare = list( set(alpha_list).symmetric_difference(set(beta_list)) )
-			# if len(alpha_beta_compare) == 0:
-			# 	# Sum over i and j (all 2-body matrix elements)
-			# 	for i in range(0,nr_sp_states):
+			alpha_beta_compare = list( set(beta_list).symmetric_difference(set(alpha_list)) )
+			# Alph and beta are same
+			if len(alpha_beta_compare) == 0:
+				# Sum over i and j (all 2-body matrix elements)
+				for i in range(0,N_particles):
+					for j in range(0,N_particles):
+						a = alpha_list[i]
+						b = alpha_list[j]
+
+						# If 2-body me exists, add to Hamiltonian
+						if tbme[a,b,a,b] != 0.0:
+							mat_element = 0.5 * tbme[a,b,a,b]
+							hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+
+
+			# Alpha and beta have one difference
+			elif len(alpha_beta_compare) == 2:
+				# Sum over i and j (all 2-body matrix elements)
+				for i in range(0,N_particles):
+					b = alpha_list[i]
+					a = alpha_beta_compare[0]
+					c = alpha_beta_compare[1]
+
+					# If 2-body me exists, add to Hamiltonian
+					if tbme[a,b,c,b] != 0.0:
+						mat_element = tbme[a,b,c,b]
+						hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+
+
+
+			# Alpha and beta have two differences
+			elif len(alpha_beta_compare) == 4:
+				a = alpha_beta_compare[0]
+				b = alpha_beta_compare[1]
+				c = alpha_beta_compare[2]
+				d = alpha_beta_compare[3]
+
+				# If 2-body me exists, add to Hamiltonian
+				if tbme[a,b,c,d] != 0.0:
+					mat_element = tbme[a,b,c,d]
+					hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+
+
+
+
+			# # sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
 			#
-			# elif len(alpha_beta_compare) == 2:
+			# 	# Loop over two body me
+			# for tbme in range(0, nr_2bme, 1):
 			#
-			# elif len(alpha_beta_compare) == 4:
-
-			# sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
-
-				# Loop over two body me
-			for tbme in range(0, nr_2bme, 1):
-
-
-
-				# fetching the p, q, r, s indices from the text file
-				p = int(two_body_me[tbme,0])
-				q = int(two_body_me[tbme,1])
-				r = int(two_body_me[tbme,2])
-				s = int(two_body_me[tbme,3])
-				v_pqrs = two_body_me[tbme,6]
-				# stating the restriction on v
-				#print v_pqrs
-
-				if v_pqrs != 0:
-					#print v_pqrs
-					index_r = -1
-					index_r_bol = True
-					i = 0 # variable to count the position in alpha_list
-
-					while index_r_bol and i < N_particles:
-
-						if r == int(alpha_list[i]):
-							index_r = i
-							index_r_bol = False
-						else:
-							i += 1
-
-					if index_r < 0:
-						continue
-
-					alpha_list = np.delete(alpha_list,index_r) # remove r state from list
-
-					index_s = -1
-					index_s_bol = True
-					j = 0 # variable to count the position in alpha_list
-
-					while index_s_bol and j < N_particles-1:
-
-						if s == int(alpha_list[j]):
-							index_s = j
-							index_s_bol = False
-						else:
-							j += 1
-
-					if index_s < 0:
-						continue
-
-					alpha_list = np.delete(alpha_list,index_s) # remove s state from list
-
-					# insert phase that should be related with index_r and index_s and the permutation of a^+
-					alpha_list = np.append(alpha_list,p)
-					alpha_list = np.append(alpha_list,q)
-
-					alpha_list = np.sort(alpha_list)
-
-					# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
-					if np.array_equal(beta_list,alpha_list):
-						hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
+			#
+			#
+			# 	# fetching the p, q, r, s indices from the text file
+			# 	p = int(two_body_me[tbme,0])
+			# 	q = int(two_body_me[tbme,1])
+			# 	r = int(two_body_me[tbme,2])
+			# 	s = int(two_body_me[tbme,3])
+			# 	v_pqrs = two_body_me[tbme,6]
+			# 	# stating the restriction on v
+			# 	#print v_pqrs
+			#
+			# 	if v_pqrs != 0:
+			# 		#print v_pqrs
+			# 		index_r = -1
+			# 		index_r_bol = True
+			# 		i = 0 # variable to count the position in alpha_list
+			#
+			# 		while index_r_bol and i < N_particles:
+			#
+			# 			if r == int(alpha_list[i]):
+			# 				index_r = i
+			# 				index_r_bol = False
+			# 			else:
+			# 				i += 1
+			#
+			# 		if index_r < 0:
+			# 			continue
+			#
+			# 		alpha_list = np.delete(alpha_list,index_r) # remove r state from list
+			#
+			# 		index_s = -1
+			# 		index_s_bol = True
+			# 		j = 0 # variable to count the position in alpha_list
+			#
+			# 		while index_s_bol and j < N_particles-1:
+			#
+			# 			if s == int(alpha_list[j]):
+			# 				index_s = j
+			# 				index_s_bol = False
+			# 			else:
+			# 				j += 1
+			#
+			# 		if index_s < 0:
+			# 			continue
+			#
+			# 		alpha_list = np.delete(alpha_list,index_s) # remove s state from list
+			#
+			# 		# insert phase that should be related with index_r and index_s and the permutation of a^+
+			# 		alpha_list = np.append(alpha_list,p)
+			# 		alpha_list = np.append(alpha_list,q)
+			#
+			# 		alpha_list = np.sort(alpha_list)
+			#
+			# 		# if <beta|alpha'> = 1 the matrix element H_diag(p,q) is added to the Hamiltonian matrix
+			# 		if np.array_equal(beta_list,alpha_list):
+			# 			hamiltonian_2body[beta, alpha] = hamiltonian_2body[beta, alpha] + v_pqrs
 			hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha]
 	return hamiltonian_2body
