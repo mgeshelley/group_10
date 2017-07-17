@@ -138,7 +138,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 			#
 			# elif len(alpha_beta_compare) == 4:
 
-			sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
+			# sum_p,q,r,s <pq|v_2body|rs> a_p^+ a_q^+ a_s a_r:
 
 				# Loop over two body me
 			for tbme in range(0, nr_2bme, 1):
