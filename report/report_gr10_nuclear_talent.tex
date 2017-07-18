@@ -122,6 +122,8 @@
 
 We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
 
+developing our own shell-model code that can perform shell-model studies of the oxygen isotopes using standard effective interactions (provided by us) using as example the 1s0d shell as model space.
+
 We have also used the NushellX code in order to perform more advanced shell-model studies and compare the results obtained with your own shell-model code to those of NushellX
 
 \end{abstract}
@@ -151,7 +153,7 @@ We have also used the NushellX code in order to perform more advanced shell-mode
 
 %say something general here?
 
-\subsection{The Pairing Model}
+\subsection{Exact results: The Pairing Model}
 
 The pairing model is one of a few systems that has a simple analytic solution. It is therefore very useful to use this model to check that the numerical solution matches the analytic solution while developing the code. %From project text: It is a model which to a large extent mimicks some central features of atomic nuclei, certain atoms and systems which exhibit superfluiditity or superconductivity. Pairing plays a central role in nuclear physics, in particular, for identical particles it makes up large fractions of the correlations among particles.
 
@@ -208,6 +210,9 @@ where
 \ket{\Phi_5} &= \hat P_4^+ \hat P_3^+ \ket{0}. \\
 \end{align*}
 
+(also include a figure with the states drawn?)
+
+
 Given the above Slater determinants  we can now compute the matrix elements $\bra{\Phi_i} \hat H \ket{\Phi_j}$ using the Hamiltonian of Eq.~\eqref{eq:H_0}. The one-body operator acts only on the diagonal and results in terms proportional with $(p − 1)$. The interaction will excite or deexcite a pair of particles from level $q$ to level $p$. Using this it is easy to see that the Hamilotnian matrix becomes: (REWRITE THIS PARAGRAPH,  ALL COPY)
 
 \[ \hat H = \begin{pmatrix}
@@ -219,102 +224,52 @@ Given the above Slater determinants  we can now compute the matrix elements $\br
 0 & -g/2 & -g/2 & -g/2 & -g/2 & 10 - g \\
 \end{pmatrix} . \]
 
-For a given $g$ this matrix can be used as the analytic result to compare with the output in the shell model code for the pairing case. 
+For a given $g$ this matrix can be used as the analytic result to compare with the output from the shell model code for the pairing case. ....%These results will serve as a benchmark for the construction of our shell-model program. We refer to this as the exact results. 
 
 
-\newpage
-
-We are only including two lowest single-particle levels and totally two particles.  We want to construct the Hamiltonian matrix using second quantization and Wick’s theorem for a system with no broken pairs and $S=0$, $S_z=0$
-
-In this model we can only excite two particles at the same time, so we can define the ground state and the excited state which are the only two possible states:
-
-(also include a figure with the states drawn?)
-
-%\begin{align*}
-
-%\end{align*}
+Vary your results for values of $g \in [−1, 1]$ (diagonalize, find eigvec ---> plot figure) Comment the behavior of the ground state as function of g?
 
 
+\section{Building the shell model code}
 
+develop a code which sets up the above Hamiltonian matrices for two and four particles in 2 and 4 single-particles states (the same as what you did in exercises b) and c) and obtain the eigenvalues.
 
-(for P=2)
-Find the eigenvalues by diagonalizing the Hamiltonian matrix. Vary your results for selected values of g ∈ [−1, 1] and comment your results.
+What did we choose?
+\begin{itemize}
+\item Decide whether you want to read from file the single-particle data and the matrix elements in m-scheme, or set them up internally in your code. The latter is the simplest possibility for the pairing model, whereas the first option gives you a more general code which can be extended to the more realistic cases discussed in the second part.
+\item Based on the single-particle basis, write a function which sets up all possible Slater determinants which have total M = 0. Test that this function reproduces the cases in b) and c). If you make this function more general, it can then be reused for say a shell-model calculation of sd-shell nuclei in the second part.
+\item Use the Slater determinant basis from the previous step to set up the Hamiltonian matrix.
+\item With the Hamiltonian matrix, you can finally diagonalize the matrix and obtain the final eigenvalues and test against the results of b) and c).
+\end{itemize}
 
-
-
-
-
-%
-%\section{part 1 - rename sections later, do not need the numbering of the exercises}
-%
-%\subsection{ Exe. 1a}
-%
-%\textbf{Show that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commute both with $\hat{S}_z$ and $\hat{S}^2$. }
-%
-%\begin{align*}
-%\hat{H}_0 = \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma}
-%\hat{S}_z = \frac{1}{2} \Sigma_{pq} \sigma a_{p\sigma}^\dagger a_{p\sigma}
-%\end{align*}
-%
-%first rewriting the products: 
-%
-%\begin{align*}
-%\hat{S}_z \hat{H}_0 &= \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \cdot  \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{p\sigma}^\dagger a_{p\sigma}  a_{qb}^\dagger a_{qb} \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta \\
-%\hat{H}_0 \hat{S}_z  &= \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \cdot  \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{qb}^\dagger a_{qb} a_{p\sigma}^\dagger a_{p\sigma} \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
-%\end{align*}
-%
-%so that the commutation relation becomes:
-%
-%\begin{align*}
-%[\hat{S}_z, \hat{H}_0] &= \hat{S}_z \hat{H}_0 - \hat{H}_0  \hat{S}_z \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
-%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) \big( a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \big) \\
-%\end{align*}
-%
-%which can only be zero if
-%
-%\begin{align*}
-%a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0
-%\end{align*}
-%
-%we can use the relations 
-%
-%\begin{align*}
-%\hat{a}_i^\dag \hat{a}_j^\dag &= -\hat{a}_j^\dag \hat{a}_i^\dag \\
-%\hat{a}_i \hat{a}_j &= -\hat{a}_j \hat{a}_i \\
-%\lbrace \hat{a}_i^\dag, \hat{a}_j \rbrace &= \hat{a}_i^\dag \hat{a}_j + \hat{a}_j \hat{a}_i^\dag = \delta_{ij} \\
-%\Rightarrow \hat{a}_i^\dag \hat{a}_j &= -\hat{a}_j \hat{a}_i^\dag, i\neq j
-%\end{align*}
-%
-%to rewrite the first expression
-%
-%\begin{align*}
-%a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta &= a_\alpha^\dagger  a_\beta^\dagger a_\alpha  a_\beta \\
-%&= -a_\beta^\dagger a_\alpha^\dagger a_\alpha  a_\beta \\
-%&= -a_\beta^\dagger a_\alpha^\dagger (-a_\beta a_\alpha )  \\
-%&= a_\beta^\dagger a_\alpha^\dagger a_\beta a_\alpha \\
-%\Rightarrow &a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0 \\
-%\Rightarrow  &[\hat{S}_z, \hat{H}_0]  = 0
-%\end{align*}
-
-
-%hmmm is this really a proof? indices
+Include some of this? Or too much? :\\
+The lecture slides contain a rather detailed recipe on how to construct a Slater determinant basis and how to set up the Hamiltonian matrix to diagonalize.
 
 
 
+\subsection{first step....}
 
+\subsection{Unit tests and benchmarks}
 
-\section{Methods}
+(have not done this?)
 
+One obvious case is that of removing the two-body interaction. Then we have only the single-particle energies. For the case of degenerate single-particle orbits, that is one value of total single-particle angular momentum only $j$, with degeneracy $\Omega = 2j + 1$, one can show that the ground state energy $E_0$ is with $n$ particles
 
+\begin{equation}
+E_0 = -\frac{g}{4}n (\Omega - n + 2)
+\end{equation}
 
-Text requiring further explanation\footnote{Example footnote}.
+Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ single-particle states, respectively. Run your program for a degenerate single-particle state with degeneracy $\Omega$ and test against the exact result for the ground state. Introduce thereafter a finite single-particle spacing and study the results as you vary $g$, as done in b) and c). Comment your results.
+
+(describe the unit test that we have implemented and how)
+
 
 %------------------------------------------------
+
+
+\section{NuShellX}
+(describe what is, then put results in results section?)
+
 
 \section{Results}
 
