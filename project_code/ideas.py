@@ -3,6 +3,7 @@
 import numpy as np
 import sys
 
+"""
 def find_energy(state, states_matrix, energies):
     N = np.shape(states_matrix)[0]
     states_listed = np.zeros([N,4])
@@ -36,6 +37,64 @@ print '\nList of states: '
 print states_matrix[:5,:]
 print '\nEnergies: '
 print energies[:5]
+
+"""
+
+state_1 = [1, 2, 3, 4, 5]
+
+state_2 = [2, 3, 4, 5, 6]
+
+
+diff = [x for x in state_2 if x not in state_1]
+print diff 
+
+same = [x for x in state_1 if x in state_2]
+print same 
+
+
+
+
+
+
+
+#noe = list(set(state_1) & set(state_2))
+#print noe
+#print state_1.remove(noe)
+
+
+
+
+#print np.equal(state_1,state_2)
+
+
+
+#noe = state_1[0] ^ state_2[0]
+#print noe
+
+#inex_diff = np.nonzero(noe)[0]
+
+
+"""
+print "state_2 - state_2"
+print noe
+
+print "\nIndices that differ:"
+print inex_diff
+
+print "\nElements from state_1 that differ"
+print state_1[inex_diff]
+
+print "\nElements from state_2 that differ"
+print state_2[inex_diff]
+
+"""
+
+
+
+
+
+
+
 
 
 
