@@ -38,8 +38,9 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 
 
-
+'''
 beta_list = [1,2,3,4]
 alpha_list = [1,2,6,7]
 
 beta_alpha_compare(beta_list, alpha_list)
+'''

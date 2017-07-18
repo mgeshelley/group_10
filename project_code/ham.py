@@ -1,5 +1,5 @@
 # Creates the one-body and the two body hamiltonian matrix for the pairing problem
-
+from compare import *
 import numpy as np
 import sys
 
@@ -131,16 +131,16 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	# loop over <beta_SD|
 	for beta in range(0, nr_sd, 1):
 
-		beta_list = s_d[beta,1:]
+		beta_list = list(s_d[beta,1:])
 		# loop over |alpha_SD>
 		for alpha in range(beta, nr_sd, 1):
-			alpha_list = s_d[alpha,1:]
+			alpha_list = list(s_d[alpha,1:])
 
 			# THIS WAY TO FIND THE DIFFERENCES BETWEEN TWO LISTS DOES NOT WORK PROPERLY
-			alpha_beta_compare = list(set(beta_list).symmetric_difference(set(alpha_list)) )
+			diff_list,phase = beta_alpha_compare(beta_list, alpha_list)
 
 			# AlphA and beta are same
-			if len(alpha_beta_compare) == 0:
+			if len(diff_list) == 0:
 				# Sum over i and j (all 2-body matrix elements)
 				for i in range(0,N_particles):
 					for j in range(0,N_particles):
@@ -154,27 +154,12 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 
 			# Alpha and beta have one difference
-			elif len(alpha_beta_compare) == 2:
-				print beta_list, alpha_list, alpha_beta_compare
-				sys.exit()
-				# phase from the action of the first annihilation operator
-				#print list(alpha_list).index(alpha_beta_compare[1])
-				phase = (-1)**(list(alpha_list).index(alpha_beta_compare[1]))
-				alpha_list_red = np.delete(alpha_list,list(alpha_list).index(alpha_beta_compare[1]))
-				exp_phase1 = 0
-				# phase from the action of the first creation operator
-				for index in range(0, N_particles):
-					if alpha_beta_compare[0] > alpha_list_red[index]:
-						exp_phase1 = index+1
-					else:
-						break
+			elif len(diff_list) == 2:
 
-				phase = phase*(-1)**exp_phase1
-				# Sum over i and j (all 2-body matrix elements)
 				for i in range(0,N_particles):
 					b = alpha_list[i]
-					a = alpha_beta_compare[0]
-					c = alpha_beta_compare[1]
+					a = diff_list[0]
+					c = diff_list[1]
 
 					# If 2-body me exists, add to Hamiltonian
 					if two_body_matrix[a,b,c,b] != 0.0:
@@ -184,33 +169,12 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
 
 			# Alpha and beta have two differences
-			elif len(alpha_beta_compare) == 4:
-				# phase from the action of the first annihilation operator
-				phase = (-1)**alpha_list.index(alpha_beta_compare[2])
-				alpha_list_red = np.delete(alpha_list,alpha_list.index(alpha_beta_compare[2]))
-				# phase from the action of the second annihilation operator
-				phase1 = (-1)**alpha_list_red.index(alpha_beta_compare[3])
-				alpha_list_red_red = np.delete(alpha_list_red,alpha_list_red.index(alpha_beta_compare[3]))
-				exp_phase2 = 0
-				exp_phase3 = 0
-				# phase from the action of the second creation operator
-				for index in range(0, N_particles-2):
-					if alpha_beta_compare[1] > alpha_list_red_red[index]:
-						exp_phase2 = index+1
-					else:
-						break
-				# phase from the action of the first creation operator
-				for index1 in range(0, N_particles-2):
-					if alpha_beta_compare[0] > alpha_list_red_red[index1]:
-						exp_phase3 = index1+1
-					else:
-						break
-				phase = phase*phase1*(-1)**(exp_phase2+exp_phase3)
-
-				a = alpha_beta_compare[0]
-				b = alpha_beta_compare[1]
-				c = alpha_beta_compare[2]
-				d = alpha_beta_compare[3]
+			elif len(diff_list) == 4:
+				
+				a = diff_list[0]
+				b = diff_list[1]
+				c = diff_list[2]
+				d = diff_list[3]
 
 				# If 2-body me exists, add to Hamiltonian
 				if two_body_matrix[a,b,c,d] != 0.0:
