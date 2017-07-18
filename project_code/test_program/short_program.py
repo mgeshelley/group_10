@@ -224,7 +224,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
                     #eps_i = 1
                     eps_i = sp_energies[alpha_list[i]-1] # to account for the energy of the sp_states with label i
                     hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + eps_i
-    print hamiltonian_1body
+    #print hamiltonian_1body
     return hamiltonian_1body
 
 
@@ -343,29 +343,30 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
             hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha]
-    print hamiltonian_2body
+    #print hamiltonian_2body
     return hamiltonian_2body
 ##############################################################
 
 # MAIN 
-N_particles = 4
+N_particles = 11
 
-# PAIRING CASE
+'''# PAIRING CASE WORKS FOR N=2,4,6
 sp_basis_filename = '3s_mscheme.sp'
 SD_filename = '3s_pairing.sd'
 tbme_filename = 'pairing_g1.int'
 g = 1
-''' #SD case
+'''
+#SD case
 sp_basis_filename = 'sd_shell.sp'
 SD_filename = 'sd_SlaterD.sd'
 tbme_filename = 'sd_mscheme.int'
-'''
+
 
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
 nr_sp_states = np.shape(sp_matrix)[0]
 
-create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'pair')
+create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'no')
 
 # Read in the SD from files:
 SlaterD_matrix = read_SD(N_particles, SD_filename)
@@ -406,7 +407,7 @@ print 'Eigenvectors:'
 print eigvec
 print '\n'
 print "Number of particles: ", N_particles
-print 'g =',g
+#print 'g =',g
 
 
 # DONE!
