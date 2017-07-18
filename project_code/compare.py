@@ -1,5 +1,6 @@
 def beta_alpha_compare(beta_list, alpha_list):
 	
+	phase = 0
 	diff_list = []
 	beta_list_red = list(beta_list)
 	alpha_list_red = list(alpha_list)
@@ -8,26 +9,37 @@ def beta_alpha_compare(beta_list, alpha_list):
 		j=0
 		j_found = False
 		while j < len(alpha_list) and j_found == False:
-			print beta_list[i],i, alpha_list[j],j, diff_list
+			#print beta_list[i],i, alpha_list[j],j, diff_list
 			if beta_list[i] == alpha_list[j]:
 				j_found = True
 				alpha_list_red.remove(alpha_list[j])
 				beta_list_red.remove(beta_list[i])
+				#phase = phase+j+len(beta_list)-i-1
 			else:
 				j = j+1
 	diff_list.extend(beta_list_red)
 	diff_list.extend(alpha_list_red)
-	print diff_list
-
-	#phase
-
-	#(list(alpha_list).index(alpha_beta_compare[1]))
-	return diff_list
 
 
+	for i in range(0,len(diff_list)/2):
+		phase = phase + len(beta_list)-(list(beta_list).index(diff_list[i]))-1
+	for i in range(len(diff_list)/2,len(diff_list)):
+		phase = phase + (list(alpha_list).index(diff_list[i]))
+	
+	# to account for the antisymmetric matrix elements
+	if len(diff_list) == 4:
+		phase = phase+1
+
+	phase = (-1)**phase
+
+	#print diff_list, phase
+	
+	return diff_list, phase
 
 
-beta_list = [1,2,3,5,4]
-alpha_list = [1,3,4,5,7]
+
+
+beta_list = [1,2,3,4]
+alpha_list = [1,2,6,7]
 
 beta_alpha_compare(beta_list, alpha_list)
