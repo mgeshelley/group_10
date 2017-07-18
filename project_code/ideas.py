@@ -25,7 +25,8 @@ state = [ 1.,   2.,   1.,   2.]
 
 counter = 0
 for i in range(N):
-    if np.array_equiv(state-states_listed[i], [0,0,0,0]):
+    idea = state-states_listed[i] #if the states are equal this should be [0,0,0,0]
+    if np.array_equiv(idea, [0,0,0,0]):
         e_state = energies[i]
         counter +=1
     if counter >= 2:
