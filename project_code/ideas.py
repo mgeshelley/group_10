@@ -15,8 +15,8 @@ def find_energy(state, states_matrix, energies):
             e_state = energies[i]
             counter +=1
         elif counter >= 2:
-            sys.exit("Too many energies found! There must be states that are equal (not allowed).")
-            
+            #sys.exit("Too many energies found! There must be states that are equal (not allowed).")
+            break # no need to keep on looping when the state is found! (as long as we are sure there is no error and multiple states exist)
     return e_state
 
 
