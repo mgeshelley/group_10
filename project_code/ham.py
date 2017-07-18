@@ -116,15 +116,13 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 	#if np.genfromtxt(folder_name+"pairing_g1.int", comments = "!", skip_header=2, max_rows=1)[0] != nr_2bme:
 	#	sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!") #only for testing
 
-	''' THIS GIVE AN ERROR CORRECT IT
-	if np.genfromtxt(tbme_filename, comments = "!", skip_header=1, max_rows=1)[0] != nr_2bme:
+	if np.genfromtxt(tbme_filename, comments = "!", skip_header=2, max_rows=1, dtype='int') != nr_2bme:
 		sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
-	'''
-	two_body_matrix = np.empty((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
+	
+	two_body_matrix = np.zeros((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
 	for k in range(0,nr_2bme):
 		two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
 						int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] 
-
 
 	# initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
 	hamiltonian_2body = np.zeros((nr_sd, nr_sd))
