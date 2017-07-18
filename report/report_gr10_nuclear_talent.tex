@@ -71,7 +71,7 @@
 
 \pretitle{\begin{center}\Huge\bfseries} % Article title formatting
 \posttitle{\end{center}} % Article title closing formatting
-\title{Template Article - Shell Model Project} % Article title
+\title{Building a Shell Model Code: The Pairing Model and the sd-Shell} % Article title
 
 
 \author[1]{ \textsc{Gianluca Salvioni}}
@@ -81,17 +81,15 @@
 
 
 \affil[1]{Department of FILL IN, \LaTeX\ University,  {\textit {\href{mailto:youremail@edu.com}{youremail@edu.com} }}}
+
 \affil[2]{Department of Physics, University of Oslo,  {\textit {\ \href{mailto:i.k.b.kullmann@fys.uio.no}{i.k.b.kullmann@fys.uio.no} }}}
-
-
 
 \affil[3] {Department of FILL IN, \LaTeX\ University, \textit {\href{mailto:youremail@edu.com}{youremail@edu.com} }}
 
 \affil[4] {Department of FILL IN, \LaTeX\ University, \textit {\href{mailto:youremail@edu.com}{youremail@edu.com} }}
 
 
-
-
+% another way of doing the authors:
 %\author{%
 %\textsc{Gianluca Salvioni, Matthew Shelley, Gilho Ahn}\thanks{A thank you} \\[1ex]
 %\normalsize University of Oslo \\ % Your institution
@@ -108,7 +106,11 @@
 
 \renewcommand{\maketitlehookd}{%
 \begin{abstract}
-\noindent \blindtext % Dummy abstract text - replace \blindtext with your abstract text
+
+We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
+
+We have also used the NushellX code in order to perform more advanced shell-model studies and compare the results obtained with your own shell-model code to those of NushellX
+
 \end{abstract}
 }
 
@@ -132,67 +134,42 @@
 
 %------------------------------------------------
 
-\section{part 1 - rename sections later, do not need the numbering of the exercises}
+\section{Theory}
 
-\subsection{ Exe. 1a}
+%say something general here?
 
-\textbf{Show that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commute both with $\hat{S}_z$ and $\hat{S}^2$. }
+\subsection{The Pairing Model}
 
-\begin{align*}
-\hat{H}_0 = \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma}
-\hat{S}_z = \frac{1}{2} \Sigma_{pq} \sigma a_{p\sigma}^\dagger a_{p\sigma}
-\end{align*}
+The pairing model is one of a few systems that has a simple analytic solution. It is therefore very useful to use this model to check that the numerical solution matches the analytic solution while developing the code. %From project text: It is a model which to a large extent mimicks some central features of atomic nuclei, certain atoms and systems which exhibit superfluiditity or superconductivity. Pairing plays a central role in nuclear physics, in particular, for identical particles it makes up large fractions of the correlations among particles.
 
-first rewriting the products: 
+The pairing problem consists of a system where the fermions combines together in pairs of two, one with spin up and one with spin down. This model does not allow so-called 'breaking of pairs' meaning that the pairs of particles always will be coupled together. An excitation must excite both particles of the pair to create new excited states. 
 
-\begin{align*}
-\hat{S}_z \hat{H}_0 &= \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \cdot  \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{p\sigma}^\dagger a_{p\sigma}  a_{qb}^\dagger a_{qb} \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta \\
-\hat{H}_0 \hat{S}_z  &= \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \cdot  \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{qb}^\dagger a_{qb} a_{p\sigma}^\dagger a_{p\sigma} \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
-\end{align*}
+Mathematically the pairing model can be described by a simplified Hamiltonian consisting of a unperturbed one-body operator $H^0$ and a pertubation so-called 'pairing interaction term' $H^I$. We will limit ourselves to at most two-body interactions so that we can write the operators as:
 
-so that the commutation relation becomes:
+\begin{equation}
+\hat H_0 = \xi \sum_{p,\sigma} (p-1) \hat a_{p\sigma}^\dagger \hat a_{p\sigma},
+\label{eq:H_0}
+\end{equation}
 
-\begin{align*}
-[\hat{S}_z, \hat{H}_0] &= \hat{S}_z \hat{H}_0 - \hat{H}_0  \hat{S}_z \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
-&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) \big( a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \big) \\
-\end{align*}
+\begin{equation}
+\hat V = -\frac{1}{2} g \sum_{p,q} \hat a_{p+}^\dagger \hat a_{p-}^\dagger \hat a_{q-} \hat a_{q+} ,\label{eq:V}
+\end{equation}
+so that the full Hamiltonian is given by the sum of the unperturbed term and the interacting part $\hat H = \hat H_0 + \hat V$. The fermion creation and annihilation operators are given by $\hat a_{p}^\dagger$ and $\hat a_{q}$ respectively and $pqrs$ represent all possible single-particle quantum numbers. To simplify the expressions we set the spacing between successive single-particle states given by $\xi=1$.
 
-which can only be zero if
-
-\begin{align*}
-a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0
-\end{align*}
-
-we can use the relations 
-
-\begin{align*}
-\hat{a}_i^\dag \hat{a}_j^\dag &= -\hat{a}_j^\dag \hat{a}_i^\dag \\
-\hat{a}_i \hat{a}_j &= -\hat{a}_j \hat{a}_i \\
-\lbrace \hat{a}_i^\dag, \hat{a}_j \rbrace &= \hat{a}_i^\dag \hat{a}_j + \hat{a}_j \hat{a}_i^\dag = \delta_{ij} \\
-\Rightarrow \hat{a}_i^\dag \hat{a}_j &= -\hat{a}_j \hat{a}_i^\dag, i\neq j
-\end{align*}
-
-to rewrite the first expression
-
-\begin{align*}
-a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta &= a_\alpha^\dagger  a_\beta^\dagger a_\alpha  a_\beta \\
-&= -a_\beta^\dagger a_\alpha^\dagger a_\alpha  a_\beta \\
-&= -a_\beta^\dagger a_\alpha^\dagger (-a_\beta a_\alpha )  \\
-&= a_\beta^\dagger a_\alpha^\dagger a_\beta a_\alpha \\
-\Rightarrow &a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0 \\
-\Rightarrow  &[\hat{S}_z, \hat{H}_0]  = 0
-\end{align*}
+We will let the single-particle states$\vert p \rangle$ be eigenfunctions of the one-particle operator $\hat{h}_0$. The above Hamiltonian acts in turn on various many-body Slater determinants constructed from the single-basis defined by the one-body operator $\hat{h}_0$ .
 
 
-hmmm is this really a proof? indices
+The two-body operator $\hat{V}_0$ consists of one term:
+\begin{equation}
+%%
+\end{equation}
 
-\subsection{ Exe. 1b - simple model}
+representing the pairing contribution with constant strength $g$.
 
+
+\newpage
+
+\paragraph{The analytical solutions for P=4}
 We are only including two lowest single-particle levels and totally two particles.  We want to construct the Hamiltonian matrix using second quantization and Wick’s theorem for a system with no broken pairs and $S=0$, $S_z=0$
 
 In this model we can only excite two particles at the same time, so we can define the ground state and the excited state which are the only two possible states:
@@ -202,6 +179,72 @@ In this model we can only excite two particles at the same time, so we can defin
 %\begin{align*}
 
 %\end{align*}
+
+
+
+
+
+
+%
+%\section{part 1 - rename sections later, do not need the numbering of the exercises}
+%
+%\subsection{ Exe. 1a}
+%
+%\textbf{Show that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commute both with $\hat{S}_z$ and $\hat{S}^2$. }
+%
+%\begin{align*}
+%\hat{H}_0 = \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma}
+%\hat{S}_z = \frac{1}{2} \Sigma_{pq} \sigma a_{p\sigma}^\dagger a_{p\sigma}
+%\end{align*}
+%
+%first rewriting the products: 
+%
+%\begin{align*}
+%\hat{S}_z \hat{H}_0 &= \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \cdot  \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{p\sigma}^\dagger a_{p\sigma}  a_{qb}^\dagger a_{qb} \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta \\
+%\hat{H}_0 \hat{S}_z  &= \Sigma_{p\sigma} (p-1) a_{p\sigma}^\dagger a_{p\sigma} \cdot  \frac{1}{2} \Sigma_{p\sigma} \sigma a_{p\sigma}^\dagger a_{p\sigma} \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_{qb}^\dagger a_{qb} a_{p\sigma}^\dagger a_{p\sigma} \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
+%\end{align*}
+%
+%so that the commutation relation becomes:
+%
+%\begin{align*}
+%[\hat{S}_z, \hat{H}_0] &= \hat{S}_z \hat{H}_0 - \hat{H}_0  \hat{S}_z \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \\
+%&= \frac{1}{2} \Sigma_{p\sigma}  \Sigma_{qb} \sigma (q-1) \big( a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha \big) \\
+%\end{align*}
+%
+%which can only be zero if
+%
+%\begin{align*}
+%a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0
+%\end{align*}
+%
+%we can use the relations 
+%
+%\begin{align*}
+%\hat{a}_i^\dag \hat{a}_j^\dag &= -\hat{a}_j^\dag \hat{a}_i^\dag \\
+%\hat{a}_i \hat{a}_j &= -\hat{a}_j \hat{a}_i \\
+%\lbrace \hat{a}_i^\dag, \hat{a}_j \rbrace &= \hat{a}_i^\dag \hat{a}_j + \hat{a}_j \hat{a}_i^\dag = \delta_{ij} \\
+%\Rightarrow \hat{a}_i^\dag \hat{a}_j &= -\hat{a}_j \hat{a}_i^\dag, i\neq j
+%\end{align*}
+%
+%to rewrite the first expression
+%
+%\begin{align*}
+%a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta &= a_\alpha^\dagger  a_\beta^\dagger a_\alpha  a_\beta \\
+%&= -a_\beta^\dagger a_\alpha^\dagger a_\alpha  a_\beta \\
+%&= -a_\beta^\dagger a_\alpha^\dagger (-a_\beta a_\alpha )  \\
+%&= a_\beta^\dagger a_\alpha^\dagger a_\beta a_\alpha \\
+%\Rightarrow &a_\alpha^\dagger a_\alpha  a_\beta^\dagger a_\beta - a_\beta^\dagger a_\beta a_\alpha^\dagger a_\alpha = 0 \\
+%\Rightarrow  &[\hat{S}_z, \hat{H}_0]  = 0
+%\end{align*}
+
+
+%hmmm is this really a proof? indices
+
 
 
 
@@ -250,6 +293,9 @@ Figueredo, A.~J. and Wolf, P. S.~A. (2009).
 \newblock Assortative pairing and life history strategy - a cross-cultural
   study.
 \newblock {\em Human Nature}, 20:317--330.
+
+\bibitem[Github of the TALENT School] MHJ and Alex Brown
+\newblock {\em link goes here},
  
 \end{thebibliography}
 
