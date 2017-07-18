@@ -58,10 +58,23 @@
 
 \usepackage{titling} % Customizing the title section
 
+% My packages (not template)
 \usepackage{hyperref} % For hyperlinks in the PDF
-\usepackage{amsmath}
+%\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{authblk}
+
+% From mortens LaTex file:
+\usepackage{amsfonts, amssymb, amsmath}
+\newcommand{\md}{\mathrm{d}}
+\newcommand{\e}[1]{\times 10^{#1}}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\gvec}[1]{\boldsymbol{#1}}
+\newcommand{\dr}{\, \mathrm d^3 \vec r}
+\newcommand{\dk}{\, \mathrm d^3 \vec k}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -142,7 +155,7 @@ We have also used the NushellX code in order to perform more advanced shell-mode
 
 The pairing model is one of a few systems that has a simple analytic solution. It is therefore very useful to use this model to check that the numerical solution matches the analytic solution while developing the code. %From project text: It is a model which to a large extent mimicks some central features of atomic nuclei, certain atoms and systems which exhibit superfluiditity or superconductivity. Pairing plays a central role in nuclear physics, in particular, for identical particles it makes up large fractions of the correlations among particles.
 
-The pairing problem consists of a system where the fermions combines together in pairs of two, one with spin up and one with spin down. This model does not allow so-called 'breaking of pairs' meaning that the pairs of particles always will be coupled together. An excitation must excite both particles of the pair to create new excited states. 
+The pairing problem consists of a system where the fermions combines together in pairs of two, one with spin up and one with spin down. This model does not allow so-called 'breaking of pairs' meaning that the pairs of particles always will be coupled together. An excitation must excite two particles at the same time. 
 
 Mathematically the pairing model can be described by a simplified Hamiltonian consisting of a unperturbed one-body operator $H^0$ and a pertubation so-called 'pairing interaction term' $H^I$. We will limit ourselves to at most two-body interactions so that we can write the operators as:
 
@@ -159,17 +172,58 @@ so that the full Hamiltonian is given by the sum of the unperturbed term and the
 We will let the single-particle states$\vert p \rangle$ be eigenfunctions of the one-particle operator $\hat{h}_0$. The above Hamiltonian acts in turn on various many-body Slater determinants constructed from the single-basis defined by the one-body operator $\hat{h}_0$ .
 
 
-The two-body operator $\hat{V}_0$ consists of one term:
+The two-body operator $\hat{V}$ consists of one term:
 \begin{equation}
-%%
+\langle q_+ q_- \vert \hat{V} \vert s_+s_- \rangle = -g
 \end{equation}
+representing the pairing contribution with (for simplicity) constant strength $g$. The labeling requires that for a given matrix element $\langle pq \vert \hat{V} \vert rs \rangle$ the states $p$ and $q$ (or $r$ and $s$) must have opposite spin ($\sigma=\pm 1$)
 
-representing the pairing contribution with constant strength $g$.
+It can be shown that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{S}_z$ and the total spin $\hat{S}^2$. This allows us to block-diagonalize the full Hamiltonian. For the pairing case we have assumed that $S = 0$ giving the so-called 'no-broken pair' case.
+
+
+
+
+
+\paragraph{Constructing the Hamiltonian matrix}
+
+As an analytic solution we chose a system consisting of only four particles with a single-particle space consisting of only the four lowest levels $p = 1, 2, 3, 4$. In our system every level $p$ contains two particles, one with spin up and one with spin down. The goal is to set up all possible Slater determinants and the Hamiltonian matrix using second quantization and find all eigenvalues by diagonalizing the Hamiltonian matrix.
+
+We construct the basis:
+\[ \ket{\Phi_0} = \begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad
+\ket{\Phi_1} = \begin{pmatrix} 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad \cdots \quad
+\ket{\Phi_5} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}, \]
+
+where
+\begin{align*}
+\ket{\Phi_0} &= \hat a_{2+}^\dagger \hat a_{2-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0} = \hat P_2^+ \hat P_1^+ \ket{0}, \\
+%
+\ket{\Phi_1} &= \hat P_3^+ \hat P_1^+ \ket{0}, \\
+%
+\ket{\Phi_2} &= \hat P_4^+ \hat P_1^+ \ket{0}, \\
+%
+\ket{\Phi_3} &= \hat P_3^+ \hat P_2^+ \ket{0}, \\
+%
+\ket{\Phi_4} &= \hat P_4^+ \hat P_2^+ \ket{0}, \\
+%
+\ket{\Phi_5} &= \hat P_4^+ \hat P_3^+ \ket{0}. \\
+\end{align*}
+
+Given the above Slater determinants  we can now compute the matrix elements $\bra{\Phi_i} \hat H \ket{\Phi_j}$ using the Hamiltonian of Eq.~\eqref{eq:H_0}. The one-body operator acts only on the diagonal and results in terms proportional with $(p − 1)$. The interaction will excite or deexcite a pair of particles from level $q$ to level $p$. Using this it is easy to see that the Hamilotnian matrix becomes: (REWRITE THIS PARAGRAPH,  ALL COPY)
+
+\[ \hat H = \begin{pmatrix}
+2 - g & -g/2 & -g/2 & -g/2 & -g/2 & 0 \\
+-g/2 & 4- g & -g/2 & -g/2 & 0 & -g/2 \\
+-g/2 & -g/2 & 6 -g & 0 & -g/2 & -g/2 \\
+-g/2 & -g/2 & 0 & 6 -g & -g/2 & -g/2 \\
+-g/2 & 0 & -g/2 & -g/2 & 8 - g & -g/2 \\
+0 & -g/2 & -g/2 & -g/2 & -g/2 & 10 - g \\
+\end{pmatrix} . \]
+
+For a given $g$ this matrix can be used as the analytic result to compare with the output in the shell model code for the pairing case. 
 
 
 \newpage
 
-\paragraph{The analytical solutions for P=4}
 We are only including two lowest single-particle levels and totally two particles.  We want to construct the Hamiltonian matrix using second quantization and Wick’s theorem for a system with no broken pairs and $S=0$, $S_z=0$
 
 In this model we can only excite two particles at the same time, so we can define the ground state and the excited state which are the only two possible states:
@@ -180,6 +234,11 @@ In this model we can only excite two particles at the same time, so we can defin
 
 %\end{align*}
 
+
+
+
+(for P=2)
+Find the eigenvalues by diagonalizing the Hamiltonian matrix. Vary your results for selected values of g ∈ [−1, 1] and comment your results.
 
 
 
