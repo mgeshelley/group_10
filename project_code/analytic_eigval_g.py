@@ -3,7 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 
 
-g_list = np.linspace(-1,1,5)
+g_list = np.linspace(-1,1,15)
 N = 6
 E = np.zeros(len(g_list))
 
@@ -33,13 +33,12 @@ for j in range(6):
         plt.plot(g_list, E)
 
 
-plt.xlabel('g [A.u]')
-plt.ylabel('Energy [A.u]')
-plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'])
-#plt.title('The energy levels as a function of g')
+plt.xlabel('g [A.u]', fontsize=14)
+plt.ylabel('Energy [A.u]', fontsize=14)
+plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
 
 plt.savefig('figures/eigval_vs_g.png')
-#plt.show()
+plt.show()
 
 
 
