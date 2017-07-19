@@ -2,6 +2,9 @@
 
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
+
+
 
 """
 def find_energy(state, states_matrix, energies):
@@ -40,6 +43,10 @@ print energies[:5]
 
 """
 
+
+
+
+"""
 state_1 = [1, 2, 3, 4, 5]
 
 state_2 = [2, 3, 4, 5, 6]
@@ -52,7 +59,7 @@ same = [x for x in state_1 if x in state_2]
 print same 
 
 
-
+"""
 
 
 
