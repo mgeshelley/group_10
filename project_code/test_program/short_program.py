@@ -320,7 +320,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
             if len(diff_list) == 0:
                 # Sum over i and j (all 2-body matrix elements)
                 for i in range(0,N_particles):
-                    for j in range(i,N_particles):
+                    for j in range(0,N_particles):
                         a = alpha_list[i]
                         b = alpha_list[j]
 
@@ -374,6 +374,7 @@ N_particles = 2
 sp_basis_filename = '3s_mscheme.sp'
 SD_filename = '3s_pairing.sd'
 tbme_filename = 'pairing_g1.int'
+restriction = 'pair'
 g = 1
 '''
 
@@ -381,13 +382,14 @@ g = 1
 sp_basis_filename = 'sd_shell.sp'
 SD_filename = 'sd_SlaterD.sd'
 tbme_filename = 'sd_mscheme.int'
+restriction = 'no'
 
 
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
 nr_sp_states = np.shape(sp_matrix)[0]
 
-create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'no')
+create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restriction)
 
 # Read in the SD from files:
 SlaterD_matrix = read_SD(N_particles, SD_filename)
