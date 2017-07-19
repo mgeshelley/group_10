@@ -38,7 +38,7 @@ plt.ylabel('Energy [A.u]', fontsize=14)
 plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
 
 plt.savefig('figures/eigval_vs_g.png')
-plt.show()
+#plt.show()
 
 
 

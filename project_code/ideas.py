@@ -5,6 +5,9 @@ import sys
 import matplotlib.pyplot as plt
 
 
+a = np.array([[1,2], [2,3]])
+a = np.array([1,2])
+print a[0,1:]
 
 """
 def find_energy(state, states_matrix, energies):
