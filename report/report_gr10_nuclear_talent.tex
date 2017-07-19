@@ -84,7 +84,7 @@
 
 \pretitle{\begin{center}\Huge\bfseries} % Article title formatting
 \posttitle{\end{center}} % Article title closing formatting
-\title{Building a Shell Model Code: The Pairing Model and the sd-Shell} % Article title
+\title{Building a Shell Model Code: The Pairing Model and the sd-Shell (and comparing results with NuShellX)} % Article title
 
 
 \author[1]{ \textsc{Gianluca Salvioni}}
@@ -125,6 +125,8 @@ We have first implemented the pairing model which have a analytical solution (to
 developing our own shell-model code that can perform shell-model studies of the oxygen isotopes using standard effective interactions (provided by us) using as example the 1s0d shell as model space.
 
 We have also used the NushellX code in order to perform more advanced shell-model studies and compare the results obtained with your own shell-model code to those of NushellX
+
+and found that.....results...
 
 \end{abstract}
 }
@@ -188,7 +190,7 @@ It can be shown that the unperturbed Hamiltonian $\hat{H}_0$ and $\hat{V}$ commu
 
 \paragraph{Constructing the Hamiltonian matrix}
 
-As an analytic solution we chose a system consisting of only four particles with a single-particle space consisting of only the four lowest levels $p = 1, 2, 3, 4$. In our system every level $p$ contains two particles, one with spin up and one with spin down. The goal is to set up all possible Slater determinants and the Hamiltonian matrix using second quantization and find all eigenvalues by diagonalizing the Hamiltonian matrix.
+As an exact analytic solution we chose a system consisting of only four particles with a single-particle space consisting of only the four lowest levels $p = 1, 2, 3, 4$. In our system every level $p$ contains two particles, one with spin up and one with spin down. The goal is to set up all possible Slater determinants and the Hamiltonian matrix using second quantization and find all eigenvalues by diagonalizing the Hamiltonian matrix.
 
 We construct the basis:
 \[ \ket{\Phi_0} = \begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad
