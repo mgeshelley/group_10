@@ -147,6 +147,7 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 
     for i in range(0,len(diff_list)/2):
+    	#phase = phase + (list(beta_list).index(diff_list[i]))
         phase = phase + len(beta_list)-(list(beta_list).index(diff_list[i]))-1
     for i in range(len(diff_list)/2,len(diff_list)):
         phase = phase + (list(alpha_list).index(diff_list[i]))
@@ -190,8 +191,16 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
 
     # The file with Slater Determinants (s_d) is loaded [index, sp states]
     s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0, dtype = 'int')
+    s_d = np.atleast_2d(s_d)
+    #print s_d
     # number of Slater determinants
     nr_sd = s_d.shape[0]
+    #print nr_sd
+    '''
+    if N_particles == nr_sp_states:
+        nr_sd = 1
+        s_d[0,1:] = list(s_d)
+    '''
 
     # Read the single-particle energies from the first line of .int file
     sp_energies = matrix[:,-1]
@@ -206,11 +215,13 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
 
     # initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
     hamiltonian_1body = np.zeros((nr_sd, nr_sd))
-
+    #print nr_sd
     # loop over <beta_SD|
     for beta in range(0, nr_sd, 1):
-
+        #print s_d.shape
+        #print beta
         beta_list = list(s_d[beta,1:])
+        #print beta_list
         # loop over |alpha_SD>
         for alpha in range(0, nr_sd, 1):
 
@@ -262,9 +273,11 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
     # The file with Slater Determinants (s_d) is loaded [index, sp states]
     #s_d = np.loadtxt(folder_name+"3s_slater_det.sd", comments = "!", skiprows=0) #only for testing
     s_d = np.loadtxt(SD_filename, comments = "!", skiprows=0, dtype = 'int')
-
+    s_d = np.atleast_2d(s_d)
     # number of Slater determinants
     nr_sd = s_d.shape[0]
+
+    #sys.exit()
 
     # Read the two-body matrix elements from the .int file
     #two_body_me = np.loadtxt(folder_name+"pairing_g1.int", comments = "!", skiprows=3) #only for testing
@@ -283,8 +296,11 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
     two_body_matrix = np.zeros((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
     for k in range(0,nr_2bme):
         two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
-                        int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] 
+                        int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * (18./(16.+N_particles))**0.3
+        two_body_matrix[int(two_body_me[k,2]),int(two_body_me[k,3]), \
+                        int(two_body_me[k,0]),int(two_body_me[k,1])] = two_body_me[k,4] * (18./(16.+N_particles))**0.3
 
+   
     # initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
     hamiltonian_2body = np.zeros((nr_sd, nr_sd))
 
@@ -304,7 +320,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
             if len(diff_list) == 0:
                 # Sum over i and j (all 2-body matrix elements)
                 for i in range(0,N_particles):
-                    for j in range(0,N_particles):
+                    for j in range(i,N_particles):
                         a = alpha_list[i]
                         b = alpha_list[j]
 
@@ -327,6 +343,8 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     if two_body_matrix[a,b,c,b] != 0.0:
                         mat_element = two_body_matrix[a,b,c,b]*phase
                         hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                        #mat_element = two_body_matrix[c,b,a,b]*phase
+                        #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
 
             # Alpha and beta have two differences
@@ -341,6 +359,8 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                 if two_body_matrix[a,b,c,d] != 0.0:
                     mat_element = two_body_matrix[a,b,c,d]*phase
                     hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                    #mat_element = two_body_matrix[c,d,a,b]*phase
+                    #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
             hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha]
     #print hamiltonian_2body
@@ -348,14 +368,15 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 ##############################################################
 
 # MAIN 
-N_particles = 11
-
-'''# PAIRING CASE WORKS FOR N=2,4,6
+N_particles = 2
+'''
+# PAIRING CASE WORKS FOR N=2,4,6
 sp_basis_filename = '3s_mscheme.sp'
 SD_filename = '3s_pairing.sd'
 tbme_filename = 'pairing_g1.int'
 g = 1
 '''
+
 #SD case
 sp_basis_filename = 'sd_shell.sp'
 SD_filename = 'sd_SlaterD.sd'
