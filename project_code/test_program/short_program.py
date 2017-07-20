@@ -65,6 +65,7 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
                     SD_list.append(index)
                     SD_list.extend(list(x))
         else:
+            #if m_tot == 4:
             index +=1
             SD_list.append(index)
             SD_list.extend(list(x))
@@ -202,9 +203,10 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
         s_d[0,1:] = list(s_d)
     '''
 
-    # Read the single-particle energies from the first line of .int file
-    sp_energies = matrix[:,-1]
-
+    # Read the single-particle energies from the last column of .sp file
+    sp_energies = list(matrix[:,-1])
+    #print sp_energies
+    
     # Make a matrix with the single-particle energies on the diagonal <p|h_1body|q>
     
     ''' THIS PART IS NO LONGER NECESSARY WITH sd-model space
@@ -234,6 +236,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
                 for i in range(0,N_particles):
                     #eps_i = 1
                     eps_i = sp_energies[alpha_list[i]-1] # to account for the energy of the sp_states with label i
+                    #print i, alpha_list[i], eps_i
                     hamiltonian_1body[beta, alpha] = hamiltonian_1body[beta, alpha] + eps_i
     #print hamiltonian_1body
     return hamiltonian_1body
@@ -294,11 +297,16 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
         sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
     
     two_body_matrix = np.zeros((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
+    mass_corr = (18./(16.+N_particles))**0.3
     for k in range(0,nr_2bme):
         two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
-                        int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * (18./(16.+N_particles))**0.3
+                        int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * mass_corr
         two_body_matrix[int(two_body_me[k,2]),int(two_body_me[k,3]), \
-                        int(two_body_me[k,0]),int(two_body_me[k,1])] = two_body_me[k,4] * (18./(16.+N_particles))**0.3
+                        int(two_body_me[k,0]),int(two_body_me[k,1])] = two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,1]),int(two_body_me[k,0]), \
+                        int(two_body_me[k,2]),int(two_body_me[k,3])] = -two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,1]),int(two_body_me[k,0]), \
+                        int(two_body_me[k,3]),int(two_body_me[k,2])] = -two_body_me[k,4] * mass_corr
 
    
     # initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
@@ -310,7 +318,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 
         beta_list = list(s_d[beta,1:])
         # loop over |alpha_SD>
-        for alpha in range(beta, nr_sd, 1):
+        for alpha in range(0, nr_sd, 1):
             alpha_list = list(s_d[alpha,1:])
 
 
@@ -320,31 +328,67 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
             if len(diff_list) == 0:
                 # Sum over i and j (all 2-body matrix elements)
                 for i in range(0,N_particles):
-                    for j in range(0,N_particles):
+                    for j in range(i,N_particles):
                         a = alpha_list[i]
                         b = alpha_list[j]
-
+                        #print a,b, two_body_matrix[a,b,a,b]
                         # If 2-body me exists, add to Hamiltonian
                         if two_body_matrix[a,b,a,b] != 0.0:
-                            # MODIFING THE COEFFICIENT 1/2
+                            # THE COEFFICIENT 1/2 HAS BEEN REMOVED BECAUSE THE SUM RUN ON i<=j
                             #mat_element = 0.5 * two_body_matrix[a,b,a,b]
                             mat_element = two_body_matrix[a,b,a,b]
                             hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
-                            
+                            #mat_element = 0.5*two_body_matrix[a,b,a,b]
+                            #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+
             # Alpha and beta have one difference
             elif len(diff_list) == 2:
+                '''
+                alpha_list_aux = list(alpha_list)
+                alpha_list_aux.remove(diff_list[1])
+                for b in alpha_list_aux:
+                    phase_aux = 0
+                    a = diff_list[0]
+                    if a > b:
+                        a_aux = b
+                        b_aux = a
+                        phase_aux = phase_aux +1
+                    else:
+                        a_aux = a
+                        b_aux = b
 
-                for i in range(0,N_particles):
-                    b = alpha_list[i]
+                    c = diff_list[1]
+                    if c > b:
+                        c_aux = b
+                        d_aux = c
+                        phase_aux = phase_aux +1
+                    else:
+                        c_aux = c
+                        d_aux = b
+                    #here it is the problem
+                    print a_aux,b_aux,c_aux,d_aux, two_body_matrix[a_aux,b_aux,c_aux,d_aux]
+                    # If 2-body me exists, add to Hamiltonian
+                    if two_body_matrix[a_aux,b_aux,c_aux,d_aux] != 0.0:
+                        mat_element = two_body_matrix[a_aux,b_aux,c_aux,d_aux]*phase*phase_aux
+                        hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                    '''
+                    # If 2-body me exists, add to Hamiltonian
+                alpha_list_aux = list(alpha_list)
+                alpha_list_aux.remove(diff_list[1])
+                for b in alpha_list_aux:
+                    
                     a = diff_list[0]
                     c = diff_list[1]
-
-                    # If 2-body me exists, add to Hamiltonian
+                    #print a,b,c,b, alpha_list_aux
                     if two_body_matrix[a,b,c,b] != 0.0:
+
                         mat_element = two_body_matrix[a,b,c,b]*phase
+                        
                         hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
-                        #mat_element = two_body_matrix[c,b,a,b]*phase
-                        #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                        #print beta, alpha, hamiltonian_2body[beta,alpha]
+                        mat_element = two_body_matrix[c,b,a,b]*phase
+                        #print beta, alpha, mat_element
+                        hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
 
             # Alpha and beta have two differences
@@ -354,21 +398,24 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                 b = diff_list[1]
                 c = diff_list[2]
                 d = diff_list[3]
-
+                #print a,b,c,d, two_body_matrix[a,b,c,d]
                 # If 2-body me exists, add to Hamiltonian
                 if two_body_matrix[a,b,c,d] != 0.0:
                     mat_element = two_body_matrix[a,b,c,d]*phase
+                    #print mat_element
                     hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                    #print 'xx',beta, alpha, hamiltonian_2body[beta,alpha]
                     #mat_element = two_body_matrix[c,d,a,b]*phase
                     #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
-            hamiltonian_2body[alpha, beta] = hamiltonian_2body[beta, alpha]
+        #sys.exit()
     #print hamiltonian_2body
     return hamiltonian_2body
 ##############################################################
 
 # MAIN 
 N_particles = 2
+
 '''
 # PAIRING CASE WORKS FOR N=2,4,6
 sp_basis_filename = '3s_mscheme.sp'
@@ -423,13 +470,15 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 # Finding the eigenvalues and eigenvectors
 eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
+print 'sd model space - usdb interaction \n'
+print "Number of neutrons: ", N_particles
+print '\n'
 print 'Eigenvalues:'
 print eigval
 print '\n'
 print 'Eigenvectors:'
 print eigvec
-print '\n'
-print "Number of particles: ", N_particles
+
 #print 'g =',g
 
 
