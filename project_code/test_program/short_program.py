@@ -148,8 +148,8 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 
     for i in range(0,len(diff_list)/2):
-    	#phase = phase + (list(beta_list).index(diff_list[i]))
-        phase = phase + len(beta_list)-(list(beta_list).index(diff_list[i]))-1
+    	phase = phase + (list(beta_list).index(diff_list[i]))
+        #phase = phase + len(beta_list)-(list(beta_list).index(diff_list[i]))-1
     for i in range(len(diff_list)/2,len(diff_list)):
         phase = phase + (list(alpha_list).index(diff_list[i]))
     
@@ -301,12 +301,20 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
     for k in range(0,nr_2bme):
         two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
                         int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * mass_corr
-        two_body_matrix[int(two_body_me[k,2]),int(two_body_me[k,3]), \
-                        int(two_body_me[k,0]),int(two_body_me[k,1])] = two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
+                        int(two_body_me[k,3]),int(two_body_me[k,2])] = -two_body_me[k,4] * mass_corr
         two_body_matrix[int(two_body_me[k,1]),int(two_body_me[k,0]), \
                         int(two_body_me[k,2]),int(two_body_me[k,3])] = -two_body_me[k,4] * mass_corr
         two_body_matrix[int(two_body_me[k,1]),int(two_body_me[k,0]), \
-                        int(two_body_me[k,3]),int(two_body_me[k,2])] = -two_body_me[k,4] * mass_corr
+                        int(two_body_me[k,3]),int(two_body_me[k,2])] = two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,2]),int(two_body_me[k,3]), \
+                        int(two_body_me[k,0]),int(two_body_me[k,1])] = two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,2]),int(two_body_me[k,3]), \
+                        int(two_body_me[k,1]),int(two_body_me[k,0])] = -two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,3]),int(two_body_me[k,2]), \
+                        int(two_body_me[k,0]),int(two_body_me[k,1])] = -two_body_me[k,4] * mass_corr
+        two_body_matrix[int(two_body_me[k,3]),int(two_body_me[k,2]), \
+                        int(two_body_me[k,1]),int(two_body_me[k,0])] = two_body_me[k,4] * mass_corr
 
    
     # initialize to zero the Hamiltonian <beta_SD|H|alpha_SD>
@@ -328,7 +336,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
             if len(diff_list) == 0:
                 # Sum over i and j (all 2-body matrix elements)
                 for i in range(0,N_particles):
-                    for j in range(i,N_particles):
+                    for j in range(0,N_particles):
                         a = alpha_list[i]
                         b = alpha_list[j]
                         #print a,b, two_body_matrix[a,b,a,b]
@@ -336,7 +344,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                         if two_body_matrix[a,b,a,b] != 0.0:
                             # THE COEFFICIENT 1/2 HAS BEEN REMOVED BECAUSE THE SUM RUN ON i<=j
                             #mat_element = 0.5 * two_body_matrix[a,b,a,b]
-                            mat_element = two_body_matrix[a,b,a,b]
+                            mat_element = 0.5*two_body_matrix[a,b,a,b]
                             hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
                             #mat_element = 0.5*two_body_matrix[a,b,a,b]
                             #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
@@ -383,12 +391,26 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     if two_body_matrix[a,b,c,b] != 0.0:
 
                         mat_element = two_body_matrix[a,b,c,b]*phase
-                        
+
+    
                         hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+                        '''
+                        if alpha == 0 and beta == 15:
+                            print beta, alpha, diff_list, a,b,c,b, two_body_matrix[a,b,c,b],mat_element, hamiltonian_2body[beta,alpha]
+                        if alpha == 15 and beta == 0:
+                            print beta, alpha, diff_list, a,b,c,b,two_body_matrix[a,b,c,b], mat_element, hamiltonian_2body[beta,alpha]
+                        
                         #print beta, alpha, hamiltonian_2body[beta,alpha]
                         mat_element = two_body_matrix[c,b,a,b]*phase
                         #print beta, alpha, mat_element
                         hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
+
+                        if alpha == 2 and beta == 7:
+                            print beta, alpha, diff_list,c,b,a,b, mat_element, hamiltonian_2body[beta,alpha]
+                        if alpha == 7 and beta == 2:
+                            print beta, alpha, diff_list,c,b,a,b, mat_element, hamiltonian_2body[beta,alpha]
+                        '''
+
 
 
             # Alpha and beta have two differences
@@ -404,7 +426,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     mat_element = two_body_matrix[a,b,c,d]*phase
                     #print mat_element
                     hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
-                    #print 'xx',beta, alpha, hamiltonian_2body[beta,alpha]
+                    #print beta, alpha,  a,b,c,d,two_body_matrix[a,b,c,d], mat_element, hamiltonian_2body[beta,alpha]
                     #mat_element = two_body_matrix[c,d,a,b]*phase
                     #hamiltonian_2body[beta,alpha] = hamiltonian_2body[beta,alpha] + mat_element
 
@@ -454,8 +476,21 @@ hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, S
 hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
-#print hamiltonian_total
-
+'''
+rows = hamiltonian_total.shape[0]
+cols = hamiltonian_total.shape[1]
+for i in range(0,rows):
+    for j in range(0,cols):
+        if hamiltonian_total[i,j] != 0.0:
+            print("%d %d %6.2f" %(i,j,hamiltonian_total[i,j]-hamiltonian_total[j,i]))
+'''
+'''
+for beta in range(0,nr_SD):
+    for alpha in range(0,nr_SD):
+        if hamiltonian_total[beta,alpha] != 0.0:
+            print beta, alpha,hamiltonian_total[beta,alpha]
+print hamiltonian_total
+'''
 ##############################################################
 # Uncomment here to demonstrate the unit test:
 ##############################################################
