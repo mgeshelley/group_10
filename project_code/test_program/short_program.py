@@ -436,7 +436,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 ##############################################################
 
 # MAIN 
-N_particles = 2
+N_particles = 11
 
 '''
 # PAIRING CASE WORKS FOR N=2,4,6
@@ -476,14 +476,17 @@ hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, S
 hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
+
 '''
 rows = hamiltonian_total.shape[0]
 cols = hamiltonian_total.shape[1]
 for i in range(0,rows):
     for j in range(0,cols):
-        if hamiltonian_total[i,j] != 0.0:
-            print("%d %d %6.2f" %(i,j,hamiltonian_total[i,j]-hamiltonian_total[j,i]))
+        print("%6.2f" %(hamiltonian_total[i,j])),
+    print
+print
 '''
+
 '''
 for beta in range(0,nr_SD):
     for alpha in range(0,nr_SD):
@@ -509,10 +512,12 @@ print 'sd model space - usdb interaction \n'
 print "Number of neutrons: ", N_particles
 print '\n'
 print 'Eigenvalues:'
-print eigval
+np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+print(eigval)
 print '\n'
 print 'Eigenvectors:'
-print eigvec
+np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
+print(eigvec)
 
 #print 'g =',g
 
