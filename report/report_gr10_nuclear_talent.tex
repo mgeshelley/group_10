@@ -78,6 +78,8 @@
 \newcommand{\dr}{\, \mathrm d^3 \vec r}
 \newcommand{\dk}{\, \mathrm d^3 \vec k}
 
+\usepackage{simpler-wick}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -346,6 +348,107 @@ Structure of report (crude first idea):
 \item Conclusions / Summary
 \end{enumerate}
 
+%------------------------------------------------
+%------------------------------------------------
+
+\section{The pairing problem}
+
+The starting point is a pairing model: the system consists of fermions combined together in pairs of two, one with spin up and one with spin down. The assumption is that the 'breaking of pairs' is not allowed, i.e. the pairs of particles always will be coupled together, forming states with $J$=0. Of consequences the excited states are obtained from the excitation of two particles at the same time. \\
+\\
+The physics of this system can be described by an Hamiltonian $\hat H$ consisting of an unperturbed one-body operator $\hat H_0$ and a two-body pertubation $\hat V $ defined as 'pairing potential': $\hat H = \hat H_0 + \hat V$. In second quantization we can write:
+
+\begin{equation}
+\hat H_0 =  \sum_{p,\sigma} (\epsilon_p-1) \hat a_{p\sigma}^\dagger \hat a_{p\sigma},
+\label{eq:H_0}
+\end{equation}
+
+\begin{equation}
+\hat V = -\frac{1}{2} g \sum_{p,q} \hat a_{p+}^\dagger \hat a_{p-}^\dagger \hat a_{q-} \hat a_{q+} ,\label{eq:V}
+\end{equation}
+where the fermion creation and annihilation operators are given by $\hat a_{p}^\dagger$ and $\hat a_{q}$ respectively and $pqrs$ represent all possible single-particle quantum numbers.
+
+The single-particle states $\vert p \rangle$ are chosen as eigenfunctions of the one-particle operator $\hat{h}_0$, then the Hamiltonian $H$ acts in turn on various many-body Slater determinants constructed from the single-basis defined by the one-body operator $\hat{h}_0$.
+
+The two-body pairing operator $\hat{V}$ is:
+\begin{equation}
+\langle q_+ q_- \vert \hat{V} \vert s_+s_- \rangle = -g
+\end{equation}
+where it is explicitly shown that for a given matrix element $\langle pq \vert \hat{V} \vert rs \rangle$ the states $p$ and $q$ (or $r$ and $s$) must have opposite spin ($\sigma=\pm 1$). $g$ is the (constant) strenght of the pairing interaction.
+
+Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
+
+
+\paragraph{Constructing the Hamiltonian matrix}
+
+We are now interested to consider a system consisting of only four particles to calculate its exact analytic solution as benchmark for our shell-model code. The single-particle space is constructed by the four lowest levels with single-particle level energies $\epsilon_p = 1, 2, 3, 4$. Every level $\epsilon_p$ contains two particles, one with spin up $\vert p+ \rangle$ and one with spin down $\vert p- \rangle$. 
+
+The possible Slater determinants that we can build are 6:
+\begin{align*}
+\ket{\Phi_0} &= \hat a_{2+}^\dagger \hat a_{2-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0}  \\
+%
+\ket{\Phi_1} &= \hat a_{3+}^\dagger \hat a_{3-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0}  \\
+%
+\ket{\Phi_2} &= \hat a_{4+}^\dagger \hat a_{4-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0}  \\
+%
+\ket{\Phi_3} &= \hat a_{3+}^\dagger \hat a_{3-}^\dagger \hat a_{2+}^\dagger \hat a_{2-}^\dagger \ket{0}  \\
+%
+\ket{\Phi_4} &= \hat a_{4+}^\dagger \hat a_{4-}^\dagger \hat a_{2+}^\dagger \hat a_{2-}^\dagger \ket{0}  \\
+%
+\ket{\Phi_5} &= \hat a_{4+}^\dagger \hat a_{4-}^\dagger \hat a_{3+}^\dagger \hat a_{3-}^\dagger \ket{0} , \\
+\end{align*}
+
+from which we can construct the basis for the Hamiltonian matrix:
+\[ \ket{\Phi_0} = \begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad
+\ket{\Phi_1} = \begin{pmatrix} 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad \cdots \quad
+\ket{\Phi_5} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}. \]
+
+The matrix elements $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$ \footnote{We use the label 0 to indicate the Slater determinants with the 4 particles in the lowest states, then the first row first column matrix element is $H_{00}$....} are obtained using the Hamiltonian of Eq.~\eqref{eq:H_0}, the Slater determinants and the Wick-theorem. $\hat H_0$ acts only on the diagonal and results in terms proportional with $(\epsilon_p-1)$. The interaction will excite or deexcite a pair of particles from level $q$ to level $p$. \\Using the Wick-theorem, we notice that only the Slater determinants that differ for maximum a pair can interact among them through the pairing potential:
+\begin{eqnarray}\label{Vwick}
+\bra{\Phi_i} \hat V \ket{\Phi_j} &=&  \bra{0} \hat a_{i_1-} \hat a_{i_1+} \hat a_{i_2-} \hat a_{i_2+} \left[ -\frac{1}{2} g \sum_{p,q} \hat a_{p+}^\dagger \hat a_{p-}^\dagger \hat a_{q-} \hat a_{q+} \right] \hat a_{j_2+}^\dagger \hat a_{j_2-}^\dagger \hat a_{j_1+}^\dagger \hat a_{j_1-}^\dagger \ket{0} \nonumber \\
+&=& -\frac{1}{2} g  \left(\delta_{p, i_2} \delta_{q, j_2} \delta_{i_1,j_1} + 
+\delta_{p, i_2} \delta_{q, j_1} \delta_{i_1,j_2} + 
+\delta_{p, i_1} \delta_{q, j_2} \delta_{i_2,j_1} +
+\delta_{p, i_1} \delta_{q, j_1} \delta_{i_2,j_2} \right) 
+\end{eqnarray}
+
+and Eq.(\ref{Vwick}) is not null only if at least one of $\delta_{i_1,j_1}, \delta_{i_1,j_2}, \delta_{i_2,j_1}$ or $\delta_{i_2,j_2}$ among bra and ket states is not zero.\\
+For example the first term in Eq.(\ref{Vwick}) is obtained from the contractions
+
+\begin{equation}
+ \bra{0} \wick{  \c1{\hat a_{i_1-}} \c2{\hat a_{i_1+}} \c3{\hat a_{i_2-}} \c4{\hat a_{i_2+}} \c4{\hat a_{p+}^\dagger} \c3{\hat a_{p-}^\dagger} \c5{\hat a_{q-}} \c6{\hat a_{q+}} \c6{\hat a_{j_2+}^\dagger} \c5{\hat a_{j_2-}^\dagger} \c2{\hat a_{j_1+}^\dagger} \c1{\hat a_{j_1-}^\dagger}} \ket{0} = \delta_{p, i_2} \delta_{q, j_2} \delta_{i_1,j_1}. \nonumber
+\end{equation}
+ 
+ Explicitly, the matrix element $H_{00}$ is
+\begin{eqnarray}
+\bra{\Phi_0} \hat H \ket{\Phi_0} &=& \bra{0} \hat a_{1-} \hat a_{1+} \hat a_{2-} \hat a_{2+} \left[ \sum_{p,\sigma} (\epsilon_p-1) \hat a_{p\sigma}^\dagger \hat a_{p\sigma} \right] \hat a_{2+}^\dagger \hat a_{2-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0} \nonumber \\
+&+& \bra{0} \hat a_{1-} \hat a_{1+} \hat a_{2-} \hat a_{2+} \left[ -\frac{1}{2} g \sum_{p,q} \hat a_{p+}^\dagger \hat a_{p-}^\dagger \hat a_{q-} \hat a_{q+} \right] \hat a_{2+}^\dagger \hat a_{2-}^\dagger \hat a_{1+}^\dagger \hat a_{1-}^\dagger \ket{0} \nonumber \\
+&=& 2 \cdot 0+2 \cdot (2-1)+ 2\cdot \left(-\frac{1}{2} g \right) = 2-g.
+\end{eqnarray}
+
+The Hamiltonian matrix becomes
+
+\begin{equation}
+\hat H = \begin{pmatrix}
+2 - g & -g/2 & -g/2 & -g/2 & -g/2 & 0 \\
+-g/2 & 4- g & -g/2 & -g/2 & 0 & -g/2 \\
+-g/2 & -g/2 & 6 -g & 0 & -g/2 & -g/2 \\
+-g/2 & -g/2 & 0 & 6 -g & -g/2 & -g/2 \\
+-g/2 & 0 & -g/2 & -g/2 & 8 - g & -g/2 \\
+0 & -g/2 & -g/2 & -g/2 & -g/2 & 10 - g \\
+\end{pmatrix} .
+\label{eq: analytic_H_matrix} 
+\end{equation}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{eigval_vs_g.png}
+\caption{The energy levels as a function of the strength $g$ for the analytic case of the pairing model. }
+\label{fig: g_vs_eigval}
+\end{figure}
+
+In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with numpy}.
+
+We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
