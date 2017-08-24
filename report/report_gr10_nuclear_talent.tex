@@ -285,6 +285,79 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
+
+\subsection{Analytic results}
+
+
+are there more analytic results that we used to benchmark the code?
+
+
+%------------------------------------------------
+
+
+\section{Building the shell model code}
+
+The main goal of this project was to build a working shell model code. To do this the code was built up step by step starting from the simple pairing model. A more complex system (?) was implemented when the code reproduced the analytic results from the pairing model given in section \ref{sec:pair} - the code was bench-marked against known results. 
+
+
+
+
+
+develop a code which sets up the above Hamiltonian matrices for two and four particles in 2 and 4 single-particles states (the same as what you did in exercises b) and c) and obtain the eigenvalues.
+
+What did we choose?
+\begin{itemize}
+\item Decide whether you want to read from file the single-particle data and the matrix elements in m-scheme, or set them up internally in your code. The latter is the simplest possibility for the pairing model, whereas the first option gives you a more general code which can be extended to the more realistic cases discussed in the second part.
+\item Based on the single-particle basis, write a function which sets up all possible Slater determinants which have total M = 0. Test that this function reproduces the cases in b) and c). If you make this function more general, it can then be reused for say a shell-model calculation of sd-shell nuclei in the second part.
+\item Use the Slater determinant basis from the previous step to set up the Hamiltonian matrix.
+\item With the Hamiltonian matrix, you can finally diagonalize the matrix and obtain the final eigenvalues and test against the results of b) and c).
+\end{itemize}
+
+Include some of this? Or too much? :\\
+The lecture slides contain a rather detailed recipe on how to construct a Slater determinant basis and how to set up the Hamiltonian matrix to diagonalize.
+
+
+
+\subsection{Program flow / The structure of the code}
+
+The code is organized into blocks of code stored in separate files that performs different tasks. There is a \texttt{main.py} program that runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
+
+\begin{enumerate}
+\item Import files
+\item Ask user to provide input on the command line. Set file names
+\item Create the basis vectors  (vector the right word here?)
+\item Create the Slater Determinants
+\item Create the two-body matrix elements (tbme)
+\item Obtain the total Hamiltonian matrix from the one- and two-body hamiltonian
+\item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
+\item Find the eigenvalues and eigenvectors of the problem with numpy
+\end{enumerate}
+
+
+Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
+
+The function that asks the user for input is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. 
+
+
+
+
+\subsection{Unit tests and benchmarks}
+
+(have not done this?)
+
+One obvious case is that of removing the two-body interaction. Then we have only the single-particle energies. For the case of degenerate single-particle orbits, that is one value of total single-particle angular momentum only $j$, with degeneracy $\Omega = 2j + 1$, one can show that the ground state energy $E_0$ is with $n$ particles
+
+\begin{equation}
+E_0 = -\frac{g}{4}n (\Omega - n + 2)
+\end{equation}
+
+Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ single-particle states, respectively. Run your program for a degenerate single-particle state with degeneracy $\Omega$ and test against the exact result for the ground state. Introduce thereafter a finite single-particle spacing and study the results as you vary $g$, as done in b) and c). Comment your results.
+
+(describe the unit test that we have implemented and how)
+
+
+
+
 Example of python code
 
 \begin{lstlisting}[language=Python]
@@ -330,55 +403,6 @@ plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
 plt.savefig('figures/eigval_vs_g.png')
 #plt.show()
 \end{lstlisting}
-
-\subsection{Analytic results}
-
-
-are there more analytic results that we used to benchmark the code?
-
-
-%------------------------------------------------
-
-
-\section{Building the shell model code}
-
-The main goal of this project was to build a working shell model code. To do this the code was built up step by step starting from the simple pairing model. A more complex system (?) was implemented when the code reproduced the analytic results from the pairing model given in section \ref{sec:pair} - the code was bench-marked against known results. 
-
-
-
-
-
-develop a code which sets up the above Hamiltonian matrices for two and four particles in 2 and 4 single-particles states (the same as what you did in exercises b) and c) and obtain the eigenvalues.
-
-What did we choose?
-\begin{itemize}
-\item Decide whether you want to read from file the single-particle data and the matrix elements in m-scheme, or set them up internally in your code. The latter is the simplest possibility for the pairing model, whereas the first option gives you a more general code which can be extended to the more realistic cases discussed in the second part.
-\item Based on the single-particle basis, write a function which sets up all possible Slater determinants which have total M = 0. Test that this function reproduces the cases in b) and c). If you make this function more general, it can then be reused for say a shell-model calculation of sd-shell nuclei in the second part.
-\item Use the Slater determinant basis from the previous step to set up the Hamiltonian matrix.
-\item With the Hamiltonian matrix, you can finally diagonalize the matrix and obtain the final eigenvalues and test against the results of b) and c).
-\end{itemize}
-
-Include some of this? Or too much? :\\
-The lecture slides contain a rather detailed recipe on how to construct a Slater determinant basis and how to set up the Hamiltonian matrix to diagonalize.
-
-
-
-\subsection{first step....}
-
-\subsection{Unit tests and benchmarks}
-
-(have not done this?)
-
-One obvious case is that of removing the two-body interaction. Then we have only the single-particle energies. For the case of degenerate single-particle orbits, that is one value of total single-particle angular momentum only $j$, with degeneracy $\Omega = 2j + 1$, one can show that the ground state energy $E_0$ is with $n$ particles
-
-\begin{equation}
-E_0 = -\frac{g}{4}n (\Omega - n + 2)
-\end{equation}
-
-Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ single-particle states, respectively. Run your program for a degenerate single-particle state with degeneracy $\Omega$ and test against the exact result for the ground state. Introduce thereafter a finite single-particle spacing and study the results as you vary $g$, as done in b) and c). Comment your results.
-
-(describe the unit test that we have implemented and how)
-
 
 %------------------------------------------------
 
