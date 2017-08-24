@@ -320,7 +320,17 @@ The lecture slides contain a rather detailed recipe on how to construct a Slater
 
 \subsection{Program flow / The structure of the code}
 
-The code is organized into blocks of code stored in separate files that performs different tasks. There is a \texttt{main.py} program that runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
+The code is organized into blocks of code stored in separate files that performs different tasks. The files needed to run the shell model code is:
+\begin{itemize}
+\item \texttt{main.py}
+\item \texttt{create\_table\_files.py}
+\item \texttt{read\_files.py}
+\item \texttt{unit\_tests.py} 
+\item \texttt{ham.py} 
+\item \texttt{input\_func.py}
+\end{itemize}
+
+The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
 
 \begin{enumerate}
 \item Import files
@@ -333,10 +343,17 @@ The code is organized into blocks of code stored in separate files that performs
 \item Find the eigenvalues and eigenvectors of the problem with numpy
 \end{enumerate}
 
-
 Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
 
-The function that asks the user for input is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. 
+\paragraph{To run the code} one simply runs the \texttt{main.py} program in the terminal and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
+
+
+
+
+
+\subsection{Diagonalization of the Hamiltonian in the sd model space}
+% Makes sense to put this section here?
+
 
 
 
@@ -356,6 +373,14 @@ Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ sin
 (describe the unit test that we have implemented and how)
 
 
+
+\subsection{Challenges and proposed solutions / Future work(?)}
+
+ something about the accuracy of our code somewhere here?
+ 
+ 
+ 
+%------------------------------------------------
 
 
 Example of python code
@@ -403,6 +428,7 @@ plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
 plt.savefig('figures/eigval_vs_g.png')
 #plt.show()
 \end{lstlisting}
+
 
 %------------------------------------------------
 
