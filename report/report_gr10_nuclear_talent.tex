@@ -157,6 +157,7 @@ and found that.....results...
 
 
 \section{The pairing problem}
+\label{sec:pair} 
 
 The starting point is a pairing model: the system consists of fermions combined together in pairs of two, one with spin up and one with spin down. The assumption is that the 'breaking of pairs' is not allowed, i.e. the pairs of particles always will be coupled together, forming states with $J$=0. Of consequences the excited states are obtained from the excitation of two particles at the same time. \\
 \\
@@ -255,11 +256,18 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
+\subsection{Analytic results}
+
+
+are there more analytic results that we used to benchmark the code?
+
 
 %------------------------------------------------
 
 
 \section{Building the shell model code}
+
+The main goal of this project was to build a working shell model code. To do this the code was built up step by step starting from the simple pairing model. A more complex system (?) was implemented when the code reproduced the analytic results from the pairing model given in section \ref{sec:pair} - the code was benchmarked against known results. 
 
 develop a code which sets up the above Hamiltonian matrices for two and four particles in 2 and 4 single-particles states (the same as what you did in exercises b) and c) and obtain the eigenvalues.
 
