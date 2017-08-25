@@ -67,7 +67,7 @@ def manual_input(model='pairing'):
         #...
 
     return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles
-
+'''
 
 
 # These classes are needed for the function below. 
@@ -83,8 +83,8 @@ class minValueLargerThanMaxError(Error):
     """Raised when the min value is larger than the max value"""
     pass
 
-class IsosError(Error):
-    """Raised when the input value is not 'n' or 'np'"""
+class CaseError(Error):
+    """Raised when the input value is not 'pairing' or 'sd'"""
     pass
 
 class FileNameError(Error):
@@ -94,7 +94,7 @@ class ExtensionError(Error):
     """Raised when the input value is not 'n' or 'np'"""
     pass
 
-'''
+
 
 '''
 def command_line_input():
@@ -320,13 +320,18 @@ def command_line_input():
 
     while True:
         try:
-            yn = raw_input("Whould you like standard input? \ny/n: ")
+            yn = raw_input("Whould you like default input? \ny/n: ")
 
             if yn not in ['y', 'n']:
                     raise FileNameError
 
             if yn == 'y':
-                break
+            	N_particles = 4
+            	case = 'sd'
+            	g = 0
+                print("\nDefault inputs: ")
+                print("N_particles = %d ") %N_particles
+                print("case = %s \n") %case
 
             if yn == 'n':
                 standard_input = False
@@ -352,28 +357,30 @@ def command_line_input():
             else:
                 break
 
-        while True:
-            try:
-                g = float(raw_input("Write: g "))
-            except ValueError:
-                print("\nERROR: Please provide g as a float / real number (without whitespace behind the last number).\n")
 
-            else:
-                break
 
         while True:
             try:
                 case = raw_input("Write: model space ('pairing' or 'sd' without whitespace behind) ")
-                if isos not in ['n', 'np']:
-                    raise CeseError
+                if case not in ['pairing', 'sd']:
+                    raise CaseError
 
             except CaseError:
                 print("\nERROR: Please write either 'pairing' or 'sd'.\n")
             else:
                 break
 
-           
-    return N_particles, g, case
+
+        while True:
+            try:
+                g = float(raw_input("Write: g (if 'sd' write '0.0')"))
+            except ValueError:
+                print("\nERROR: Please provide g as a float / real number (without whitespace behind the last number).\n")
+
+            else:
+                break
+
+    return N_particles, case, g
 
 
 

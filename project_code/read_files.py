@@ -24,7 +24,7 @@ def read_sd_basis(sp_basis_filename):
     return sp_matrix
 
 
-
+'''
 def read_basis(sp_basis_filename):
     """
     Reads in data from the .sp file (not the sd shell)
@@ -75,6 +75,7 @@ def read_basis(sp_basis_filename):
 
 
     return particle, A_core, Z_core, nr_sp_states, nr_groups, nr_sp_n, nr_sp_p, sp_matrix
+'''
 
 def read_SD(N_particles, SD_filename):
     """

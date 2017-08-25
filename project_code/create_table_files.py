@@ -280,11 +280,9 @@ def create_tbme_pairing(tbme_filename,nr_sp_states,g):
     Output 
     
     tbme_filename:      file that contains the tbme (two body matrix element) for the pairing interaction
-                        1st line: tbme_dim, E0, E1, E2, E3, constant, A_core, exponent
-                        tbme_dim: number of non-zero matrix elements
-                        E0,E1,E2,E3 are the energy of the sp levels (p-1 in our case)
-                        A_core,constant,exponent: the parameters of the mass dependence [constant/(A_core+n_val)]^exponent
-                        other lines: sp_1, sp_2, sp_3, sp_4, J_tot, T_tot, matrix element
+                        1st line: tbme_dim
+                        tbme_dim: number of non-zero matrix elements              
+                        sp_1, sp_2, sp_3, sp_4, matrix element
 
     """
 
@@ -292,35 +290,32 @@ def create_tbme_pairing(tbme_filename,nr_sp_states,g):
     # g is the value of the pairing parameter
     index = 0
     tbme_list = []
-    J = 0
-    T = 1
+#    J = 0
+#    T = 1
 
     p_1=1
     p_2=2
     p_3=3
     p_4=4
 
-    constant= 0
-    A_core= 0
-    exponent= 0
 
     nr_sp_states = int(nr_sp_states)
 
     for a in range(1, nr_sp_states+1,2):
         for b in range(a, nr_sp_states+1,2):
             index += 1
-            tbme_list.extend([a,a+1,b,b+1,J,T,-g])
+            tbme_list.extend([a,a+1,b,b+1,-g])
     dim_tbme = index
     tbme_array = np.array(tbme_list)
-    tbme_matrix = tbme_array.reshape(dim_tbme,7)
+    tbme_matrix = tbme_array.reshape(dim_tbme,5)
 
 
     out_tbme = open(tbme_filename,"w")
     out_tbme.write("! %s matrix elements\n" % (tbme_filename))
     out_tbme.write("! list of states\n")
-    out_tbme.write("%d %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f \n" % (dim_tbme, p_1-1, p_2-1, p_3-1, p_4-1, constant, A_core, exponent))
+    out_tbme.write("%d  \n" % dim_tbme)
     for i in range(0,dim_tbme):
-        out_tbme.write('%2d %2d %2d %2d %2d %2d %7.3f \n' % (tuple(tbme_matrix[i,0:6])+tuple([tbme_matrix[i,6]])))
+        out_tbme.write('%2d %2d %2d %2d %7.3f \n' % (tuple(tbme_matrix[i,0:4])+tuple([tbme_matrix[i,4]])))
     out_tbme.close()
 
 

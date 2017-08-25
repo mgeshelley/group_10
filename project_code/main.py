@@ -66,13 +66,14 @@ if os.path.isfile(tbme_filename) == False:
 folder_name = 'table_files/'
 
 #input from command line
-#N_particles,g, case = command_line_input()
+N_particles,case,g = command_line_input()
 
-#manual input
+'''
+#manual input to be used instead of command line
 N_particles = 4
 g = 1
 case = 'sd'
-
+'''
 
 # PAIRING case works only for N=2,4,6,8
 if case == 'pairing':
@@ -83,7 +84,7 @@ if case == 'pairing':
 		SD_filename = folder_name+'3s_pairing.sd'
 		tbme_filename = folder_name+"pairing_g%s.int" %g
 		restriction = 'pair'
-		g = 1
+		g = float(g)/2 # the strenght is g but 1/2 factor come from the definition of pairing interaction
 #SD case	
 elif case == 'sd':
 	sp_basis_filename = folder_name+'sd_shell.sp'
@@ -104,7 +105,7 @@ SD_filename = 'table_files/sd_SlaterD.sd'
 tbme_filename = 'table_files/sd_mscheme.int'
 restriction = 'no'
 '''
-
+print("\n...calculating...\n")
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
 nr_sp_states = np.shape(sp_matrix)[0]
@@ -115,6 +116,11 @@ create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restriction)
 SlaterD_matrix = read_SD(N_particles, SD_filename)
 nr_SD = SlaterD_matrix.shape[0]
 
+
+# Creating the file containing the pairing interaction:
+if case == 'pairing' and os.path.isfile(tbme_filename) == False:
+    create_tbme_pairing(tbme_filename,nr_sp_states,g)
+#print g
 ##############################################################
 # Creating the hamiltonian matrix
 
@@ -142,8 +148,8 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 # Finding the eigenvalues and eigenvectors
 eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
-print 'sd model space - usdb interaction \n'
-print "Number of neutrons: ", N_particles
+print 'model space %s' % case
+print "Number of particles (neutrons): %d" % N_particles
 print '\n'
 print 'Eigenvalues:'
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
