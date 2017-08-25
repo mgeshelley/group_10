@@ -433,12 +433,19 @@ plt.savefig('figures/eigval_vs_g.png')
 %------------------------------------------------
 
 
-\section{NuShellX or NuShellX@MSU (?)}
+\section{NuShellX (and NuShellX@MSU)}
 
-NushellX is a code developed by B. A. Brown and W. D. M. Rae (anyone else? or is it originally only Rae?)
+NushellX is a code developed by W. D. M. Rae [ref] that provides an powerful tool for nuclear structure calculations. With this code one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states in shell-model Hamiltonian matrix calculations with very large basis dimensions. A set of wrapper codes called NuShellX@MSU is  written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay.
 
 
 
+
+ It uses a J-coupled proton-neutron ba- sis, and J-scheme matrix dimensions of up to the order of 100 million can be considered. -->
+
+
+B. A. Brown
+
+The goal of our project was to create a mini-version of the NuxhellX code and (after pairing model) use the NushellX code to test our own code.
 
 \begin{figure}[ht]
 \centering
@@ -452,8 +459,7 @@ reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.1
 (and references within)
 
 
-NuShellX is a set of computer codes written by Bill Rae [1] that are used to obtain exact energies, eigenvec- tors and spectrosopic overlaps for low-lying states in shell- model Hamiltonian matrix calculations with very large basis dimensions It uses a J-coupled proton-neutron ba- sis, and J-scheme matrix dimensions of up to the order of 100 million can be considered.
-NuShellX@MSU is a set of wrapper codes written by Alex Brown [2] that use data files for model spaces and Hamiltonians to generate input for NuShellX. The wrap- per codes also convert the NuShellX output into figures and tables for energy levels, gamma decay and beta de- cay.
+
 
 NuShellX makes use of OpenMP to use many cores with high efficiency for the Lanczos iterations.
 
@@ -468,6 +474,9 @@ Calculations in an infinite space are not possible – some truncation is requir
 Calculations in the full model space may be too computationally intensive OR inappropriate for the interaction-->Truncatethemodelspacetomakecalculations feasible
 
 Only subshell truncations are possible in NuShellX – limit numbers of protons (neutrons) in a given orbital. Cannot restrict the total number of nucleons in a given orbital (proton and neutrons are treated separately)
+
+
+Provides an incredibly powerful tool for structure calculations, with enormously flexibility and freedom...BUT it is very easy to produce unrealistic or inappropriate calculations
 
 
 
