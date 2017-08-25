@@ -340,29 +340,26 @@ The code is organized into blocks of code stored in separate files that performs
 The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
 
 \begin{enumerate}
-\item Import files
-\item Ask user to provide input on the command line. Set file names
-\item Create the basis vectors  (vector the right word here?)
-\item Create the Slater Determinants
-\item Create the two-body matrix elements (tbme)
-\item Obtain the total Hamiltonian matrix from the one- and two-body hamiltonian
+\item Import files (modules)
+\item Ask user to provide inputs on the command line. The only inputs needed are
+\begin{itemize}
+\item \texttt{N\_particles} - number of valence particles (neutrons) 
+\item \texttt{case} - model space 'sd' (or 'pairing')
+\item \texttt{g} - strenght of the pairing (needed only in 'pairing' case)
+\end{itemize}
+\item Read the single-particle basis
+\item Create all the possible the Slater Determinants
+\item Read and store the two-body matrix elements (tbme). In the case 'pairing', create all the non-zero pairing matrix elements according to the given strenght $g$.
+\item Build the total Hamiltonian matrix from the one- and two-body terms
 \item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
-\item Find the eigenvalues and eigenvectors of the problem with numpy
+\item Print the eigenvalues and eigenvectors of the problem
 \end{enumerate}
 
-Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
+%NOT TRUE ANYMORE Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
 
-\paragraph{To run the code} one simply runs the \texttt{main.py} program in the terminal and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
-
-
-
-
-
-\subsection{Diagonalization of the Hamiltonian in the sd model space}
-% Makes sense to put this section here?
-
-
-
+\paragraph{To run the code} one simply runs the program typing from terminal
+\begin{center}\texttt{python main.py}\end{center} 
+and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
 
 \subsection{Unit tests and benchmarks}
