@@ -246,6 +246,7 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
                     SD_list.append(index)
                     SD_list.extend(list(x))
         else:
+            #if m_tot == 4:
             index +=1
             SD_list.append(index)
             SD_list.extend(list(x))

@@ -87,7 +87,7 @@ def read_SD(N_particles, SD_filename):
 
     Returns 
     
-    SD_matrix:  ndarray,
+    SlaterD_matrix:  ndarray,
                 matrix containing the slater determinants.
                 Every row identifies a different slater determinant.
                 First column: the index of the slater determinants.
@@ -95,7 +95,7 @@ def read_SD(N_particles, SD_filename):
                 
     """
 
-    SD_matrix = np.genfromtxt(SD_filename)
-
-    return SD_matrix
+    SlaterD_matrix = np.genfromtxt(SD_filename)
+    #print SlaterD_matrix
+    return SlaterD_matrix
 

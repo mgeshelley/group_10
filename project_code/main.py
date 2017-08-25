@@ -14,7 +14,7 @@ import os.path
 ##############################################################
 # Choose if you want to interact with the terminal:
 # (uncomment your choice and comment the other):
-
+'''
 #nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = command_line_input()
 nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
 sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
@@ -48,15 +48,46 @@ if os.path.isfile(SD_filename) == False:
     #create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename)
     create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, 'pair')
 
+
 # Read in the SD from files:
-SD_matrix = read_SD(N_particles, SD_filename)
-nr_SD = SD_matrix.shape[0]
+SlaterD_matrix = read_SD(N_particles, SD_filename)
+nr_SD = SlaterD_matrix.shape[0]
 
 #for g in (loop over g values)
 
 # Creating the file containing the pairing interaction:
 if os.path.isfile(tbme_filename) == False:
     create_tbme_pairing(tbme_filename,nr_sp_states,g)
+
+'''
+# MAIN 
+N_particles = 4
+
+'''
+# PAIRING CASE WORKS FOR N=2,4,6
+sp_basis_filename = 'table_files/3s_mscheme.sp'
+SD_filename = 'table_files/3s_pairing.sd'
+tbme_filename = 'table_files/pairing_g1.int'
+restriction = 'pair'
+g = 1
+'''
+
+#SD case
+sp_basis_filename = 'table_files/sd_shell.sp'
+SD_filename = 'table_files/sd_SlaterD.sd'
+tbme_filename = 'table_files/sd_mscheme.int'
+restriction = 'no'
+
+
+# read sp_basis from file .sp
+sp_matrix = read_sd_basis(sp_basis_filename)
+nr_sp_states = np.shape(sp_matrix)[0]
+
+create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restriction)
+
+# Read in the SD from files:
+SlaterD_matrix = read_SD(N_particles, SD_filename)
+nr_SD = SlaterD_matrix.shape[0]
 
 ##############################################################
 # Creating the hamiltonian matrix
@@ -70,7 +101,6 @@ hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, S
 hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
-#print hamiltonian_total
 
 ##############################################################
 # Uncomment here to demonstrate the unit test:
@@ -86,14 +116,19 @@ hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 # Finding the eigenvalues and eigenvectors
 eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
+print 'sd model space - usdb interaction \n'
+print "Number of neutrons: ", N_particles
+print '\n'
 print 'Eigenvalues:'
-print eigval
+np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+print(eigval)
 print '\n'
 print 'Eigenvectors:'
-print eigvec
-print '\n'
-print "Number of particles: ", N_particles
-print 'g =',g
+np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
+print(eigvec)
+
+#print 'g =',g
 
 
 # DONE!
+

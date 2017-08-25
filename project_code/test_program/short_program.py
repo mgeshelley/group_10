@@ -436,7 +436,7 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 ##############################################################
 
 # MAIN 
-N_particles = 11
+N_particles = 4
 
 '''
 # PAIRING CASE WORKS FOR N=2,4,6

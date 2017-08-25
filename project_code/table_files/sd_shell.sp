@@ -1,4 +1,4 @@
-#   index  n     l    2j   2m_j   single-particle energies
+!   index  n     l    2j   2m_j   single-particle energies
      1     1     0     1    -1   -3.20790
      2     1     0     1     1   -3.20790
      3     0     2     3    -3    2.11170
