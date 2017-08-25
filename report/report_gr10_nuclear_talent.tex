@@ -433,8 +433,50 @@ plt.savefig('figures/eigval_vs_g.png')
 %------------------------------------------------
 
 
-\section{NuShellX}
+\section{NuShellX or NuShellX@MSU (?)}
+
+NushellX is a code developed by B. A. Brown and W. D. M. Rae (anyone else? or is it originally only Rae?)
+
+
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{nushellX_structure_from_ref.png}
+\caption{Schematic layout of the NuShellX@MSU codes from ref [] }
+\label{fig: nushellx_struct}
+\end{figure}
+
+
+reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf
+(and references within)
+
+
+NuShellX is a set of computer codes written by Bill Rae [1] that are used to obtain exact energies, eigenvec- tors and spectrosopic overlaps for low-lying states in shell- model Hamiltonian matrix calculations with very large basis dimensions It uses a J-coupled proton-neutron ba- sis, and J-scheme matrix dimensions of up to the order of 100 million can be considered.
+NuShellX@MSU is a set of wrapper codes written by Alex Brown [2] that use data files for model spaces and Hamiltonians to generate input for NuShellX. The wrap- per codes also convert the NuShellX output into figures and tables for energy levels, gamma decay and beta de- cay.
+
+NuShellX makes use of OpenMP to use many cores with high efficiency for the Lanczos iterations.
+
+Oxbash/NuShell/NuShellX use both m-scheme
+and jj-coupling
+
+NuShellX is pn-formalism: creates basis states for protons and neutrons separately
+
+Calculations in an infinite space are not possible – some truncation is required
+-Generally, the best and most complete results are found with the largest model spaces... But the computation time increases exponentially with model space size...... And an the interaction used must be appropriate for the model space ...
+... And empirical interactions are (usually) better determined for smaller model spaces (fewer TBME)
+Calculations in the full model space may be too computationally intensive OR inappropriate for the interaction-->Truncatethemodelspacetomakecalculations feasible
+
+Only subshell truncations are possible in NuShellX – limit numbers of protons (neutrons) in a given orbital. Cannot restrict the total number of nucleons in a given orbital (proton and neutrons are treated separately)
+
+
+
 (describe what is, then put results in results section?)
+
+
+
+
+
 
 
 \section{Results}
