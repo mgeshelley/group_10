@@ -245,7 +245,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
 ##########################################################################################################
 
 
-def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
+def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename, case):
 
     """
     This function builds the two-body part of the Hamiltonian <beta_SD|H|alpha_SD>
@@ -263,6 +263,8 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     filename of the file with the Slater Determinants
     tbme_filename:  string,
                     filename of the file with the interaction .int
+    case:           string,
+                    influence the mass_correction according to the model
 
     Output
 
@@ -297,7 +299,13 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
         sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
     
     two_body_matrix = np.zeros((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
-    mass_corr = (18./(16.+N_particles))**0.3
+
+    # mass correction
+    if case == 'pairing':
+        mass_corr = 1
+    elif case == 'sd':
+        mass_corr = (18./(16.+N_particles))**0.3
+
     for k in range(0,nr_2bme):
         two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
                         int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * mass_corr
@@ -436,23 +444,46 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
 ##############################################################
 
 # MAIN 
+#manual input
+N_particles = 5
+g = 1
+case = 'sd'
+
+
+# PAIRING case works only for N=2,4,6,8
+if case == 'pairing':
+    if N_particles%2 == 1 or N_particles <= 0 or N_particles > 8:
+        print("\nERROR: N_particles need can be only 2,4,6 or 8 in the pairing case.\n")
+    else:
+        sp_basis_filename = '3s_mscheme.sp'
+        SD_filename = '3s_pairing.sd'
+        tbme_filename = "pairing_g%s.int" %g
+        restriction = 'pair'
+        g = 1
+#SD case    
+elif case == 'sd':
+    sp_basis_filename = 'sd_shell.sp'
+    SD_filename = 'sd_SlaterD.sd'
+    tbme_filename = 'sd_mscheme.int'
+    restriction = 'no'
+'''
 N_particles = 4
 
-'''
+
 # PAIRING CASE WORKS FOR N=2,4,6
 sp_basis_filename = '3s_mscheme.sp'
 SD_filename = '3s_pairing.sd'
 tbme_filename = 'pairing_g1.int'
 restriction = 'pair'
 g = 1
-'''
+
 
 #SD case
 sp_basis_filename = 'sd_shell.sp'
 SD_filename = 'sd_SlaterD.sd'
 tbme_filename = 'sd_mscheme.int'
 restriction = 'no'
-
+'''
 
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
@@ -473,7 +504,7 @@ hamiltonian_total = np.zeros((nr_SD, nr_SD))
 hamiltonian_1body = np.zeros((nr_SD, nr_SD))
 hamiltonian_2body = np.zeros((nr_SD, nr_SD))
 hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, SD_filename)
-hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
+hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename, case)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 
@@ -494,6 +525,7 @@ for beta in range(0,nr_SD):
             print beta, alpha,hamiltonian_total[beta,alpha]
 print hamiltonian_total
 '''
+#print hamiltonian_total
 ##############################################################
 # Uncomment here to demonstrate the unit test:
 ##############################################################

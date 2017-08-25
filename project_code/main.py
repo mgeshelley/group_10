@@ -16,8 +16,8 @@ import os.path
 # (uncomment your choice and comment the other):
 '''
 #nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename = command_line_input()
-nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
-sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
+#nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles = manual_input()
+#sp_basis_filename, SD_filename, tbme_filename = give_file_names(g)
 
 #FOR TESTING PURPOUSE ONLY
 tbme_filename = 'table_files/sd_mscheme.int'
@@ -60,24 +60,50 @@ if os.path.isfile(tbme_filename) == False:
     create_tbme_pairing(tbme_filename,nr_sp_states,g)
 
 '''
+
 # MAIN 
+# name of the folder with files
+folder_name = 'table_files/'
+
+#input from command line
+#N_particles,g, case = command_line_input()
+
+#manual input
 N_particles = 4
+g = 1
+case = 'sd'
+
+
+# PAIRING case works only for N=2,4,6,8
+if case == 'pairing':
+	if N_particles%2 == 1 or N_particles <= 0 or N_particles > 8:
+		print("\nERROR: N_particles need can be only 2,4,6 or 8 in the pairing case.\n")
+	else:
+		sp_basis_filename = folder_name+'3s_mscheme.sp'
+		SD_filename = folder_name+'3s_pairing.sd'
+		tbme_filename = folder_name+"pairing_g%s.int" %g
+		restriction = 'pair'
+		g = 1
+#SD case	
+elif case == 'sd':
+	sp_basis_filename = folder_name+'sd_shell.sp'
+	SD_filename = folder_name+'sd_SlaterD.sd'
+	tbme_filename = folder_name+'sd_mscheme.int'
+	restriction = 'no'
 
 '''
-# PAIRING CASE WORKS FOR N=2,4,6
 sp_basis_filename = 'table_files/3s_mscheme.sp'
 SD_filename = 'table_files/3s_pairing.sd'
 tbme_filename = 'table_files/pairing_g1.int'
 restriction = 'pair'
 g = 1
-'''
 
 #SD case
 sp_basis_filename = 'table_files/sd_shell.sp'
 SD_filename = 'table_files/sd_SlaterD.sd'
 tbme_filename = 'table_files/sd_mscheme.int'
 restriction = 'no'
-
+'''
 
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
@@ -98,7 +124,7 @@ hamiltonian_total = np.zeros((nr_SD, nr_SD))
 hamiltonian_1body = np.zeros((nr_SD, nr_SD))
 hamiltonian_2body = np.zeros((nr_SD, nr_SD))
 hamiltonian_1body = Hamiltonian_one_body(N_particles, nr_sp_states, sp_matrix, SD_filename)
-hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename)
+hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename, case)
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 

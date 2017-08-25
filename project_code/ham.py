@@ -83,7 +83,7 @@ def Hamiltonian_one_body(N_particles, nr_sp_states, matrix, SD_filename):
 ##########################################################################################################
 
 
-def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
+def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename, case):
 
     """
     This function builds the two-body part of the Hamiltonian <beta_SD|H|alpha_SD>
@@ -101,6 +101,8 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
                     filename of the file with the Slater Determinants
     tbme_filename:  string,
                     filename of the file with the interaction .int
+    case:           string,
+                    influence the mass_correction according to the model
 
     Output
 
@@ -135,7 +137,13 @@ def Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename, tbme_filename):
         sys.exit("ERROR: Dimension of 2-body matrix not consistent!!!")
     
     two_body_matrix = np.zeros((nr_sp_states+1,nr_sp_states+1,nr_sp_states+1,nr_sp_states+1))
-    mass_corr = (18./(16.+N_particles))**0.3
+
+    # mass correction
+    if case == 'pairing':
+        mass_corr = 1
+    elif case == 'sd':
+        mass_corr = (18./(16.+N_particles))**0.3
+
     for k in range(0,nr_2bme):
         two_body_matrix[int(two_body_me[k,0]),int(two_body_me[k,1]), \
                         int(two_body_me[k,2]),int(two_body_me[k,3])] = two_body_me[k,4] * mass_corr
