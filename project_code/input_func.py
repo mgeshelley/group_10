@@ -11,7 +11,7 @@ def give_file_names(g, extension=''):
 
     return sp_basis_filename, SD_filename, tbme_filename
 
-
+'''
 def manual_input(model='pairing'):
     
     """
@@ -94,6 +94,9 @@ class ExtensionError(Error):
     """Raised when the input value is not 'n' or 'np'"""
     pass
 
+'''
+
+'''
 def command_line_input():
     """
     This function asks the user to provide the input parameter on the command line. 
@@ -286,8 +289,91 @@ def command_line_input():
 
            
     return nmin, nmax, lmin, lmax, jmin, jmax, isos, g, N_particles, sp_basis_filename, SD_filename, tbme_filename
+'''
 
 
+def command_line_input():
+    """
+    This function asks the user to provide the input parameter on the command line. 
+    It makes sure that the provided input is of correct type and within the allowed limits.
+    If the input is not correct the program gives an error message and asks the user to provide
+    the input again. 
+    
+    Input (None)
+
+    Returns 
+    
+    N_particles: int,
+                the number of particles in the simulation
+
+    case:       string,
+                model space 'pairing' or 'sd'
+
+    g:          float, 
+                the pairing constant
+
+
+
+    """
+
+    standard_input = True
+
+    while True:
+        try:
+            yn = raw_input("Whould you like standard input? \ny/n: ")
+
+            if yn not in ['y', 'n']:
+                    raise FileNameError
+
+            if yn == 'y':
+                break
+
+            if yn == 'n':
+                standard_input = False
+                
+
+        except FileNameError:
+            print("\nERROR: Please write either 'y' or 'n'.\n")
+
+        else:
+            break
+
+    if not standard_input:
+
+        while True:
+            try:        
+                N_particles = int(raw_input("Write: N_particles "))
+            except ValueBelowZeroError:
+                print("\nERROR: Please provide numbers above zero.\n")
+                continue
+            except ValueError:
+                print("\nERROR: Please provide the number of particles as an integer (without whitespace behind the last number).\n")
+                continue
+            else:
+                break
+
+        while True:
+            try:
+                g = float(raw_input("Write: g "))
+            except ValueError:
+                print("\nERROR: Please provide g as a float / real number (without whitespace behind the last number).\n")
+
+            else:
+                break
+
+        while True:
+            try:
+                case = raw_input("Write: model space ('pairing' or 'sd' without whitespace behind) ")
+                if isos not in ['n', 'np']:
+                    raise CeseError
+
+            except CaseError:
+                print("\nERROR: Please write either 'pairing' or 'sd'.\n")
+            else:
+                break
+
+           
+    return N_particles, g, case
 
 
 
