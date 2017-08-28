@@ -110,6 +110,7 @@
 \lstset{style=mystyle}
 \renewcommand{\lstlistingname}{Code}
 
+\usepackage{cancel}
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -379,8 +380,6 @@ $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized
 \end{itemize}
 
 
-[???Include which are the combination of matrix elements that are not null???].
-
 
 
 \subsection{The structure of the code}
@@ -420,8 +419,43 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
 \subsection{Phase and counting the difference between the Slater determinants}
-[I will write it]
 
+It is interesting to point out the physics behind the set-up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$.
+We assume $\ket{\Phi_0}$ as an ansatz for the ground state and we consider the other Slater determinants $\ket{\Phi_i}$ as particle-hole (p-h), two particles- two holes (2p-2h), ... excitations of the ground state.
+In this formalism 
+\begin{equation}
+\ket{\Phi_0} = \hat a_{i}^\dagger \hat a_{j}^\dagger... \ket{0}
+\end{equation}
+has all the single-particle levels $i,j,...$ filled and we indicate that with $i,j,...\leq F$ Fermi energy.
+Of consequence, we define a p-h Slater determinant with 
+\begin{equation}
+\ket{\Phi_i^a} = \hat a_{a}^\dagger \hat a_{i} \ket{\Phi_0}
+\end{equation}
+where the particle index is $a > F$ and the hole index is $i \leq F$, and a 2p-2h one with 
+\begin{equation}
+\ket{\Phi_{ij}^{ab}} = \hat a_{a}^\dagger \hat a_{b}^\dagger \hat a_{j} \hat a_{i} \ket{\Phi_0}
+\end{equation}
+where $a,b > F$ while $i,j \leq F$.
+
+Using Wick's contractions we can calculate the expectation values of the Hamiltonian operators among the states just built:
+\begin{equation}
+\bra{\Phi_0} \hat H \ket{\Phi_0} = \sum_{i \leq F} \langle i \vert \hat h_0 \vert i \rangle + \frac{1}{2} \sum_{i,j \leq F} \langle i j\vert \hat v \vert ij \rangle_{AS} 
+\end{equation}
+
+\begin{equation}
+\bra{\Phi_0} \hat H \ket{\Phi_i^a} =  \cancel{\langle i \vert \hat h_0 \vert a \rangle} +  \sum_{j \leq F} \langle i j\vert \hat v \vert aj \rangle_{AS} \; 
+\end{equation}
+where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particles states are orthogonal;
+\begin{equation}
+\bra{\Phi_0} \hat H \ket{\Phi_{ij}^{ab}} =  \langle i j\vert \hat v \vert ab \rangle_{AS}
+\end{equation}
+
+\begin{equation}
+\bra{\Phi_0} \hat H \ket{\Phi_{ijk}^{abc}} = 0
+\end{equation}
+where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more than 2-particles, the maximum number that can be contracted with a two-body Hamiltonian.
+
+Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
 \subsection{Unit tests and benchmarks}
 
 (have not done this?)
