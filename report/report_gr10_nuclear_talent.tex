@@ -456,6 +456,47 @@ where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particle
 where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more than 2-particles, the maximum number that can be contracted with a two-body Hamiltonian.
 
 Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
+
+\begin{lstlisting}[language=Python,caption=\texttt{beta\_alpha\_compare} is a function in module \texttt{compare.py} that make a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
+
+
+def beta_alpha_compare(beta_list, alpha_list):
+    
+    phase = 0
+    diff_list = []
+    beta_list_red = list(beta_list)
+    alpha_list_red = list(alpha_list)
+    #if len(beta_list) == len(alpha_list):
+    for i in range(0, len(beta_list)):
+        j=0
+        j_found = False
+        while j < len(alpha_list) and j_found == False:
+            #print beta_list[i],i, alpha_list[j],j, diff_list
+            if beta_list[i] == alpha_list[j]:
+                j_found = True
+                alpha_list_red.remove(alpha_list[j])
+                beta_list_red.remove(beta_list[i])
+                #phase = phase+j+len(beta_list)-i-1
+            else:
+                j = j+1
+    diff_list.extend(beta_list_red)
+    diff_list.extend(alpha_list_red)
+
+
+    for i in range(0,len(diff_list)/2):
+    	phase = phase + (list(beta_list).index(diff_list[i]))
+ 
+    for i in range(len(diff_list)/2,len(diff_list)):
+        phase = phase + (list(alpha_list).index(diff_list[i]))
+        
+    phase = (-1)**phase
+
+    #print diff_list, phase
+    
+    return diff_list, phase
+
+\end{lstlisting}
+
 \subsection{Unit tests and benchmarks}
 
 (have not done this?)
@@ -478,6 +519,58 @@ Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ sin
  
  
  
+%------------------------------------------------
+
+
+Example of python code
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import sys
+import matplotlib.pyplot as plt
+
+
+g_list = np.linspace(-1,1,15)
+N = 6
+E = np.zeros(len(g_list))
+
+plt.figure(1)
+for j in range(6):
+    for i in range(len(g_list)):
+
+        g = g_list[i]
+
+        analytical_hamiltonian = -g*np.ones([N,N])
+        np.fill_diagonal(analytical_hamiltonian, 2.-2.*g)
+        np.fill_diagonal(np.rot90(analytical_hamiltonian), 0)
+
+        for n in range(N):
+            analytical_hamiltonian[n,n] += 2*n
+
+        for m in range(5,2,-1):
+            analytical_hamiltonian[m,m] = analytical_hamiltonian[m-1,m-1]
+
+        eigval, eigvec = np.linalg.eigh(analytical_hamiltonian)
+
+        E[i] = eigval[j]
+
+    if j==3:
+        plt.plot(g_list, E, 'kx')
+    else:
+        plt.plot(g_list, E)
+
+
+plt.xlabel('g[A.u]', fontsize=14)
+plt.ylabel('Energy[A.u]', fontsize=14)
+plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
+
+plt.savefig('figures/eigval_vs_g.png')
+#plt.show()
+\end{lstlisting}
+
+
+%------------------------------------------------
+
 
 \section{NuShellX (and NuShellX@MSU)}
 
