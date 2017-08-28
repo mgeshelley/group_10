@@ -309,8 +309,8 @@ We construct our code step by step, keeping in mind that we are interested to de
 
 \item \textbf{Slater determinats} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
-\begin{equation}
-\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
+\begin{equation}\label{binSD}
+d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
 \end{equation}
 
 \begin{lstlisting}[language=Python,caption=\texttt{create\_SD\_perm} uses the Python function \texttt{itertools.combinations(,)} to create all the possible Slater determinants. In the case of pairing model the Slater determinants are restricted to the ones with $\protect{M=0}$ and coupled pairs of single-particle states.]
@@ -506,7 +506,27 @@ def beta_alpha_compare(beta_list, alpha_list):
 \end{lstlisting}
 
 
-\subsection{Unit tests and benchmarks}
+\subsection{Unit tests and debugging}
+
+We have implemented an unit test that run the pairing model for the case we have tested numerically and if it is the same as the one we compute, the code continue to perform the asked calculation.
+[Insert code here].
+
+We spent a lot of time in debugging our sd-shell code. In the following some hints to remember.
+\begin{itemize}
+\item Check that the dimensions of the Hamiltonian matrix are equal to the number of Slater determinants: $dim(H_{ij})=d \times d$ where $d$ is $\#$ of Slater determinants, as in Eq.(\ref{binSD}). This allow to control errors in reading the model space and creating the Slated determinants.
+\item Check that the single-particle energies are read correctly. If we select \texttt{N\_particles} $=1$, we should obtain that the eigenvalues of the Hamiltonian matrix are the single-particle energies with a degeneracy equal to $2j+1$ because in this case the two-body interaction does not contribute.
+\item Check that $H_{ij}$ is a symmetric matrix. If not the first sections of the code to test are the reading routine of the two-body matrix elements and the calculation of the phases.
+\item Perform analysis of the Hamiltonian matrix on a restricted space, for example with \texttt{N\_particles} $=2$ and $M=M_{max}=4$, for which the matrix elements can be calculated by hand and compared with the code results.
+\end{itemize}
+
+\subsection{Considerations}
+
+\begin{itemize}
+\item degeneracy of our solution compared with the solutions at fixed $J$ in NushellX 
+\item properties of the two-body matrix elements for exchanging of two-states
+\end{itemize}
+
+\subsection{Other benchmark}
 
 (have not done this? This text is from the project assignment written by Morten)
 
