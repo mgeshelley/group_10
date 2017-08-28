@@ -152,7 +152,7 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
     sp_matrix:      ndarray,
                     matrix containing the single particle states and the quantum numbers.
                     data organized in the following way, columns labeld as:
-                    index, n, l, 2j, 2mj, 2t_z          
+                    index, n, l, 2j, 2mj, 2t_z         
 
     Returns:
     the file '3s_slater_det.sd'
@@ -192,7 +192,6 @@ def create_SD(N_particles, nr_sp_states, sp_matrix, SD_filename):
 
 def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictions=''): 
 
-    #this function is generalized for arbitrary N_particles
     """
     Writes all the possible slater determinants to a .sd file.
     Every row identifies a different slater determinant.
@@ -208,14 +207,14 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
     sp_matrix:      ndarray,
                 matrix containing the single particle states and the quantum numbers.
                 data organized in the following way, columns labeld as:
-                index, n, l, 2j, 2mj, 2t_z
+                index, n, l, 2j, 2mj
     SD_filename:    string,
             name of the file where to save the Slater Determinants
     restrictions:   string,
             'pair' indicates system with pairs of nucleons (only N_particles even)          
 
     Returns:
-    the file '3s_slater_det.sd'
+    the file SD_filename
 
     """
 
@@ -232,21 +231,24 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
         m_tot = 0
         for k in range (N_particles):
             m_tot = m_tot + sp_matrix[x[k]-1,4]
-
+        #PAIRING CASE
+        # in pairing case only N_particles even is considered
         if restrictions == 'pair':
             if N_particles%2 == 0:
                 pair_bool = 0
+                # check that the single-particle states are in pairs
                 for j in range (0,N_particles,2):
                     if np.array_equal(sp_matrix[x[j]-1,1:3], sp_matrix[x[j+1]-1,1:3]):
                         pair_bool = pair_bool 
                     else:
                         pair_bool = pair_bool +1
+                # check that M=0 and pairs are coupled
                 if m_tot == 0 and pair_bool == 0:
                     index +=1
                     SD_list.append(index)
                     SD_list.extend(list(x))
+        #GENERAL CASE
         else:
-            #if m_tot == 4:
             index +=1
             SD_list.append(index)
             SD_list.extend(list(x))

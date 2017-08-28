@@ -108,6 +108,7 @@
 }
  
 \lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Code}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -305,6 +306,63 @@ We construct our code step by step, keeping in mind that we are interested to de
 \item \textbf{Model space} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
 
 \item \textbf{Slater determinats} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
+The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
+\begin{equation}
+\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
+\end{equation}
+
+\begin{lstlisting}[language=Python,caption=\texttt{create\_SD\_perm} uses the Python function \texttt{itertools.combinations(,)} to create all the possible Slater determinants. In the case of pairing model the Slater determinants are restricted to the ones with $\protect{M=0}$ and coupled pairs of single-particle states.]
+import numpy as np
+import itertools
+
+def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictions=''): 
+    ...
+
+    nr_sp_states = int(nr_sp_states)
+    sp_list = []
+    for i in range(1, nr_sp_states+1):
+        sp_list.append(i)
+    sp_tuple = tuple(sp_list)
+    #print sp_tuple
+    index = 0
+    SD_list = []
+    act_list = []
+    for x in itertools.combinations(sp_tuple, N_particles):
+        m_tot = 0
+        for k in range (N_particles):
+            m_tot = m_tot + sp_matrix[x[k]-1,4]
+        #PAIRING CASE
+        # only N_particles even is considered
+        if restrictions == 'pair':
+            if N_particles%2 == 0:
+                pair_bool = 0
+                # check that the single-particle states are in pairs
+                for j in range (0,N_particles,2):
+                    if np.array_equal(sp_matrix[x[j]-1,1:3], sp_matrix[x[j+1]-1,1:3]):
+                        pair_bool = pair_bool 
+                    else:
+                        pair_bool = pair_bool +1
+                # check that M=0 and pairs are coupled
+                if m_tot == 0 and pair_bool == 0:
+                    index +=1
+                    SD_list.append(index)
+                    SD_list.extend(list(x))
+        #GENERAL CASE
+        else:
+            index +=1
+            SD_list.append(index)
+            SD_list.extend(list(x))
+    
+    nr_SD = index
+    SD_array = np.array(SD_list)
+    SD_states = SD_array.reshape(nr_SD,N_particles+1)
+    ...
+
+\end{lstlisting}
+
+
+%------------------------------------------------
+
 \item \textbf{Hamiltonian matrix} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as sum of one-body Hamiltonian
 
 \begin{equation}
