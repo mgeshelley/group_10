@@ -508,8 +508,51 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 \subsection{Unit tests and debugging}
 
-We have implemented an unit test that run the pairing model for the case we have tested numerically and if it is the same as the one we compute, the code continue to perform the asked calculation.
-[Insert code here].
+We have implemented an unit test that run the pairing model for the case we have derived analytically in Sec.\ref{sec:pair}. If the hamiltonian built by our routine is the same as the analytical one, matrix element per matrix element, the code moves to perform the asked calculation.
+
+\begin{lstlisting}[language=Python, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix]
+def unit_test_hamiltonian_pairing():
+    ... 
+    # numerical hamiltonian
+    ...
+    numerical_hamiltonian = np.zeros((nr_SD_Utest, nr_SD_Utest))
+    numerical_hamiltonian_1body = np.zeros((nr_SD_Utest, nr_SD_Utest))
+    numerical_hamiltonian_2body = np.zeros((nr_SD_Utest, nr_SD_Utest))
+    numerical_hamiltonian_1body = Hamiltonian_one_body(N_Utest, nr_sp_states_Utest, sp_matrix_Utest, SD_filename_Utest)
+    numerical_hamiltonian_2body = Hamiltonian_two_body(N_Utest, nr_sp_states_Utest, SD_filename_Utest, tbme_filename_Utest, 'pairing')
+
+    numerical_hamiltonian = numerical_hamiltonian_1body+numerical_hamiltonian_2body
+
+    #analytical hamiltonian
+    dim = 6
+    
+    analytical_hamiltonian = -g_Utest/2.*np.ones([dim,dim])
+    np.fill_diagonal(analytical_hamiltonian, 2.-2.*g_Utest/2.)
+    np.fill_diagonal(np.rot90(analytical_hamiltonian), 0)
+
+    for n in range(dim):
+        analytical_hamiltonian[n,n] += 2*n
+
+    for m in range(5,2,-1):
+        analytical_hamiltonian[m,m] = analytical_hamiltonian[m-1,m-1]
+
+    unit_test = np.array_equal(numerical_hamiltonian, analytical_hamiltonian)
+
+    if not unit_test:
+        print "\nERROR IN UNIT TEST: The numerical and analytical hamiltonian matrix are not equal!\n"
+        print 'The numerical hamiltonian matrix (shape):'
+        print np.shape(numerical_hamiltonian)
+        print numerical_hamiltonian
+        print '\n'
+        print 'The analytical hamiltonian matrix (shape):'
+        print np.shape(numerical_hamiltonian)
+        print analytical_hamiltonian
+        print '\n'
+        sys.exit()
+        
+    if unit_test:
+        print "UNIT TEST COMPLETED: Hamiltonian matrix set up correctly.\n"
+\end{lstlisting}
 
 We spent a lot of time in debugging our sd-shell code. In the following some hints to remember.
 \begin{itemize}

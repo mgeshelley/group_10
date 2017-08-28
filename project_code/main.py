@@ -106,6 +106,17 @@ tbme_filename = 'table_files/sd_mscheme.int'
 restriction = 'no'
 '''
 print("\n...calculating...\n")
+
+##############################################################
+# Uncomment here to demonstrate the unit test:
+
+##############################################################
+# Test if the hamiltonian is correct for the pairing problem:
+
+unit_test_hamiltonian_pairing()
+
+##############################################################
+
 # read sp_basis from file .sp
 sp_matrix = read_sd_basis(sp_basis_filename)
 nr_sp_states = np.shape(sp_matrix)[0]
@@ -134,17 +145,7 @@ hamiltonian_2body = Hamiltonian_two_body(N_particles, nr_sp_states, SD_filename,
 
 hamiltonian_total = hamiltonian_1body+hamiltonian_2body
 
-##############################################################
-# Uncomment here to demonstrate the unit test:
-##############################################################
-#hamiltonian_total[0,1] = 100
 
-##############################################################
-# Test if the hamiltonian is correct for the pairing problem:
-
-#unit_test_hamiltonian_pairing(N_particles, g, hamiltonian_total)
-
-##############################################################
 # Finding the eigenvalues and eigenvectors
 eigval, eigvec = np.linalg.eigh(hamiltonian_total)
 
