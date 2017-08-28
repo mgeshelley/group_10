@@ -110,6 +110,8 @@
 \lstset{style=mystyle}
 \renewcommand{\lstlistingname}{Code}
 
+\usepackage{cancel}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -420,9 +422,7 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
 \subsection{Phase and counting the difference between the Slater determinants}
-[I will write it]
 
-<<<<<<< HEAD
 It is interesting to point out the physics behind the set-up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$.
 We assume $\ket{\Phi_0}$ as an ansatz for the ground state and we consider the other Slater determinants $\ket{\Phi_i}$ as particle-hole (p-h), two particles- two holes (2p-2h), ... excitations of the ground state.
 In this formalism 
@@ -448,7 +448,7 @@ Using Wick's contractions we can calculate the expectation values of the Hamilto
 \begin{equation}
 \bra{\Phi_0} \hat H \ket{\Phi_i^a} =  \cancel{\langle i \vert \hat h_0 \vert a \rangle} +  \sum_{j \leq F} \langle i j\vert \hat v \vert aj \rangle_{AS} \; 
 \end{equation}
-where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particles states are orthogonal;
+where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particles states are orthogonal,
 \begin{equation}
 \bra{\Phi_0} \hat H \ket{\Phi_{ij}^{ab}} =  \langle i j\vert \hat v \vert ab \rangle_{AS}
 \end{equation}
@@ -460,7 +460,7 @@ where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more 
 
 Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
 
-\begin{lstlisting}[language=Python,caption=\texttt{beta\_alpha\_compare} is a function in module \texttt{compare.py} that make a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
+\begin{lstlisting}[language=Python,caption=\texttt{beta\_alpha\_compare} is a function in module \texttt{compare.py} that makes a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
 
 
 def beta_alpha_compare(beta_list, alpha_list):
@@ -500,8 +500,7 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 \end{lstlisting}
 
-=======
->>>>>>> 7bd4c12d9b6d63ef729cf00a8fe81edfeb0ab71a
+
 \subsection{Unit tests and benchmarks}
 
 (have not done this? This text is from the project assignment written by Morten)
