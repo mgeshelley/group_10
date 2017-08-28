@@ -381,10 +381,6 @@ $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized
 \end{itemize}
 
 
-[???Include which are the combination of matrix elements that are not null???].
-
-
-
 \subsection{The structure of the code}
 
 The code is organized into blocks of code stored in separate files that performs different tasks. The files needed to run the shell model code is:
@@ -421,7 +417,7 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 \begin{center}\texttt{python main.py}\end{center} 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
-\subsection{Phase and counting the difference between the Slater determinants}
+\subsection{Non-zero Hamiltonian matrix elements and their phase}
 
 It is interesting to point out the physics behind the set-up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$.
 We assume $\ket{\Phi_0}$ as an ansatz for the ground state and we consider the other Slater determinants $\ket{\Phi_i}$ as particle-hole (p-h), two particles- two holes (2p-2h), ... excitations of the ground state.
@@ -441,15 +437,15 @@ where the particle index is $a > F$ and the hole index is $i \leq F$, and a 2p-2
 where $a,b > F$ while $i,j \leq F$.
 
 Using Wick's contractions we can calculate the expectation values of the Hamiltonian operators among the states just built:
-\begin{equation}
+\begin{equation}\label{h00}
 \bra{\Phi_0} \hat H \ket{\Phi_0} = \sum_{i \leq F} \langle i \vert \hat h_0 \vert i \rangle + \frac{1}{2} \sum_{i,j \leq F} \langle i j\vert \hat v \vert ij \rangle_{AS} 
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{h0a}
 \bra{\Phi_0} \hat H \ket{\Phi_i^a} =  \cancel{\langle i \vert \hat h_0 \vert a \rangle} +  \sum_{j \leq F} \langle i j\vert \hat v \vert aj \rangle_{AS} \; 
 \end{equation}
 where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particles states are orthogonal,
-\begin{equation}
+\begin{equation}\label{h0ab}
 \bra{\Phi_0} \hat H \ket{\Phi_{ij}^{ab}} =  \langle i j\vert \hat v \vert ab \rangle_{AS}
 \end{equation}
 
@@ -460,9 +456,18 @@ where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more 
 
 Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
 
-\begin{lstlisting}[language=Python,caption=\texttt{beta\_alpha\_compare} is a function in module \texttt{compare.py} that makes a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
+In our Code \ref{compare}, we compare the content of single-particle states in $\bra{\Phi_i}$ and $\ket{\Phi_j}$, we store a list ($diff$) of the levels that are different and their position in the Slater determinant. The list is read by the routine that calculate the Hamiltonian matrix. The lenght of the list select the non-zero contributions due to Eq.s(\ref{h00}),(\ref{h0a}) and (\ref{h0ab}). The labels of the levels determine the one-body and two-body matrix elements to be added. 
 
-
+The indices of the position of each levels in the respective Slater determinant, $position(\hat a_{k}^\dagger)$, control the phase of the Hamiltonian matrix element:
+\begin{equation}
+phase(H_{ij}) = (-1)^{phase(diff)} 
+\end{equation}
+where
+\begin{equation}
+phase(diff)=\sum_{k \in diff} position(\hat a_{i_k})+\sum_{m \in diff} position(\hat a_{j_m}^\dagger).
+\end{equation}
+The phase is obtained considering the anticommutation rules of the fermionic annihilation and creation operators that are involved in the Wick's contractions.
+\begin{lstlisting}[language=Python,label=compare, caption=\texttt{beta\_alpha\_compare} is a function in module \texttt{compare.py} that makes a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
 def beta_alpha_compare(beta_list, alpha_list):
     
     phase = 0
@@ -520,61 +525,6 @@ Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ sin
 \subsection{Challenges and proposed solutions / Future work(?)}
 
  something about the accuracy of our code somewhere here?
- 
- 
-<<<<<<< HEAD
- 
-%------------------------------------------------
-
-
-Example of python code
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-import sys
-import matplotlib.pyplot as plt
-
-
-g_list = np.linspace(-1,1,15)
-N = 6
-E = np.zeros(len(g_list))
-
-plt.figure(1)
-for j in range(6):
-    for i in range(len(g_list)):
-
-        g = g_list[i]
-
-        analytical_hamiltonian = -g*np.ones([N,N])
-        np.fill_diagonal(analytical_hamiltonian, 2.-2.*g)
-        np.fill_diagonal(np.rot90(analytical_hamiltonian), 0)
-
-        for n in range(N):
-            analytical_hamiltonian[n,n] += 2*n
-
-        for m in range(5,2,-1):
-            analytical_hamiltonian[m,m] = analytical_hamiltonian[m-1,m-1]
-
-        eigval, eigvec = np.linalg.eigh(analytical_hamiltonian)
-
-        E[i] = eigval[j]
-
-    if j==3:
-        plt.plot(g_list, E, 'kx')
-    else:
-        plt.plot(g_list, E)
-
-
-plt.xlabel('g[A.u]', fontsize=14)
-plt.ylabel('Energy[A.u]', fontsize=14)
-plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
-
-plt.savefig('figures/eigval_vs_g.png')
-#plt.show()
-\end{lstlisting}
-
-
-%------------------------------------------------
 
 
 \section{NuShellX (and NuShellX@MSU)}
