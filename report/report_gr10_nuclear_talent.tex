@@ -110,7 +110,6 @@
 \lstset{style=mystyle}
 \renewcommand{\lstlistingname}{Code}
 
-\usepackage{cancel}
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -380,6 +379,8 @@ $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized
 \end{itemize}
 
 
+[???Include which are the combination of matrix elements that are not null???].
+
 
 
 \subsection{The structure of the code}
@@ -419,7 +420,9 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
 \subsection{Phase and counting the difference between the Slater determinants}
+[I will write it]
 
+<<<<<<< HEAD
 It is interesting to point out the physics behind the set-up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$.
 We assume $\ket{\Phi_0}$ as an ansatz for the ground state and we consider the other Slater determinants $\ket{\Phi_i}$ as particle-hole (p-h), two particles- two holes (2p-2h), ... excitations of the ground state.
 In this formalism 
@@ -497,9 +500,11 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 \end{lstlisting}
 
+=======
+>>>>>>> 7bd4c12d9b6d63ef729cf00a8fe81edfeb0ab71a
 \subsection{Unit tests and benchmarks}
 
-(have not done this?)
+(have not done this? This text is from the project assignment written by Morten)
 
 One obvious case is that of removing the two-body interaction. Then we have only the single-particle energies. For the case of degenerate single-particle orbits, that is one value of total single-particle angular momentum only $j$, with degeneracy $\Omega = 2j + 1$, one can show that the ground state energy $E_0$ is with $n$ particles
 
@@ -518,6 +523,7 @@ Enlarge now your system to six and eight fermions and to $p = 6$ and $p = 8$ sin
  something about the accuracy of our code somewhere here?
  
  
+<<<<<<< HEAD
  
 %------------------------------------------------
 
@@ -573,15 +579,22 @@ plt.savefig('figures/eigval_vs_g.png')
 
 
 \section{NuShellX (and NuShellX@MSU)}
+=======
+ \section{NuShellX (and NuShellX@MSU)}
+>>>>>>> 7bd4c12d9b6d63ef729cf00a8fe81edfeb0ab71a
 
-NushellX is a code developed by W. D. M. Rae [ref] that provides an powerful tool for nuclear structure calculations. With this code one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states in shell-model Hamiltonian matrix calculations with very large basis dimensions (write this sentence better ?). A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay.
+NushellX is a code developed by W. D. M. Rae [ref] that provides an powerful tool for nuclear structure calculations. With this code one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states in shell-model Hamiltonian matrix calculations with very large basis dimensions (write this sentence better ?). A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. See fig..?
 
 NuShellX uses the m-scheme and jj-coupling. It is written in pn-formalism; it uses a J-coupled proton-neutron the basis, the states for protons and neutrons are created separately. The code can consider J-scheme matrix dimensions of up to the order of a 100 million. To take take advantage of many cores in modern computers OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop. 
 
+The major disadvantage of NuShellX is that it is very easy to produce unrealistic or inappropriate calculations. Calculations in an infinite space are not possible and therefore some truncation is required. Ideally one would like to do calculations in the largest possible model spaces, but this is not desirable since the computational time increases exponentially with model space size. Generally one can say that the best and most complete results are found with the largest model spaces, but the computational power and time limits this wish. 
+
+Another challenge when running shell model calculations is that the chosen interaction must be appropriate for the model space. Even though the calculation in the full model space may be too computationally intensive, it may also be inappropriate for the interaction! 
+
+Summing up, to run a shell model calculation two major decisions have to be made: which interaction and which truncation? In NuShellX only subshell truncations can be made. We can only limit the number of protons (neutrons) in a given orbital. We cannot restrict the total number of nucleons in a given orbital since protons and neutrons are treated separately. 
 
 
 
-BUT it is very easy to produce unrealistic or inappropriate calculations
 
 
 
@@ -596,13 +609,6 @@ how to use the code
 our results
 
 
-
-Calculations in an infinite space are not possible – some truncation is required
--Generally, the best and most complete results are found with the largest model spaces... But the computation time increases exponentially with model space size...... And an the interaction used must be appropriate for the model space ...
-... And empirical interactions are (usually) better determined for smaller model spaces (fewer TBME)
-Calculations in the full model space may be too computationally intensive OR inappropriate for the interaction-->Truncatethemodelspacetomakecalculations feasible
-
-Only subshell truncations are possible in NuShellX – limit numbers of protons (neutrons) in a given orbital. Cannot restrict the total number of nucleons in a given orbital (proton and neutrons are treated separately)
 
 
 
@@ -620,9 +626,6 @@ Only subshell truncations are possible in NuShellX – limit numbers of protons 
 
 reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf
 (and references within)
-
-
-
 
 
 
