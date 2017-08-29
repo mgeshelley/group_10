@@ -133,9 +133,9 @@
 
 \affil[2]{Department of Physics, University of Oslo,  {\textit {\ \href{mailto:i.k.b.kullmann@fys.uio.no}{i.k.b.kullmann@fys.uio.no} }}}
 
-\affil[3] {Department of FILL IN, \LaTeX\ University, \textit {\href{mailto:youremail@edu.com}{youremail@edu.com} }}
+\affil[3] {Department of Physics, University of York, \textit {\href{mailto:mges501@york.ac.uk}{mges501@york.ac.uk} }}
 
-\affil[4] {Department of FILL IN, \LaTeX\ University, \textit {\href{mailto:youremail@edu.com}{youremail@edu.com} }}
+\affil[4] {Department of Physics, National University of Athens, \textit {\href{mailto:gilahn@phys.uoa.gr}{gilahn@phys.uoa.gr} }}
 
 
 % another way of doing the authors:
@@ -287,13 +287,6 @@ The Hamiltonian matrix becomes
 In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}.
 
 We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
-
-
-\subsection{Analytic results}
-
-
-are there more analytic results that we used to benchmark the code?
-
 
 %------------------------------------------------
 
@@ -562,12 +555,79 @@ We spent a lot of time in debugging our sd-shell code. In the following some hin
 \item Perform analysis of the Hamiltonian matrix on a restricted space, for example with \texttt{N\_particles} $=2$ and $M=M_{max}=4$, for which the matrix elements can be calculated by hand and compared with the code results.
 \end{itemize}
 
-\subsection{Considerations}
+\subsection{Further considerations}
 
-\begin{itemize}
-\item degeneracy of our solution compared with the solutions at fixed $J$ in NushellX 
-\item properties of the two-body matrix elements for exchanging of two-states
-\end{itemize}
+In our code we have explicitly implemented the symmetries of the two-body matrix elements for exchanging of two states. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
+\begin{equation}
+\bra{ab} \hat v \ket{cd} = -\bra{ab} \hat v \ket{dc}= -\bra{ba} \hat v \ket{cd}= \bra{ba} \hat v \ket{dc}
+\end{equation}
+according to the antisymmetrization rules for fermionic states. Moreover in the case of usdb matrix elements a correction to the mass is automatically added to every matrix elements
+\begin{equation}
+mass_{corr} = \left(\frac{18}{16+n} \right)^{0.3}
+\end{equation}
+where $n$ is the number of valence particles.
+\\
+
+In the case of sd-model space, we have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to different value of $M$ but same $J$. When we compare our results with NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$ depends only on $J$ and not on its z-projection.
+
+For example, from the output of default inputs, in Code \ref{eigenvalues}, we can see that -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
+
+A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and appling Wick's theorem.
+
+\begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
+Default inputs: 
+N_particles = 4 
+case = sd 
+
+...calculating...
+
+UNIT TEST COMPLETED: Hamiltonian matrix set up correctly.
+
+model space sd
+Number of particles (neutrons): 4
+
+
+Eigenvalues:
+[-23.632 -21.886 -21.886 -21.886 -21.886 -21.886 -20.013 -20.013 -20.013
+ -20.013 -20.013 -20.013 -20.013 -20.013 -20.013 -19.478 -19.478 -19.478
+ -19.478 -19.478 -18.518 -18.518 -18.518 -18.475 -18.475 -18.475 -18.475
+ -18.475 -18.363 -18.363 -18.363 -18.363 -18.363 -18.363 -18.363 -18.363
+ -18.363 -18.280 -18.280 -18.280 -18.280 -18.280 -18.280 -18.280 -18.254
+ -16.248 -16.248 -16.248 -16.248 -16.248 -16.248 -16.248 -16.248 -16.248
+ -16.163 -16.163 -16.163 -16.163 -16.163 -16.163 -16.163 -16.163 -16.163
+ -16.163 -16.163 ...]
+
+
+Eigenvectors:
+[[-0.00  0.00 -0.00 ..., -0.00 -0.00 -0.00]
+ [-0.00 -0.00  0.00 ..., -0.00  0.00 -0.00]
+ [ 0.07  0.01 -0.00 ..., -0.00  0.00 -0.04]
+ ..., 
+ [ 0.00  0.00  0.48 ..., -0.00 -0.00  0.00]
+ [ 0.00  0.00 -0.00 ..., -0.00  0.00  0.00]
+ [-0.00  0.00 -0.00 ..., -0.00  0.00 -0.00]]
+\end{lstlisting}
+
+\begin{lstlisting}[label=nushellx, caption= \texttt{o\_20b.lpt} output from NushellX.]
+
+a =  20 z =  8
+usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3000
+
+  N    NJ     E(MeV)  Ex(MeV)  J    T_z  p  lowest Ex      name
+    1    1    -23.632   0.000  0    2    1   0.000     bb0400.lpe          
+    2    1    -21.886   1.746  2    2    1   1.746     bb0404.lpe          
+    3    1    -20.013   3.619  4    2    1   3.619     bb0408.lpe          
+    4    2    -19.478   4.154  2    2    1             bb0404.lpe          
+    5    1    -18.518   5.114  1    2    1   5.114     bb0402.lpe          
+    6    3    -18.475   5.157  2    2    1             bb0404.lpe          
+    7    2    -18.363   5.269  4    2    1             bb0408.lpe          
+    8    1    -18.280   5.352  3    2    1   5.352     bb0406.lpe          
+    9    2    -18.254   5.378  0    2    1             bb0400.lpe          
+   10    3    -16.248   7.384  4    2    1             bb0408.lpe          
+   11    1    -16.163   7.469  5    2    1   7.469     bb040a.lpe          
+   12    4    -15.455   8.177  2    2    1             bb0404.lpe
+   ...
+\end{lstlisting}
 
 \subsection{Other benchmark}
 
@@ -736,8 +796,10 @@ reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.1
 %\newblock {\em Human Nature}, 20:317--330.
 
 \bibitem[Github of the TALENT School][ MHJ and Alex Brown
-\newblock {\em link goes here},
- 
+\newblock {\em https://github.com/NuclearTalent/NuclearStructure}
+\bibitem[usdb 2006]{Brown 2006} B. Alex Brown and W. A. Richter,Phys. Rev. C \textbf{74} (2006) 034315
+\newblock {\em https://journals.aps.org/prc/abstract/10.1103/PhysRevC.74.034315}
+
 \end{thebibliography}
 
 %----------------------------------------------------------------------------------------
