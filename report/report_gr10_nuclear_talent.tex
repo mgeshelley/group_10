@@ -302,7 +302,7 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 NushellX is a code developed by W. D. M. Rae [ref] that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states. In this section we will obtain energies (and eigenvectors?) using NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
-NuShellX uses the m-scheme and jj-coupling. It is written in pn-formalism; it uses a J-coupled proton-neutron the basis, the states for protons and neutrons are created separately. The code can consider J-scheme matrix dimensions of up to the order of a 100 million. To take take advantage of many cores in modern computers OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop.  [some of these sentences needs rewriting, Gianluca, maybe you know how to write this with same wording as above sections?]
+NuShellX uses the m-scheme and jj-coupling. It is written in pn-formalism; it uses a J-coupled proton-neutron the basis, the states for protons and neutrons are created separately. The code can consider J-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop.  [some of these sentences needs rewriting, Gianluca, maybe you know how to write this with same wording as above sections?]
 
 The major disadvantage of NuShellX is that it is very easy to produce unrealistic or inappropriate results. Calculations in an infinite space are not possible and therefore some truncation is required. Ideally one would like to do calculations in the largest possible model spaces and one can argue that the best and most complete results are found with the largest model spaces. The major issue is that the computational time increases exponentially with model space size, so the wish for large model spaces are limited by the computational power and time available. When doing a calculation it may be useful to first truncate severely and quickly get a first crude result. Then one can later relax the truncations until the desired accuracy is reached. 
 
@@ -329,38 +329,35 @@ Another challenge when running shell model calculations is that the chosen inter
 
 The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see [ref help file]
 
-\paragraph{Benchmark results from NuShellX.} The goal of our project was to create a mini-version of the NuxhellX code and use the NushellX code to test our own code when going beyond the pairing model. We have only described the NuShellX calculations we used to benchmark our code in this report. [mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
+\paragraph{Benchmark results from NuShellX.} The goal of our project was to create a basic version of a shell model code and use the NushellX code to test it when going beyond the pairing model. We have only described the NuShellX calculations we used to benchmark our code in this report. [mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
 
-We have calculated the excitation energies of 18O (and 18F ?). We have used an effective interaction designed for the 1s0d shell (USDA and USDB in the NushellX directory) [did we use both?] 
-
-
-In fig [] we see the sepctra of 18O....
+We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $^{17}$O to $^{28}$O included, using the $usdb$ effective interaction optimized for the 1s0d shell. In this environment it is also possible to compare the theoretical results with the experimental available values and the agreement is good, as in Figure \ref{expnushellx}.
 
 
-
-[Insert the results of the NuShellX used to compare with our code. Do we have the plots or do we just 'borrow' from group 6?] \\
-
-[Did we compare the spectra with available data? Or does NuShellX do that already?] \\
-
-
-
-
-
-
-
+\begin{figure}[h]
+\begin{center}$
+\begin{array}{c c}
+\includegraphics[scale=.4]{o_18b.eps} &\includegraphics[scale=.4]{o_20b.eps} 
+\end{array}$
+\end{center}
+\caption{ Example of calculation done with NushellX for $^{18}$O and $^{20}$O and the relative experimental values. The agreement is good especially for the lowest excited states.}
+\label{expnushellx}
+\end{figure}
 
 
-
+We can make a comparison between our code and NushellX with $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code correspond to varying the number of neutrons on top of the $^{16}$O core. In Figure \ref{fig: isotopes} we can see that the values are identical. This plot is interesting because it show that increasing the number of neutron the system become more bound (g.s. energy decrease) until valence neutron = 8 ($^{24}$O) and then increases sligthly. It means that the neutron separation energy $S_n$ becomes negative and the system is not anymore bound. 
+ 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1.\textwidth]{isotopes.pdf}
+\caption{Comparison between NushellX and our code energy levels for the Oxygen isotopes. The $J$ value of the ground state is shown for each isotope}
+\label{fig: isotopes}
+\end{figure}
 
 reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf
 (and references within)
 
 ref: help/help.pdf
-
-
-
-
-
 
 
 %------------------------------------------------
