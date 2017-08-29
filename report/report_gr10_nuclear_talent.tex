@@ -315,7 +315,7 @@ Another challenge when running shell model calculations is that the chosen inter
 \label{fig: nushellx_struct}
 \end{figure}
 
-A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} from [ref] we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
+\paragraph{Running a NuShellX calculation.} A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} from [ref] we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
 
 \begin{itemize}
 \item the batch file name
@@ -328,7 +328,6 @@ A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapp
 \end{itemize}
 
 The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see [ref help file]
-
 
 \paragraph{Benchmark results from NuShellX.} The goal of our project was to create a mini-version of the NuxhellX code and use the NushellX code to test our own code when going beyond the pairing model. We have only described the NuShellX calculations we used to benchmark our code in this report. [mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
 
