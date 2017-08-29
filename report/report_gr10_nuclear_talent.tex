@@ -368,11 +368,11 @@ ref: help/help.pdf
 
 \section{Building the shell model code}
 
-Applying the technique we learned from the pairig model in section \ref{sec:pair}, we want to extend our code to perform shell model calculation. In the specific case we build a working shell model code to describe the $O$ isotopes within the $sd$ model space. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
+In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in section \ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our goal is to describe the specific case of the $O$ isotopes within the $sd$ model space. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
 
 \subsection{The structure of the code}
 
-We construct our code step by step, keeping in mind that we are interested to describe a system with $N$ particles in the valence space. The code is organized into blocks of code stored in separate files that performs different tasks. The files needed to run the shell model code is:
+We construct our shell-model code step by step, keeping in mind that we are interested to describe a system with $N$ particles in the valence space. The code is organized into blocks of code, or modules, stored in separate files that performs different tasks. The files needed to run the shell-model code is:
 \begin{itemize}
 \item \texttt{main.py}
 \item \texttt{create\_table\_files.py}
