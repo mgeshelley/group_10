@@ -30,6 +30,8 @@
 
 \usepackage[english]{babel} % Language hyphenation and typographical rules
 
+\usepackage{parskip}
+
 \usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
 \usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
 \usepackage{booktabs} % Horizontal rules in tables
@@ -191,7 +193,7 @@ and found that.....results...
 \section{The pairing problem}
 \label{sec:pair} 
 
-The starting point is a pairing model: the system consists of fermions combined together in pairs of two, one with spin up and one with spin down. The assumption is that the 'breaking of pairs' is not allowed, i.e. the pairs of particles always will be coupled together, forming states with $J$=0. Of consequences the excited states are obtained from the excitation of two particles at the same time. \\
+The starting point is a pairing model: our system consists of fermions combined together in pairs of two, one with spin up and one with spin down. The assumption is that the 'breaking of pairs' is not allowed, i.e. the pairs of particles will always be coupled together, forming states with $J$=0. Of consequences the excited states are obtained from the excitation of two particles at the same time. \\
 \\
 The physics of this system can be described by an Hamiltonian $\hat H$ consisting of an unperturbed one-body operator $\hat H_0$ and a two-body pertubation $\hat V $ defined as 'pairing potential': $\hat H = \hat H_0 + \hat V$. In second quantization we can write:
 
@@ -216,7 +218,7 @@ where it is explicitly shown that for a given matrix element $\langle pq \vert \
 Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
 
 
-\paragraph{Constructing the Hamiltonian matrix}
+\paragraph{Constructing the Hamiltonian matrix.}
 
 We are now interested to consider a system consisting of only four particles to calculate its exact analytic solution as benchmark for our shell-model code. The single-particle space is constructed by the four lowest levels with single-particle level energies $\epsilon_p = 1, 2, 3, 4$. Every level $\epsilon_p$ contains two particles, one with spin up $\vert p+ \rangle$ and one with spin down $\vert p- \rangle$. 
 
@@ -284,23 +286,58 @@ The Hamiltonian matrix becomes
 \label{fig: g_vs_eigval}
 \end{figure}
 
-In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}.
-
-We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
+In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}. We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
 %------------------------------------------------
 
 
 \section{Building the shell model code}
 
-Appling the technique we learned from the pairig model in section \ref{sec:pair}, we want to extend our code to perform shell model calculation. In the specific case we build a working shell model code to describe the $O$ isotopes within the $sd$ model space. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
+Applying the technique we learned from the pairig model in section \ref{sec:pair}, we want to extend our code to perform shell model calculation. In the specific case we build a working shell model code to describe the $O$ isotopes within the $sd$ model space. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
 
-We construct our code step by step, keeping in mind that we are interested to describe a system with $N$ particles in the valence space.
+\subsection{The structure of the code}
+
+We construct our code step by step, keeping in mind that we are interested to describe a system with $N$ particles in the valence space. The code is organized into blocks of code stored in separate files that performs different tasks. The files needed to run the shell model code is:
+\begin{itemize}
+\item \texttt{main.py}
+\item \texttt{create\_table\_files.py}
+\item \texttt{read\_files.py}
+\item \texttt{unit\_tests.py} 
+\item \texttt{ham.py} 
+\item \texttt{input\_func.py}
+\end{itemize}
+
+The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
+
+\begin{enumerate}
+\item Import files (modules)
+\item Ask user to provide inputs on the command line. The only inputs needed are
+\begin{itemize}
+\item \texttt{N\_particles} - number of valence particles (neutrons) 
+\item \texttt{case} - model space 'sd' (or 'pairing')
+\item \texttt{g} - strenght of the pairing (needed only in 'pairing' case)
+\end{itemize}
+\item Read the single-particle basis
+\item Create all the possible the Slater Determinants
+\item Read and store the two-body matrix elements (tbme). In the case 'pairing', create all the non-zero pairing matrix elements according to the given strenght $g$.
+\item Build the total Hamiltonian matrix from the one- and two-body terms
+\item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
+\item Print the eigenvalues and eigenvectors of the problem
+\end{enumerate}
+
+
+%NOT TRUE ANYMORE Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
+
+\noindent \textbf{To run the code} one simply runs the program typing from terminal
+\begin{center}\texttt{python main.py}\end{center} 
+and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
+
+\paragraph{Need some sort of header or sentence here before the four bullet points below ('details' or something, or a subsection with a name?):}
 
 \begin{itemize}
-\item \textbf{Model space} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
+\item \textbf{Model space:} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
 
-\item \textbf{Slater determinats} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
+\item \textbf{Slater determinats:} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
 \begin{equation}\label{binSD}
 d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
@@ -358,7 +395,7 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
 
 %------------------------------------------------
 
-\item \textbf{Hamiltonian matrix} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as sum of one-body Hamiltonian
+\item \textbf{Hamiltonian matrix:} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as sum of one-body Hamiltonian
 
 \begin{equation}
 \hat H_0 =  \sum_{p,q} \langle p \vert \hat h_0 \vert q \rangle \hat a_{p}^\dagger \hat a_{q},
@@ -370,45 +407,9 @@ and two-body interaction
 \hat V = \frac{1}{4} \sum_{p,q,r,s} \langle p q\vert \hat v \vert rs \rangle_{AS} \;\hat a_{p}^\dagger \hat a_{q}^\dagger \hat a_{s} \hat a_{r}.
 \end{equation}
 $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} for the interaction $usdb$ optimized in the $sd$-model space.
-\item \textbf{Diagonalization} The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
+\item \textbf{Diagonalization:} The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
 \end{itemize}
 
-
-\subsection{The structure of the code}
-
-The code is organized into blocks of code stored in separate files that performs different tasks. The files needed to run the shell model code is:
-\begin{itemize}
-\item \texttt{main.py}
-\item \texttt{create\_table\_files.py}
-\item \texttt{read\_files.py}
-\item \texttt{unit\_tests.py} 
-\item \texttt{ham.py} 
-\item \texttt{input\_func.py}
-\end{itemize}
-
-The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
-
-\begin{enumerate}
-\item Import files (modules)
-\item Ask user to provide inputs on the command line. The only inputs needed are
-\begin{itemize}
-\item \texttt{N\_particles} - number of valence particles (neutrons) 
-\item \texttt{case} - model space 'sd' (or 'pairing')
-\item \texttt{g} - strenght of the pairing (needed only in 'pairing' case)
-\end{itemize}
-\item Read the single-particle basis
-\item Create all the possible the Slater Determinants
-\item Read and store the two-body matrix elements (tbme). In the case 'pairing', create all the non-zero pairing matrix elements according to the given strenght $g$.
-\item Build the total Hamiltonian matrix from the one- and two-body terms
-\item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
-\item Print the eigenvalues and eigenvectors of the problem
-\end{enumerate}
-
-%NOT TRUE ANYMORE Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
-
-\paragraph{To run the code} one simply runs the program typing from terminal
-\begin{center}\texttt{python main.py}\end{center} 
-and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
 \subsection{Non-zero Hamiltonian matrix elements and their phase}
 
@@ -501,7 +502,7 @@ def beta_alpha_compare(beta_list, alpha_list):
 
 \subsection{Unit tests and debugging}
 
-We have implemented an unit test that run the pairing model for the case we have derived analytically in Sec.\ref{sec:pair}. If the hamiltonian built by our routine is the same as the analytical one, matrix element per matrix element, the code moves to perform the asked calculation.
+We have implemented an unit test that run the pairing model for the case we have derived analytically in Sec.\ref{sec:pair}. If the hamiltonian built by our routine is the same as the analytic one, matrix element per matrix element, the code moves to perform the asked calculation. If the numerical and analytic hamiltonian do not match the code will be exited with an error message.  
 
 \begin{lstlisting}[language=Python, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix]
 def unit_test_hamiltonian_pairing():
@@ -572,7 +573,7 @@ In the case of sd-model space, we have built our basis of Slater determinats wit
 
 For example, from the output of default inputs, in Code \ref{eigenvalues}, we can see that -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
 
-A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and appling Wick's theorem.
+A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem.
 
 \begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
 Default inputs: 
