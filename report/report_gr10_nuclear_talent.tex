@@ -387,12 +387,12 @@ We construct our shell-model code step by step, keeping in mind that we are inte
 \end{itemize}
 \smallskip
 
-The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is listed below, we will refer to this list and the numbering later in the text:
+The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is listed\footnote{We refer to this 'structure list' and its numbering later in the text} below:
 
 \begin{tcolorbox}
 \begin{enumerate}
 \item Import files (modules)
-\item Ask user to provide inputs on the command line. The only inputs needed are \label{list: user_input}
+\item Ask user to provide input on the command line. The only inputs needed are \label{list: user_input}
 \begin{itemize}
 \item \texttt{N\_particles} - number of valence particles (neutrons) 
 \item \texttt{case} - model space 'sd' (or 'pairing')
@@ -411,7 +411,7 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 
 \smallskip
 
-\noindent \textbf{To run the code} one simply runs the program typing from terminal
+\noindent \textbf{To run the code} one simply type the following into the terminal
 \begin{center}\texttt{python main.py}\end{center} 
 and the program will interactively ask the user for input in the terminal (point \ref{list: user_input}). The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
