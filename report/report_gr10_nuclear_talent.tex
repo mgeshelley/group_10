@@ -477,8 +477,10 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
 
 \end{lstlisting}
 
+\subsection{The Hamiltonian matrix and the diagonalization}
 
-\paragraph{The Hamiltonian matrix.} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as a sum of the one-body Hamiltonian
+%\paragraph{The Hamiltonian matrix.} 
+We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as a sum of the one-body Hamiltonian
 
 \begin{equation}
 \hat H_0 =  \sum_{p,q} \langle p \vert \hat h_0 \vert q \rangle \hat a_{p}^\dagger \hat a_{q},
@@ -495,7 +497,8 @@ where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymme
 
 [also, should we mention how we are using the same approach as for the pairing model to build the hamiltonian?]
 
-\paragraph{Diagonalization.} The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
+%\paragraph{Diagonalization.} 
+The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
 
 
 
