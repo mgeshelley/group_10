@@ -202,7 +202,9 @@ and found that.....results...
 
 The starting point for our shell-model code is a pairing model: the system consists of fermions combined together in pairs of two, one with spin up and one with spin down. In this section we will calculate the analytic results of the pairing model that was used to validate our shell-model code at an early stage in the development. The assumption in this model is that the 'breaking of pairs' is not allowed, i.e. the pairs of particles will always be coupled together, forming states with $J$=0. Of consequences the excited states are obtained from the excitation of two particles at the same time. 
 
-The physics of this system can be described by an Hamiltonian $\hat H$ consisting of an unperturbed one-body operator $\hat H_0$ and a two-body pertubation $\hat V $ defined as 'pairing potential': $\hat H = \hat H_0 + \hat V$. In second quantization we can write:
+%we could have a subsection here instead of a paragraph..?
+
+\paragraph{The theory of the pairing model.} The physics of this system can be described by an Hamiltonian $\hat H$ consisting of an unperturbed one-body operator $\hat H_0$ and a two-body pertubation $\hat V $ defined as 'pairing potential': $\hat H = \hat H_0 + \hat V$. In second quantization we can write:
 
 \begin{equation}
 \hat H_0 =  \sum_{p,\sigma} (\epsilon_p-1) \hat a_{p\sigma}^\dagger \hat a_{p\sigma},
@@ -368,11 +370,11 @@ ref: help/help.pdf
 
 \section{Building the shell model code}
 
-In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in section \ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our goal is to describe the specific case of the $O$ isotopes within the $sd$ model space. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
+Our goal is to describe the specific case of the $O$ isotopes within the $sd$ model space. In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in section \ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
 
 \subsection{The structure of the code}
 
-We construct our shell-model code step by step, keeping in mind that we are interested to describe a system with $N$ particles in the valence space. The code is organized into blocks of code, or modules, stored in separate files that performs different tasks. The files needed to run the shell-model code is:
+We construct our shell-model code step by step, keeping in mind that we are interested in describing a system with $N$ particles in the valence space. The code is organized into blocks of code, or modules, stored in separate files that performs different tasks. The files needed to run the shell-model code is:
 \begin{itemize}
 \item \texttt{main.py}
 \item \texttt{create\_table\_files.py}
@@ -381,6 +383,7 @@ We construct our shell-model code step by step, keeping in mind that we are inte
 \item \texttt{ham.py} 
 \item \texttt{input\_func.py}
 \end{itemize}
+\smallskip
 
 The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
 
@@ -403,16 +406,17 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 
 %NOT TRUE ANYMORE Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
 
+\smallskip
+
 \noindent \textbf{To run the code} one simply runs the program typing from terminal
 \begin{center}\texttt{python main.py}\end{center} 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
-\paragraph{Need some sort of header or sentence here before the four bullet points below ('details' or something, or a subsection with a name?):}
+\subsection{The building blocks of the code}
 
-\begin{itemize}
-\item \textbf{Model space:} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
+\paragraph{The model space.} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
 
-\item \textbf{Slater determinats:} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
+\paragraph{The Slater determinats.} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
 \begin{equation}\label{binSD}
 d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
@@ -468,9 +472,7 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
 \end{lstlisting}
 
 
-%------------------------------------------------
-
-\item \textbf{Hamiltonian matrix:} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as sum of one-body Hamiltonian
+\paragraph{The Hamiltonian matrix.} We use the Slater determinants as basis to set up the Hamiltonian matrix $H_{ij}=\bra{\Phi_i} \hat H \ket{\Phi_j}$. It is constructed in \texttt{ham.py} as sum of one-body Hamiltonian
 
 \begin{equation}
 \hat H_0 =  \sum_{p,q} \langle p \vert \hat h_0 \vert q \rangle \hat a_{p}^\dagger \hat a_{q},
@@ -482,8 +484,9 @@ and two-body interaction
 \hat V = \frac{1}{4} \sum_{p,q,r,s} \langle p q\vert \hat v \vert rs \rangle_{AS} \;\hat a_{p}^\dagger \hat a_{q}^\dagger \hat a_{s} \hat a_{r}.
 \end{equation}
 $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} for the interaction $usdb$ optimized in the $sd$-model space.
-\item \textbf{Diagonalization:} The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
-\end{itemize}
+
+\paragraph{Diagonalization.} The Hamiltonian matrix is finally diagonalized using \texttt{numpy}. The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme.]
+
 
 
 \subsection{Non-zero Hamiltonian matrix elements and their phase}
