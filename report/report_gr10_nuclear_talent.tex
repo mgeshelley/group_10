@@ -188,19 +188,30 @@ and found that.....results... (abstract should not be longer than this ish)
 
 \section{Introduction}
 
-\lettrine[nindent=0em,lines=3]{L} orem ipsum dolor sit amet, consectetur adipiscing elit.
-\blindtext % Dummy text
+%\lettrine[nindent=0em,lines=3]{L} orem ipsum dolor sit amet, consectetur adipiscing elit.
+%\blindtext % Dummy text
+%
+%\blindtext % Dummy text
 
-\blindtext % Dummy text
+% WHY and WHERE USEFUL
+The atomic nucleus is an interesting playground to study three of the four forces in nature: strong, electromagnetic and weak interaction. We focus our attention on low-energy scale, so, despite the fundamental particles that form nuclei are quarks and gluons, the degrees of freedom we explore are protons and neutrons. One of the aim of nuclear physics is to describe the properties of all the nuclei that seat on the nuclear chart and also make prediction to the limits of possible bound systems (driplines). With properties we indicate bulk observables like binding energy (mass), radius, electromagnetic moments, spin as well as life-time, excitation energies, deformation, electromagnetic transitions, decays.
 
--Why useful\\
--Where useful (nuc. chart) \\
--(Look at the TALENT proposal) \\
--comparing different tools \\
+The Coulomb force among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
+Beta decays are example of weak interactions.
+The strong force is the one that keep together nucleons in a bound system, but this interaction is not well mathematically formalized so comparing theoretical results of effective interaction with the available experimental data help us to understand what are the different terms that play role in the interaction models.
 
-Our shell-model code was first implemented to solve and reproduce the results of this pairing model....
- 
- When we had a working version of our shell-model code for the pairing model we developed the code to do calculations in the sd-shell. We then used the energies (and eigenvectors?) obtained from NuShellX  to benchmark our code in the development beyond the pairing model. 
+%-(Look at the TALENT proposal) \\
+
+% COMPARE METHODS \\
+
+The nuclear chart can be described by three different theoretical model.
+Light nuclei, $A \lesssim 20$ is the battlefield of ab-initio method where interaction derived by first principles (close to quantum chromodinamics) are applied. Medium mass nuclei, $ 16 \lesssim A \lesssim 100$ can be studied by Configuration Interaction theory, known as shell-model, limited by the truncation of the model space. Heavy nuclei are usually described by Energy Density Functionals, that are less computer power consuming with the price that they can calculate mainly ground state properties.
+
+In this report we consider the Configuration Interaction method. We start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
+
+We learn how to use the state-of-art Configuration Interaction code NushellX and performed calculation of the Oxygen isotopic chain in the $sd$-model space.
+
+We extend our Python code to describe, through full Configuration Interaction method, neutrons in $sd$-model space in order to be able to study a simple isotopic chain as $^{17}$O-$^{28}$O. This development allows us to obtain identical energy levels as the ones calculated with NuShellX, that benchmarks our code beyond the pairing model. 
  
 %------------------------------------------------
 
@@ -310,7 +321,7 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 \section{NuShellX}
 
-NushellX is a code developed by W. D. M. Rae [ref] that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states. In this section we will obtain energies (and eigenvectors?) using NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
+NushellX is a code developed by W. D. M. Rae \ref{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states. In this section we will obtain energies (and eigenvectors?) using NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
 NuShellX uses the m-scheme and jj-coupling. It is written in pn-formalism; it uses a J-coupled proton-neutron the basis, the states for protons and neutrons are created separately. The code can consider J-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop.  [some of these sentences needs rewriting, Gianluca, maybe you know how to write this with same wording as above sections?]
 
@@ -321,11 +332,11 @@ Another challenge when running shell model calculations is that the chosen inter
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{nushellX_structure_from_ref.png}
-\caption{Schematic layout of the NuShellX@MSU codes from [ref] }
+\caption{Schematic layout of the NuShellX@MSU codes from Ref.\ref{ref: nushellx} }
 \label{fig: nushellx_struct}
 \end{figure}
 
-\paragraph{Running a NuShellX calculation.} A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} from [ref] we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
+\paragraph{Running a NuShellX calculation.} A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} from \ref{ref: nushellx} we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
 
 \begin{itemize}
 \item the batch file name
@@ -334,12 +345,12 @@ Another challenge when running shell model calculations is that the chosen inter
 \item interaction name
 \item number of protons and nucleons
 \item min and max J and parity
-\item (anything else essential??)
+\item extended functionalities
 \end{itemize}
 
-The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see [ref help file]
+The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\ref{help_file}.
 
-[mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
+Among the extended functionalities that make NushellX a powerfull program to study atomic nuclei, there are the possibilities to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style.
 
 We describe in this report only the NuShellX calculations we used to benchmark our code. 
 We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $^{17}$O to $^{28}$O included, using the $usdb$ effective interaction optimized for the 1s0d shell. In this environment it is also possible to compare the theoretical results with the experimental available values and the agreement is good, as in Figure \ref{expnushellx}.
@@ -354,10 +365,6 @@ We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $
 \label{expnushellx}
 \end{figure}
 
-reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf
-(and references within)
-
-ref: help/help.pdf
 
 %------------------------------------------------
 
@@ -411,9 +418,8 @@ and the program will interactively ask the user for input in the terminal (point
 \subsection{The model space and the Slater determinants}
 
 %\paragraph{The model space.}
-The single-particle states are the fundamental building blocks of the shell model, in fact they form the so called ''basis''. As indicated in the program 'structure list' (point \ref{list: sp}), reading in the basis is the first step after the input is given. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
+The single-particle states are the fundamental building blocks of the shell model, in fact they form the so called ''basis''. As indicated in the program 'structure list' (point \ref{list: sp}), reading in the basis is the first step after the input is given. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). This file was provided in the first part of the file \texttt{sdshellint.dat}\ref{file_link}. Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
 
-[where did we get the file \texttt{sd\_shell.sp}? We should list from where if we did not make it our selves...?]
 
 %\paragraph{The Slater determinats.} 
 The next step in the 'structure list' is to create all the possible Slater Determinants (point \ref{list: SD}). A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states that differ from each other (we are working with fermions and we need to satisfy the Pauli principle). The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
@@ -485,9 +491,8 @@ and the two-body interaction
 \begin{equation}
 \hat V = \frac{1}{4} \sum_{p,q,r,s} \langle p q\vert \hat v \vert rs \rangle_{AS} \;\hat a_{p}^\dagger \hat a_{q}^\dagger \hat a_{s} \hat a_{r}.
 \end{equation}
-where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them [them, what is them? the tbme?] from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme} in the 'structure list', right?) for the interaction $usdb$ optimized in the $sd$-model space.
+where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme} in the 'structure list', right?) adapted from Ref.\ref{file_link} for the interaction $usdb$ optimized in the $sd$-model space.
 
-[did we also get this \texttt{sd\_mscheme.int} provided? It should be mentioned where we get this from.]
 
 %\subsection{Non-zero Hamiltonian matrix elements and their phase}
 
@@ -641,7 +646,7 @@ To quickly find the source of a bug during the development and debugging of the 
 \end{itemize}
 
 
-[is there other ways we tested the code? or crosschecked it?]
+%[is there other ways we tested the code? or crosschecked it?] Gianluca: for me it is enough
 
 
 %------------------------------------------------
@@ -792,6 +797,16 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 
 \bibitem[Github of the TALENT School][ MHJ and Alex Brown
 \newblock {\em https://github.com/NuclearTalent/NuclearStructure}
+
+\bibitem[NushellX]{ref: nushellx} 
+\newblock {\em https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf}(and references within)
+
+\bibitem[NushellX help]{help_file} 
+\newblock {\em help/help.pdf}
+
+\bibitem[usdb interaction file]{file_link}
+\newblock {\em https://github.com/NuclearTalent/NuclearStructure/doc/pub/projects/datafiles/sdshellint.dat}
+
 \bibitem[usdb 2006]{Brown 2006} B. Alex Brown and W. A. Richter,Phys. Rev. C \textbf{74} (2006) 034315
 \newblock {\em https://journals.aps.org/prc/abstract/10.1103/PhysRevC.74.034315}
 
