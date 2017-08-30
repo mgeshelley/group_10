@@ -55,7 +55,7 @@
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyhead[C]{ $\bullet$ Report group 10 $\bullet$ } % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 
 \usepackage{titling} % Customizing the title section
@@ -339,10 +339,10 @@ Another challenge when running shell model calculations is that the chosen inter
 
 The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see [ref help file]
 
-\paragraph{Benchmark results from NuShellX.} The goal of our project was to create a basic version of a shell model code and use the NushellX code to test it when going beyond the pairing model. We have only described the NuShellX calculations we used to benchmark our code in this report. [mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
+[mention all the other types of calculations possible w NuShellX --> or is the calculations mentioned in the intro enough? ]
 
+We describe in this report only the NuShellX calculations we used to benchmark our code. 
 We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $^{17}$O to $^{28}$O included, using the $usdb$ effective interaction optimized for the 1s0d shell. In this environment it is also possible to compare the theoretical results with the experimental available values and the agreement is good, as in Figure \ref{expnushellx}.
-
 
 \begin{figure}[h]
 \begin{center}$
@@ -354,21 +354,10 @@ We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $
 \label{expnushellx}
 \end{figure}
 
-
-We can make a comparison between our code and NushellX with $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code correspond to varying the number of neutrons on top of the $^{16}$O core. In Figure \ref{fig: isotopes} we can see that the values are identical. This plot is interesting because it show that increasing the number of neutron the system become more bound (g.s. energy decrease) until valence neutron = 8 ($^{24}$O) and then increases sligthly. It means that the neutron separation energy $S_n$ becomes negative and the system is not anymore bound. 
- 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=1.\textwidth]{isotopes.pdf}
-\caption{Comparison between NushellX and our code energy levels for the Oxygen isotopes. The $J$ value of the ground state is shown for each isotope}
-\label{fig: isotopes}
-\end{figure}
-
 reference: https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf
 (and references within)
 
 ref: help/help.pdf
-
 
 %------------------------------------------------
 
@@ -659,6 +648,18 @@ To quickly find the source of a bug during the development and debugging of the 
 
 % This could be a subsection of the 'Building' chapter
 \section{Results}
+
+\paragraph{Benchmark results from NuShellX.} 
+The goal of our project was to create a basic version of a shell model code and use the NushellX code to test it when going beyond the pairing model. 
+
+We can make a comparison between our code and NushellX with $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code correspond to varying the number of neutrons on top of the $^{16}$O core. In Figure \ref{fig: isotopes} we can see that the values are identical. This plot is interesting because it show that increasing the number of neutron the system become more bound (g.s. energy decrease) until valence neutron = 8 ($^{24}$O) and then increases sligthly. It means that the neutron separation energy $S_n$ becomes negative and the system is not anymore bound. 
+ 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1.\textwidth]{isotopes.pdf}
+\caption{Comparison between NushellX and our code energy levels for the Oxygen isotopes. The $J$ value of the ground state is shown for each isotope}
+\label{fig: isotopes}
+\end{figure}
 
 [our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?]
 
