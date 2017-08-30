@@ -492,7 +492,7 @@ and the two-body interaction
 \begin{equation}
 \hat V = \frac{1}{4} \sum_{p,q,r,s} \langle p q\vert \hat v \vert rs \rangle_{AS} \;\hat a_{p}^\dagger \hat a_{q}^\dagger \hat a_{s} \hat a_{r}.
 \end{equation}
-where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them [them, what is them? the tbme?] from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme} in the 'structure list') for the interaction $usdb$ optimized in the $sd$-model space.
+where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them [them, what is them? the tbme?] from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme} in the 'structure list', right?) for the interaction $usdb$ optimized in the $sd$-model space.
 
 [did we also get this \texttt{sd\_mscheme.int} provided? It should be mentioned where we get this from.]
 
@@ -536,7 +536,7 @@ where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more 
 Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
 [the first sentence of the above paragraph is a bit complicated, but I dont know how to make it better...]
 
-In our Code \ref{compare}, we compare the content of the single-particle states in $\bra{\Phi_i}$ and $\ket{\Phi_j}$, we store a list ($diff$) of the levels that are different and their position in the Slater determinant. The list is read by the routine that calculate the Hamiltonian matrix. The lenght of the list select the non-zero contributions due to Eq.s(\ref{h00}),(\ref{h0a}) and (\ref{h0ab}). The labels of the levels determine the one-body and two-body matrix elements to be added. 
+In our Code \ref{compare}, we compare the content of the single-particle states in $\bra{\Phi_i}$ and $\ket{\Phi_j}$. We store a list ($diff$) of the levels that are different and their position in the Slater determinant. The list is read by the routine that calculate the Hamiltonian matrix. The lenght of the list select the non-zero contributions due to Eq.s(\ref{h00}),(\ref{h0a}) and (\ref{h0ab}). The labels of the levels determine the one-body and two-body matrix elements to be added. 
 
 The indices of the position of each levels in the respective Slater determinant, $position(\hat a_{k}^\dagger)$, control the phase of the Hamiltonian matrix element:
 \begin{equation}
@@ -593,9 +593,9 @@ The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{
 
 \subsection{Unit tests and debugging}
 
-We have implemented an unit test that run the pairing model for the case we have derived analytically in Sec.\ref{sec:pair}. If the hamiltonian built by our routine is the same as the analytic one, matrix element per matrix element, the code moves to perform the asked calculation. If the numerical and analytic hamiltonian do not match the code will be exited with an error message.  
+In our code we have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). If the Hamiltonian built by our routine is the same as the analytic one derived in section \ref{sec:pair}, matrix element per matrix element, the code moves to perform the diagonalization. If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See code \ref{code: unit_test}.
 
-\begin{lstlisting}[language=Python, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix]
+\begin{lstlisting}[language=Python, label=code: unit_test, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix. The unit test is only for the pairing model and compares the analytic and the numerical Hamiltonian element-wise and exits the code if they do not match. ]
 def unit_test_hamiltonian_pairing():
     ... 
     # numerical hamiltonian
@@ -639,13 +639,14 @@ def unit_test_hamiltonian_pairing():
         print "UNIT TEST COMPLETED: Hamiltonian matrix set up correctly.\n"
 \end{lstlisting}
 
-We spent a lot of time in debugging our sd-shell code. In the following some hints to remember.
+To quickly find the source of a bug during the development and debugging of the sd-shell code it is useful to:
 \begin{itemize}
-\item Check that the dimensions of the Hamiltonian matrix are equal to the number of Slater determinants: $dim(H_{ij})=d \times d$ where $d$ is $\#$ of Slater determinants, as in Eq.(\ref{binSD}). This allow to control errors in reading the model space and creating the Slated determinants.
-\item Check that the single-particle energies are read correctly. If we select \texttt{N\_particles} $=1$, we should obtain that the eigenvalues of the Hamiltonian matrix are the single-particle energies with a degeneracy equal to $2j+1$ because in this case the two-body interaction does not contribute.
-\item Check that $H_{ij}$ is a symmetric matrix. If not the first sections of the code to test are the reading routine of the two-body matrix elements and the calculation of the phases.
-\item Perform analysis of the Hamiltonian matrix on a restricted space, for example with \texttt{N\_particles} $=2$ and $M=M_{max}=4$, for which the matrix elements can be calculated by hand and compared with the code results.
+\item Check that the dimensions of the Hamiltonian matrix are equal to the number of Slater determinants: $dim(H_{ij})=d \times d$ where $d$ is $\#$ of Slater determinants, as in Eq.(\ref{binSD}). This controls errors when reading in the model space and creating the Slated determinants.
+\item Check that the single-particle energies are read correctly. If we select \texttt{N\_particles} $=1$, the eigenvalues of the Hamiltonian matrix should be the single-particle energies. The degeneracy should be equal to $2j+1$ because in this case the two-body interaction does not contribute.
+\item Check that $H_{ij}$ is a symmetric matrix. If not the bug is most likely in the reading routine of the two-body matrix elements or in the calculation of the phases.
+\item Perform an analysis of the Hamiltonian matrix on a restricted space. For example the matrix elements of the case \texttt{N\_particles} $=2$ and $M=M_{max}=4$ can be calculated by hand to compare with the code results.
 \end{itemize}
+
 
 \subsection{Further considerations}
 
@@ -726,6 +727,12 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
  something about the accuracy of our code somewhere here?
 
 
+
+
+
+
+
+We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests?
 
 
 \section{Results}
