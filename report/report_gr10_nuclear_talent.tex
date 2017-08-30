@@ -648,7 +648,44 @@ To quickly find the source of a bug during the development and debugging of the 
 \end{itemize}
 
 
-\subsection{Further considerations}
+%------------------------------------------------
+
+% This could be a subsection of the 'Building' chapter
+\section{Results}
+
+[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?]
+
+%\begin{table}
+%\caption{Example table}
+%\centering
+%\begin{tabular}{llr}
+%\toprule
+%\multicolumn{2}{c}{Name} \\
+%\cmidrule(r){1-2}
+%First name & Last Name & Grade \\
+%\midrule
+%John & Doe & $7.5$ \\
+%Richard & Miles & $2$ \\
+%\bottomrule
+%\end{tabular}
+%\end{table}
+
+
+%------------------------------------------------
+
+
+\section{Discussion}
+
+[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ]
+
+
+ something about the accuracy of our code somewhere here?
+
+We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah
+
+%\subsection{Challenges and proposed solutions / Future work(?)}
+
+\subsection{Further considerations and possible improvements}
 
 In our code we have explicitly implemented the symmetries of the two-body matrix elements for exchanging of two states. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
 \begin{equation}
@@ -665,7 +702,7 @@ In the case of sd-model space, we have built our basis of Slater determinats wit
 
 For example, from the output of default inputs, in Code \ref{eigenvalues}, we can see that -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
 
-A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem.
+A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. [I dont understand what this changes? add an explicit sentence about what we get if this is done?]
 
 \begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
 Default inputs: 
@@ -722,46 +759,6 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
    ...
 \end{lstlisting}
 
-%\subsection{Challenges and proposed solutions / Future work(?)}
-
- something about the accuracy of our code somewhere here?
-
-
-
-
-
-
-
-We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests?
-
-
-\section{Results}
-
-[our shell-model results must go here. output in a listing or table?]
-
-%\begin{table}
-%\caption{Example table}
-%\centering
-%\begin{tabular}{llr}
-%\toprule
-%\multicolumn{2}{c}{Name} \\
-%\cmidrule(r){1-2}
-%First name & Last Name & Grade \\
-%\midrule
-%John & Doe & $7.5$ \\
-%Richard & Miles & $2$ \\
-%\bottomrule
-%\end{tabular}
-%\end{table}
-
-
-
-
-%------------------------------------------------
-
-\section{Discussion}
-
-[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ]
 
 %------------------------------------------------
 
@@ -770,7 +767,28 @@ We spent a lot of time in debugging our sd-shell code. Future should use the tip
 
 [here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
 
-%------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+
+\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+%
+%\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
+%Figueredo, A.~J. and Wolf, P. S.~A. (2009).
+%\newblock Assortative pairing and life history strategy - a cross-cultural
+%  study.
+%\newblock {\em Human Nature}, 20:317--330.
+
+\bibitem[Github of the TALENT School][ MHJ and Alex Brown
+\newblock {\em https://github.com/NuclearTalent/NuclearStructure}
+\bibitem[usdb 2006]{Brown 2006} B. Alex Brown and W. A. Richter,Phys. Rev. C \textbf{74} (2006) 034315
+\newblock {\em https://journals.aps.org/prc/abstract/10.1103/PhysRevC.74.034315}
+
+\end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+
 
 
 
@@ -812,27 +830,5 @@ We spent a lot of time in debugging our sd-shell code. Future should use the tip
 %------------------------------------------------
 
 
-
-
-%----------------------------------------------------------------------------------------
-%	REFERENCE LIST
-%----------------------------------------------------------------------------------------
-
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
-%
-%\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
-%Figueredo, A.~J. and Wolf, P. S.~A. (2009).
-%\newblock Assortative pairing and life history strategy - a cross-cultural
-%  study.
-%\newblock {\em Human Nature}, 20:317--330.
-
-\bibitem[Github of the TALENT School][ MHJ and Alex Brown
-\newblock {\em https://github.com/NuclearTalent/NuclearStructure}
-\bibitem[usdb 2006]{Brown 2006} B. Alex Brown and W. A. Richter,Phys. Rev. C \textbf{74} (2006) 034315
-\newblock {\em https://journals.aps.org/prc/abstract/10.1103/PhysRevC.74.034315}
-
-\end{thebibliography}
-
-%----------------------------------------------------------------------------------------
 
 \end{document}
