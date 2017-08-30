@@ -113,6 +113,7 @@
 \renewcommand{\lstlistingname}{Code}
 
 \usepackage{cancel}
+\usepackage{tcolorbox} %to have boxes w color around text and math mode
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -387,6 +388,7 @@ We construct our shell-model code step by step, keeping in mind that we are inte
 
 The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
 
+\begin{tcolorbox}
 \begin{enumerate}
 \item Import files (modules)
 \item Ask user to provide inputs on the command line. The only inputs needed are
@@ -402,7 +404,7 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 \item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
 \item Print the eigenvalues and eigenvectors of the problem
 \end{enumerate}
-
+\end{tcolorbox}
 
 %NOT TRUE ANYMORE Before the basis, Slater determinants and the tbme are created the program checks, for each case if the file already exist. If the file containing for instance the basis do not exist the basis will be generated and saved to file before the code reads the file. If the file with the basis already exist the code will jump to reading the file. This way we avoid creating the (same) files every time the code is run. 
 
