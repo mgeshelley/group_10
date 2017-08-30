@@ -386,7 +386,7 @@ We construct our shell-model code step by step, keeping in mind that we are inte
 \end{itemize}
 \smallskip
 
-The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is as follows:
+The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is listed below, we will refer to this list and the numbering later in the text:
 
 \begin{tcolorbox}
 \begin{enumerate}
@@ -397,8 +397,8 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 \item \texttt{case} - model space 'sd' (or 'pairing')
 \item \texttt{g} - strenght of the pairing (needed only in 'pairing' case)
 \end{itemize}
-\item Read the single-particle basis
-\item Create all the possible the Slater Determinants
+\item Read the single-particle basis \label{list: sp}
+\item Create all the possible the Slater Determinants \label{list: SD}
 \item Read and store the two-body matrix elements (tbme). In the case 'pairing', create all the non-zero pairing matrix elements according to the given strenght $g$.
 \item Build the total Hamiltonian matrix from the one- and two-body terms
 \item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message
@@ -414,17 +414,19 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 \begin{center}\texttt{python main.py}\end{center} 
 and the program will interactively ask the user for input in the terminal. The user input function is implemented in such a way that the user is not allowed to provide unphysical input values. If invalid input is given the program provides an error message and asks the user to provide the input within the allowed type or interval. When the input is given the program runs and prints the results in the terminal.
 
-\subsection{The building blocks of the code}
+\subsection{The model space and the Slater determinants}
 
-\paragraph{The model space.} The single-particle states are the foundamental building block of the shell model, in fact they form the so called ''basis''. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
+%\paragraph{The model space.}
+The single-particle states are the fundamental building blocks of the shell model, in fact they form the so called ''basis''. As indicated in the program 'structure list' (point \ref{list: sp}), reading in the basis is the first step after the input is given. In our case we read the information of the single-particle levels from file. For example \texttt{sd\_shell.sp} contains the quantum number $n$,$l$,$2j$ and $2m_j$ together with their energy levels (eigenvalue of the single-particle Hamiltonian). Looking at the energies we can notice a degeneration respect to the $m_j$ quantum number.
 
 [where did we get the file \texttt{sd\_shell.sp}? We should list from where if we did not make it our selves...?]
 
-\paragraph{The Slater determinats.} The $N$-particle wave function, the solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states that differ from each other (we are working with fermions and we need to satisfy the Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats (see code \ref{create_SD}) and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
-The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
+%\paragraph{The Slater determinats.} 
+The next step in the 'structure list' is to create all the possible Slater Determinants (point \ref{list: SD}). A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states that differ from each other (we are working with fermions and we need to satisfy the Pauli principle). The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
 \begin{equation}\label{binSD}
 d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
 \end{equation}
+The $N$-particle wave function, the solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. In \texttt{create\_table\_files.py} we calculate all possible Slater determinats (see code \ref{create_SD}) and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 
 \begin{lstlisting}[language=Python,label=create_SD,caption=The function \texttt{create\_SD\_perm} in the file \texttt{create\_table\_files.py} uses the Python function \texttt{itertools.combinations(,)} to create all the possible Slater determinants. In the case of the pairing model the Slater determinants are restricted to the ones with $\protect{M=0}$ and coupled pairs of single-particle states.]
 import numpy as np
