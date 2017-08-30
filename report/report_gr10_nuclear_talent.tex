@@ -418,7 +418,7 @@ and the program will interactively ask the user for input in the terminal. The u
 
 [where did we get the file \texttt{sd\_shell.sp}? We should list from where if we did not make it our selves...?]
 
-\paragraph{The Slater determinats.} The $N$-particle wave function, solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different one each other (we are working with fermions and we need to satisfy Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
+\paragraph{The Slater determinats.} The $N$-particle wave function, the solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. A Slater determinant $\ket{\Phi_i}$ is a product of $N$ single-particle states different from each other (we are working with fermions and we need to satisfy the Pauli principle). In \texttt{create\_table\_files.py} we calculate all possible Slater determinats and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 The total number of Slater determinants which can be built with $N$ particles distributed among $i$ single-particle states is
 \begin{equation}\label{binSD}
 d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
