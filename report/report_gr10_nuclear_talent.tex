@@ -194,11 +194,15 @@ and found that.....results... (abstract should not be longer than this ish)
 %\blindtext % Dummy text
 
 % WHY and WHERE USEFUL
-The atomic nucleus is an interesting playground to study three of the four forces in nature: strong, electromagnetic and weak interaction. We focus our attention on low-energy scale, so, despite the fundamental particles that form nuclei are quarks and gluons, the degrees of freedom we explore are protons and neutrons. One of the aim of nuclear physics is to describe the properties of all the nuclei that seat on the nuclear chart and also make prediction to the limits of possible bound systems (driplines). With properties we indicate bulk observables like binding energy (mass), radius, electromagnetic moments, spin as well as life-time, excitation energies, deformation, electromagnetic transitions, decays.
-
+The atomic nucleus is a complex system. 
+It has the dimension of few fm (10$^{-15}$m) so that the quantum mechanics regulates its structure. 
+We are interested in describe low-energy scale that determine the nuclear configuration, so, despite the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, then many-body treatment is required.\\ 
+This sub-atomic system is one of the most attractive laboratory to study physics because in it as well as three different natural forces play an active role: strong, electromagnetic and weak interaction. 
 The Coulomb force among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
 Beta decays are example of weak interactions.
-The strong force is the one that keep together nucleons in a bound system, but this interaction is not well mathematically formalized so comparing theoretical results of effective interaction with the available experimental data help us to understand what are the different terms that play role in the interaction models.
+The strong force is the one that keep together nucleons in a bound state, but this interaction is not yet fully understood (there is not a complete equation for it), then comparing theoretical results of effective interactions with the available experimental data help us to investigate the importance of the different terms in the interaction models.
+
+One of the aim of nuclear physics is to explain the properties of all the observed  nuclei and also make prediction to the limits of possible bound systems (driplines). With properties we mean observables like binding energy (mass), spin, radius, deformation, electromagnetic moments as well as life-time, excitation energies, electromagnetic transitions, decays and particle emissions...
 
 %-(Look at the TALENT proposal) \\
 
@@ -209,14 +213,17 @@ The strong force is the one that keep together nucleons in a bound system, but t
 \caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional is pictured. The nuclei represented in black are stable ones.}
 \label{fig: nuclear_chart}
 \end{figure}
-The nuclear chart can be described by three different theoretical model, as in Figure \ref{fig: nuclear_chart}.
-Light nuclei, $A \lesssim 20$ is the battlefield of ab-initio method where interaction derived by first principles (close to quantum chromodinamics) are applied. Medium mass nuclei, $ 16 \lesssim A \lesssim 100$ can be studied by Configuration Interaction theory, known as shell-model, limited by the truncation of the model space. Heavy nuclei are usually described by Energy Density Functionals, that are less computer power consuming with the price that they can calculate mainly ground state properties.
+The nuclear chart can be described by three different theoretical model, as shown in Figure \ref{fig: nuclear_chart}.
+Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, known as shell-model, in which the truncation of the model space is the key to study a large system but with a doable amount of information (computing resources). Heavy nuclei are usually described by Energy Density Functionals, that reduce the volume of information needed with the price that mainly ground state properties can be calculated.
 
-In this report we consider the Configuration Interaction method. We start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
+% ANTICIPATION OF THE CONTENTS
+In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
 
-We learn how to use the state-of-art Configuration Interaction code NushellX and performed calculation of the Oxygen isotopic chain in the $sd$-model space.
+In Sec.\ref{sec: NushellX} we learn how to use state-of-the-art Configuration Interaction code NushellX and performed calculations of the Oxygen isotopic chain in the $sd$-model space.
 
-We extend our Python code to describe, through full Configuration Interaction method, neutrons in $sd$-model space in order to be able to study a simple isotopic chain as $^{17}$O-$^{28}$O. This development allows us to obtain identical energy levels as the ones calculated with NuShellX, that benchmarks our code beyond the pairing model. 
+We extend our Python code in Sec.\ref{sec:ourcode}to describe, through full Configuration Interaction method, neutrons in $sd$-model space in order to be able to study a simple isotopic chain as $^{17}$O-$^{28}$O. This development allows us to obtain identical energy levels as the ones calculated with NuShellX, that benchmarks our code beyond the pairing model.
+
+Further possible developments are discussed in Sec.\ref{sec:discussion} and finally our achievements are summarized in Sec.\ref{sec:summary}.
  
 %------------------------------------------------
 
@@ -325,8 +332,9 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 
 \section{NuShellX}
+\label{sec: NushellX}
 
-NushellX is a code developed by W. D. M. Rae \ref{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states. In this section we will obtain energies (and eigenvectors?) using NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
+NushellX is a code developed by W. D. M. Rae \cite{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain exact energies, eigenvectors and spectrosopic overlaps for low-lying states. In this section we will obtain energies (and eigenvectors?) using NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
 NuShellX uses the m-scheme and jj-coupling. It is written in pn-formalism; it uses a J-coupled proton-neutron the basis, the states for protons and neutrons are created separately. The code can consider J-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop.  [some of these sentences needs rewriting, Gianluca, maybe you know how to write this with same wording as above sections?]
 
@@ -337,11 +345,11 @@ Another challenge when running shell model calculations is that the chosen inter
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{nushellX_structure_from_ref.png}
-\caption{Schematic layout of the NuShellX@MSU codes from Ref.\ref{ref: nushellx} }
+\caption{Schematic layout of the NuShellX@MSU codes from Ref.\cite{ref: nushellx} }
 \label{fig: nushellx_struct}
 \end{figure}
 
-\paragraph{Running a NuShellX calculation.} A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} from \ref{ref: nushellx} we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
+\paragraph{Running a NuShellX calculation.} A set of wrapper codes called NuShellX@MSU is written by Alex Brown. These wrapper codes generates input for the NuShellX code and converts the output into tables and figures for energy levels, gamma decay and beta decay. In figure \ref{fig: nushellx_struct} we see the outline of the in- and output administered by the NuShellX@MSU wrapper code. When \texttt{shell} is run the user is asked to provide\footnote{not all options are given in this example, the input depend on the type of calculation done with NuShellX}:
 
 \begin{itemize}
 \item the batch file name
@@ -353,7 +361,7 @@ Another challenge when running shell model calculations is that the chosen inter
 \item extended functionalities
 \end{itemize}
 
-The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\ref{help_file}.
+The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\cite{help_file}.
 
 Among the extended functionalities that make NushellX a powerfull program to study atomic nuclei, there are the possibilities to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style.
 
@@ -375,6 +383,7 @@ We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $
 
 
 \section{Building the shell model code}
+\label{sec:ourcode}
 
 Our goal is to describe the specific case of the $O$ isotopes within the $sd$ model space. In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in section \ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
 
@@ -431,7 +440,7 @@ The next step in the 'structure list' is to create all the possible Slater Deter
 \begin{equation}\label{binSD}
 d=\left (\begin{array}{c} i \\ N\end{array} \right) =\frac{i!}{(i-N)!N!}. 
 \end{equation}
-The $N$-particle wave function, the solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. In \texttt{create\_table\_files.py} we calculate all possible Slater determinats (see code \ref{create_SD}) and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
+The $N$-particle wave function, the solution of the Hamiltonian $H$ is a linear combination of the Slater determinants constructed inside the model space. In \texttt{create\_table\_files.py} we calculate all possible Slater determinats (see Code \ref{create_SD}) and store them in \texttt{sd\_SlaterD.sd}. We work in $m$-scheme and we do not impose any condition on the total $M= \sum m_j$.
 
 \begin{lstlisting}[language=Python,label=create_SD,caption=The function \texttt{create\_SD\_perm} in the file \texttt{create\_table\_files.py} uses the Python function \texttt{itertools.combinations(,)} to create all the possible Slater determinants. In the case of the pairing model the Slater determinants are restricted to the ones with $\protect{M=0}$ and coupled pairs of single-particle states.]
 import numpy as np
@@ -596,7 +605,7 @@ The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{
 
 \subsection{Unit tests and debugging}
 
-In our code we have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). If the Hamiltonian built by our routine is the same as the analytic one derived in section \ref{sec:pair}, matrix element per matrix element, the code moves to perform the diagonalization. If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See code \ref{code: unit_test}.
+In our code we have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). If the Hamiltonian built by our routine is the same as the analytic one derived in Sec.\ref{sec:pair}, matrix element per matrix element, the code moves to perform the diagonalization. If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See Code \ref{code: unit_test}.
 
 \begin{lstlisting}[language=Python, label=code: unit_test, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix. The unit test is only for the pairing model and compares the analytic and the numerical Hamiltonian element-wise and exits the code if they do not match. ]
 def unit_test_hamiltonian_pairing():
@@ -657,7 +666,7 @@ To quickly find the source of a bug during the development and debugging of the 
 %------------------------------------------------
 
 % This could be a subsection of the 'Building' chapter
-\section{Results}
+\subsection{Results}
 
 \paragraph{Benchmark results from NuShellX.} 
 The goal of our project was to create a basic version of a shell model code and use the NushellX code to test it when going beyond the pairing model. 
@@ -695,6 +704,7 @@ We can make a comparison between our code and NushellX with $usdb$ interaction f
 
 
 \section{Discussion / Challenges and possible improvements}
+\label{sec:discussion}
 
 [here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ]
 
@@ -784,6 +794,7 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 
 
 \section{Conclusions / Summary}
+\label{sec:summary}
 
 [here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
 
@@ -792,29 +803,29 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
 
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+\begin{thebibliography}{99} 
+% Bibliography - this is intentionally simple in this template
 %
 %\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
 %Figueredo, A.~J. and Wolf, P. S.~A. (2009).
 %\newblock Assortative pairing and life history strategy - a cross-cultural
 %  study.
 %\newblock {\em Human Nature}, 20:317--330.
-
 \bibitem[Github of the TALENT School][ MHJ and Alex Brown
 \newblock {\em https://github.com/NuclearTalent/NuclearStructure}
-
+%
 \bibitem[NushellX]{ref: nushellx} 
 \newblock {\em https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf}(and references within)
-
+%
 \bibitem[NushellX help]{help_file} 
 \newblock {\em help/help.pdf}
-
+%
 \bibitem[usdb interaction file]{file_link}
 \newblock {\em https://github.com/NuclearTalent/NuclearStructure/doc/pub/projects/datafiles/sdshellint.dat}
-
+%
 \bibitem[usdb 2006]{Brown 2006} B. Alex Brown and W. A. Richter,Phys. Rev. C \textbf{74} (2006) 034315
 \newblock {\em https://journals.aps.org/prc/abstract/10.1103/PhysRevC.74.034315}
-
+%
 \end{thebibliography}
 
 %----------------------------------------------------------------------------------------
