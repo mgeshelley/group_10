@@ -203,8 +203,13 @@ The strong force is the one that keep together nucleons in a bound system, but t
 %-(Look at the TALENT proposal) \\
 
 % COMPARE METHODS \\
-
-The nuclear chart can be described by three different theoretical model.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{nuclear_chart.pdf}
+\caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional is pictured. The nuclei represented in black are stable ones.}
+\label{fig: nuclear_chart}
+\end{figure}
+The nuclear chart can be described by three different theoretical model, as in Figure \ref{fig: nuclear_chart}.
 Light nuclei, $A \lesssim 20$ is the battlefield of ab-initio method where interaction derived by first principles (close to quantum chromodinamics) are applied. Medium mass nuclei, $ 16 \lesssim A \lesssim 100$ can be studied by Configuration Interaction theory, known as shell-model, limited by the truncation of the model space. Heavy nuclei are usually described by Energy Density Functionals, that are less computer power consuming with the price that they can calculate mainly ground state properties.
 
 In this report we consider the Configuration Interaction method. We start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
