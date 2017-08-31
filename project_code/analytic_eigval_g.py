@@ -33,8 +33,8 @@ for j in range(6):
         plt.plot(g_list, E)
 
 
-plt.xlabel('g [A.u]', fontsize=14)
-plt.ylabel('Energy [A.u]', fontsize=14)
+plt.xlabel('g [MeV]', fontsize=14)
+plt.ylabel('Energy [MeV]', fontsize=14)
 plt.legend(['E_0', 'E_1', 'E_2', 'E_3', 'E_4', 'E_5'], fontsize=12)
 
 plt.savefig('figures/eigval_vs_g.png')
