@@ -672,71 +672,12 @@ To quickly find the source of a bug during the development and debugging of the 
 % This could be a subsection of the 'Building' chapter
 \subsection{Results}
 
-\paragraph{Benchmark results from NuShellX.} 
-The goal of our project was to create a basic version of a shell model code and use the NushellX code to test it when going beyond the pairing model. 
+\paragraph{Benchmark with NuShellX} 
+Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
+The proper comparison is within $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code (\texttt{N\_particles}) corresponds to varying the number of neutrons on top of the $^{16}$O core. 
 
-We can make a comparison between our code and NushellX with $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code correspond to varying the number of neutrons on top of the $^{16}$O core. In Figure \ref{fig: isotopes} we can see that the values are identical. This plot is interesting because it show that increasing the number of neutron the system become more bound (g.s. energy decrease) until valence neutron = 8 ($^{24}$O) and then increases sligthly. It means that the neutron separation energy $S_n$ becomes negative and the system is not anymore bound. 
- 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=1.\textwidth]{isotopes.pdf}
-\caption{Comparison between NushellX and our code energy levels for the Oxygen isotopes. The $J$ value of the ground state is shown for each isotope}
-\label{fig: isotopes}
-\end{figure}
-
-[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?]
-
-[also show results from the pairing model / unit test ? ]
-
-%\begin{table}
-%\caption{Example table}
-%\centering
-%\begin{tabular}{llr}
-%\toprule
-%\multicolumn{2}{c}{Name} \\
-%\cmidrule(r){1-2}
-%First name & Last Name & Grade \\
-%\midrule
-%John & Doe & $7.5$ \\
-%Richard & Miles & $2$ \\
-%\bottomrule
-%\end{tabular}
-%\end{table}
-
-
-%------------------------------------------------
-
-
-\section{Discussion / Challenges and possible improvements}
-\label{sec:discussion}
-
-[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ]
-
-
- something about the accuracy of our code somewhere here?
-
-We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah
-
-%\subsection{Challenges and proposed solutions / Future work(?)}
-
-%\subsection{Further considerations and possible improvements}
-
-In our code we have explicitly implemented the symmetries of the two-body matrix elements for exchanging of two states. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
-\begin{equation}
-\bra{ab} \hat v \ket{cd} = -\bra{ab} \hat v \ket{dc}= -\bra{ba} \hat v \ket{cd}= \bra{ba} \hat v \ket{dc}
-\end{equation}
-according to the antisymmetrization rules for fermionic states. Moreover in the case of usdb matrix elements a correction to the mass is automatically added to every matrix elements
-\begin{equation}
-mass_{corr} = \left(\frac{18}{16+n} \right)^{0.3}
-\end{equation}
-where $n$ is the number of valence particles.
-\\
-
-In the case of sd-model space, we have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to different value of $M$ but same $J$. When we compare our results with NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$ depends only on $J$ and not on its z-projection.
-
-For example, from the output of default inputs, in Code \ref{eigenvalues}, we can see that -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
-
-A possible improvement of out code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. [I dont understand what this changes? add an explicit sentence about what we get if this is done?]
+We have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to different value of $M$ but same $J$. When we compare our results with NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$\cite{Brown 2006} depends only on $J$ and not on its z-projection.\\
+As an example, we consider respectively our code (Code \ref{eigenvalues}) and NushellX (Code \ref{nushellx})results for the energy levels of $^{20}$O, 4 valence neutrons. In Code \ref{eigenvalues}, we can see that the eigenvalue -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
 
 \begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
 Default inputs: 
@@ -795,6 +736,69 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 
 
 %------------------------------------------------
+
+The all Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
+This plot presents interesting features because it show that increasing the number of neutron (moving to the right along the x-axis) the system become more bound (i.e. the ground state energy decrease). This trend happens until valence neutron = 8 ($^{24}$O) and then the binding energy starts to increases sligthly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
+ 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1.\textwidth]{isotopes.pdf}
+\caption{Comparison between NushellX and our code energy levels for the Oxygen isotopes. The $J$ value of the ground state is shown for each isotope}
+\label{fig: isotopes}
+\end{figure}
+
+[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?] What kind of other results we want???
+
+%[also show results from the pairing model / unit test ? ] Gianluca: maybe no, they are already discussed in their Sec.
+
+%\begin{table}
+%\caption{Example table}
+%\centering
+%\begin{tabular}{llr}
+%\toprule
+%\multicolumn{2}{c}{Name} \\
+%\cmidrule(r){1-2}
+%First name & Last Name & Grade \\
+%\midrule
+%John & Doe & $7.5$ \\
+%Richard & Miles & $2$ \\
+%\bottomrule
+%\end{tabular}
+%\end{table}
+
+
+%------------------------------------------------
+
+
+\section{Discussion / Challenges and possible improvements}
+\label{sec:discussion}
+
+%[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ] Gianluca: already done before, here it is time for new things that can be interesting to implement or some remarks not made before
+
+
+ %something about the accuracy of our code somewhere here? 
+ Our code is slow because it does unit test and the diagonalization routine is not the optimized one but the standard with numpy
+
+We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah
+
+%\subsection{Challenges and proposed solutions / Future work(?)}
+
+%\subsection{Further considerations and possible improvements}
+
+In our code we have explicitly implemented the symmetries of the two-body matrix elements for exchanging of two states. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
+\begin{equation}
+\bra{ab} \hat v \ket{cd} = -\bra{ab} \hat v \ket{dc}= -\bra{ba} \hat v \ket{cd}= \bra{ba} \hat v \ket{dc}
+\end{equation}
+according to the antisymmetrization rules for fermionic states. Moreover in the case of usdb matrix elements a correction to the mass is automatically added to every matrix elements
+\begin{equation}
+mass_{corr} = \left(\frac{18}{16+n} \right)^{0.3}
+\end{equation}
+where $n$ is the number of valence particles.
+\\
+
+
+A possible improvement of our code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. [I dont understand what this changes? add an explicit sentence about what we get if this is done?]
+
 
 
 \section{Conclusions / Summary}
