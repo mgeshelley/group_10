@@ -547,7 +547,7 @@ where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particle
 \end{equation}
 where $\ket{\Phi_0}$ and $\ket{\Phi_{ijk}^{abc}}$ (3p-3h state) differ for more than 2-particles, the maximum number that can be contracted with a two-body Hamiltonian.
 
-We can repeat an analogue procedure starting from a general $\ket{\Phi_k}$ where $k$ can be different from 0, and we will derive similar expressions for the Hamiltonian matrix elements, meaning that for each $\ket{\Phi_k}$ of the basis of Slater determinants there are only 'limited' $\bra{\Phi_l}$ that can interact with it through $\hat H$. 
+We can repeat an analogue procedure starting from a generic $\ket{\Phi_j}$ where $j$ can be different from 0, and we will derive similar expressions for the Hamiltonian matrix elements, meaning that for each $\ket{\Phi_j}$ of the basis of Slater determinants there are only 'limited' $\bra{\Phi_i}$ that can interact with it through $\hat H$. 
 %Similar expressions for the Hamiltonian matrix elements can be obtained starting from $\ket{\Phi_k}$ with $k$ generic and considering the other Slater determinants that can interact with it through $\hat H$. 
 We use this information to construct $H_{ij}$ in a more efficient way, calculating only the non-zero matrix elements.
 
@@ -564,7 +564,7 @@ phase(diff)=\sum_{k \in diff} position(\hat a_{i_k})+\sum_{m \in diff} position(
 The phase is obtained considering the anticommutation rules of the fermionic annihilation and creation operators that are involved in the Wick's contractions.
 
 \smallskip
-\begin{lstlisting}[language=Python,label=compare, caption=\texttt{beta\_alpha\_compare} is a function in the module \texttt{compare.py} that makes a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states. Should mention if ham.py is using this function (?)]
+\begin{lstlisting}[language=Python,label=compare, caption=\texttt{beta\_alpha\_compare} is a function in the module \texttt{compare.py} that makes a comparison between $\protect{\bra{\Phi_\beta}}$ and $\protect{\ket{\Phi_\alpha}}$ to determine their difference in terms of single-particle states.]
 def beta_alpha_compare(beta_list, alpha_list):
     
     phase = 0
@@ -603,12 +603,13 @@ def beta_alpha_compare(beta_list, alpha_list):
 \end{lstlisting}
 
 %\paragraph{Diagonalization.} 
-The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{list: diag_eigval_vec} in the 'structure list'). The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme. - and maybe move the last sentence to the discussion of our own results?]
+The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{list: diag_eigval_vec} in the 'structure list'). The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. %In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme. - and maybe move the last sentence to the discussion of our own results?]
 
 
 \subsection{Unit tests and debugging}
 
-In our code we have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). If the Hamiltonian built by our routine is the same as the analytic one derived in Sec.\ref{sec:pair}, matrix element per matrix element, the code moves to perform the diagonalization. If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See Code \ref{code: unit_test}.
+We have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). The code built a test Hamiltonian using our routine and if this is the same as the analytic one derived in Sec.\ref{sec:pair}, matrix element per matrix element, the code moves to built the actual Hamiltonian asked from the inputs and to diagonalize it. %This is what exactly does the unit test because the Hamiltonian built by the unit test is not the one we want to calculate to obtain eigenvalues and eigenvectors.
+If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See Code \ref{code: unit_test}.
 
 \begin{lstlisting}[language=Python, label=code: unit_test, caption= \texttt{unit\_test\_hamiltonian\_pairing()} is a unit test run by \texttt{main.py} before it starts to set up the actual Hamiltonian matrix. The unit test is only for the pairing model and compares the analytic and the numerical Hamiltonian element-wise and exits the code if they do not match. ]
 def unit_test_hamiltonian_pairing():
