@@ -509,6 +509,16 @@ and the two-body interaction
 \end{equation}
 where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme})) adapted from Ref.\cite{file_link} for the interaction $usdb$ optimized in the $sd$-model space.
 
+The symmetries of the two-body matrix elements for exchanging of two states are explicitly implemented. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
+\begin{equation}
+\bra{ab} \hat v \ket{cd} = -\bra{ab} \hat v \ket{dc}= -\bra{ba} \hat v \ket{cd}= \bra{ba} \hat v \ket{dc}
+\end{equation}
+according to the antisymmetrization rules for fermionic states. Moreover in the case of usdb matrix elements a correction to the mass is automatically added to every matrix elements
+\begin{equation}
+mass_{corr} = \left(\frac{18}{16+n} \right)^{0.3}
+\end{equation}
+where $n$ is the number of valence particles.
+
 
 %\subsection{Non-zero Hamiltonian matrix elements and their phase}
 
@@ -670,9 +680,9 @@ To quickly find the source of a bug during the development and debugging of the 
 %------------------------------------------------
 
 % This could be a subsection of the 'Building' chapter
-\subsection{Results}
+\subsection{Results and benchmark with NuShellX}
 
-\paragraph{Benchmark with NuShellX} 
+%\paragraph{} 
 Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
 The proper comparison is within $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code (\texttt{N\_particles}) corresponds to varying the number of neutrons on top of the $^{16}$O core. 
 
@@ -777,29 +787,19 @@ This plot presents interesting features because it show that increasing the numb
 
 
  %something about the accuracy of our code somewhere here? 
- Our code is slow because it does unit test and the diagonalization routine is not the optimized one but the standard with numpy
+The numerical precision of the results can be crosschecked ut to KeV energies with NushellX. Since we are interested in energy levels, we consider that 1 KeV is enough because the main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states.
+
+Instead a clear issue in this basic code is the time. Our code takes around 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test, and the most of the time is spent in bulding the Hamiltonian matrix and diagonalize it. 
+The calculating speed can be improved adopting an optimized diagonalization routine to replace the standard diagonalization done with numpy. Anyway to speed-up in a significative way we would need to introduce technique as the bit representation.
 
 We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah
 
 %\subsection{Challenges and proposed solutions / Future work(?)}
 
-%\subsection{Further considerations and possible improvements}
 
-In our code we have explicitly implemented the symmetries of the two-body matrix elements for exchanging of two states. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
-\begin{equation}
-\bra{ab} \hat v \ket{cd} = -\bra{ab} \hat v \ket{dc}= -\bra{ba} \hat v \ket{cd}= \bra{ba} \hat v \ket{dc}
-\end{equation}
-according to the antisymmetrization rules for fermionic states. Moreover in the case of usdb matrix elements a correction to the mass is automatically added to every matrix elements
-\begin{equation}
-mass_{corr} = \left(\frac{18}{16+n} \right)^{0.3}
-\end{equation}
-where $n$ is the number of valence particles.
-\\
+An useful extension of our code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
 
-
-A possible improvement of our code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. [I dont understand what this changes? add an explicit sentence about what we get if this is done?]
-
-
+If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
 
 \section{Conclusions / Summary}
 \label{sec:summary}
