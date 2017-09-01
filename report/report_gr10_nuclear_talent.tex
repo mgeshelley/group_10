@@ -199,14 +199,14 @@ From the skeleton of the pairing code, we construct a simple shell model code th
 
 % WHY and WHERE USEFUL
 The atomic nucleus is a complex system. 
-It has the dimension of few fm (10$^{-15}$m) so that the quantum mechanics regulates its structure. 
-We are interested in describe low-energy scale that determine the nuclear configuration, so, despite the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, then many-body treatment is required.\\ 
-This sub-atomic system is one of the most attractive laboratory to study physics because in it as well as three different natural forces play an active role: strong, electromagnetic and weak interaction. 
-The Coulomb force among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
-Beta decays are example of weak interactions.
-The strong force is the one that keep together nucleons in a bound state, but this interaction is not yet fully understood (there is not a complete equation for it), then comparing theoretical results of effective interactions with the available experimental data help us to investigate the importance of the different terms in the interaction models.
+It has the dimension of few fm (10$^{-15}$m) so the structure of the nucleus is regulated by quantum mechanics. 
+We are interested in describing the low-energy scale that determine the nuclear configuration. Even though  the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, requiring a many-body treatment.\\ 
+The sub-atomic system is one of the most attractive laboratories to study physics. Three different natural forces play an active role in the nucleus: the strong, electromagnetic and weak interaction. 
+The Coulomb force acting among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
+Beta decays are an example of weak interactions.
+The strong force keeps the nucleons together in a bound state, but this interaction is not yet fully understood. There exist no complete equation for the strong force. Comparing theoretical results of effective interactions with available experimental data help us investigate the importance of the different terms in the interaction models.
 
-One of the aim of nuclear physics is to explain the properties of all the observed  nuclei and also make prediction to the limits of possible bound systems (driplines). With properties we mean observables like binding energy (mass), spin, radius, deformation, electromagnetic moments as well as life-time, excitation energies, electromagnetic transitions, decays and particle emissions...
+One of the aims of nuclear physics is to explain the properties of all the observed nuclei. The properties of the nuclei are also called observables and include the binding energy (mass), spin, radius, deformation, electromagnetic moments as well as life-time, excitation energies, electromagnetic transitions, decays, particle emissions and so on. 
 
 %-(Look at the TALENT proposal) \\
 
@@ -214,18 +214,18 @@ One of the aim of nuclear physics is to explain the properties of all the observ
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{nuclear_chart.pdf}
-\caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional is pictured. The nuclei represented in black are stable ones.}
+\caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional  models are pictured. The nuclei represented in black are the stable ones.}
 \label{fig: nuclear_chart}
 \end{figure}
-The nuclear chart can be described by three different theoretical model, as shown in Figure \ref{fig: nuclear_chart}.
-Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, known as shell-model, in which the truncation of the model space is the key to study a large system but with a doable amount of information (computing resources). Heavy nuclei are usually described by Energy Density Functionals, that reduce the volume of information needed with the price that mainly ground state properties can be calculated.
+Another goal is to predict the limits of the possible bound systems (driplines). The nuclear chart can be described by three different theoretical models, as shown in Figure \ref{fig: nuclear_chart}.
+Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where an interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, also known as shell-models. Truncation of the model space is key to study large systems with shell-models due to limitations in computing resources. Heavy nuclei are usually described by Energy Density Functionals that reduce the volume of information needed. The the price for this information reduction is that mainly ground state properties can be calculated.
 
 % ANTICIPATION OF THE CONTENTS
-In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
+In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of the shell-model. We will obtain analytical results that we implement in a Python code to be used as benchmark for our own shell model code later.
 
 In Sec.\ref{sec: NushellX} we learn how to use state-of-the-art Configuration Interaction code NushellX and performed calculations of the Oxygen isotopic chain in the $sd$-model space.
 
-We extend our Python code in Sec.\ref{sec:ourcode}to describe, through full Configuration Interaction method, neutrons in $sd$-model space in order to be able to study a simple isotopic chain as $^{17}$O-$^{28}$O. This development allows us to obtain identical energy levels as the ones calculated with NuShellX, that benchmarks our code beyond the pairing model.
+We extend our Python code in Sec.\ref{sec:ourcode}to describe, through full Configuration Interaction method, neutrons in the $sd$-model space with the goal to study a simple isotopic chain, $^{17}$O-$^{28}$O. During the development of our shell model code beyond the pairing model we compare our energy levels to calculations with NuShellX.
 
 Further possible developments are discussed in Sec.\ref{sec:discussion} and finally our achievements are summarized in Sec.\ref{sec:summary}.
  
