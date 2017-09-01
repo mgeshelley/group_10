@@ -677,20 +677,19 @@ To quickly find the source of a bug during the development and debugging of the 
 \end{itemize}
 
 
-%[is there other ways we tested the code? or crosschecked it?] Gianluca: for me it is enough
+%[is there other ways we tested the code? or crosschecked it?] Gianluca: for me it is enough. Ina: when reading through now I think its perfect as it stands now ;)
 
 
 %------------------------------------------------
 
-% This could be a subsection of the 'Building' chapter
 \subsection{Results and benchmark with NuShellX}
 
 %\paragraph{} 
 Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
 The proper comparison is within $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code (\texttt{N\_particles}) corresponds to varying the number of neutrons on top of the $^{16}$O core. 
 
-We have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to different value of $M$ but same $J$. When we compare our results with NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$\cite{Brown 2006} depends only on $J$ and not on its z-projection.\\
-As an example, we consider respectively our code (Code \ref{eigenvalues}) and NushellX (Code \ref{nushellx})results for the energy levels of $^{20}$O, 4 valence neutrons. In Code \ref{eigenvalues}, we can see that the eigenvalue -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
+We have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to a different value of $M$ but same $J$. When we compare our results with the NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$\cite{Brown 2006} depends only on $J$ and not on its z-projection.\\
+As an example, we consider respectively our code (Code \ref{eigenvalues}) and NushellX (Code \ref{nushellx}) results for the energy levels of $^{20}$O, 4 valence neutrons. In Code \ref{eigenvalues}, we can see that the eigenvalue -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
 
 \begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
 Default inputs: 
@@ -749,8 +748,9 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 
 
 %------------------------------------------------
+%Ina: move the paragraph below to discussion? I'll see tomorrow :)
 
-The all Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
+All the Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
 This plot presents interesting features because it show that increasing the number of neutron (moving to the right along the x-axis) the system become more bound (i.e. the ground state energy decrease). This trend happens until valence neutron = 8 ($^{24}$O) and then the binding energy starts to increases sligthly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
  
 \begin{figure}[ht]
@@ -760,9 +760,9 @@ This plot presents interesting features because it show that increasing the numb
 \label{fig: isotopes}
 \end{figure}
 
-[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?] What kind of other results we want???
+%[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?] What kind of other results we want??? Ina: I meant to do exactly what you did (moved the listing above to this section and not have it where it was before).
 
-%[also show results from the pairing model / unit test ? ] Gianluca: maybe no, they are already discussed in their Sec.
+%[also show results from the pairing model / unit test ? ] Gianluca: maybe no, they are already discussed in their Sec. Ina: I agree
 
 %\begin{table}
 %\caption{Example table}
@@ -781,7 +781,7 @@ This plot presents interesting features because it show that increasing the numb
 
 
 %------------------------------------------------
-
+\newpage
 
 \section{Discussion / Challenges and possible improvements}
 \label{sec:discussion}
@@ -844,40 +844,39 @@ If other than the total angular momentum we will implement in second quantizatio
 
 
 
-
-\section*{Structure of report (crude first idea):}
-
-\begin{enumerate}
-\item Title
-\item Abstract
-\item Introduction
-\begin{itemize}
-\item Why useful
-\item Where useful (nuc. chart)
-\item (Look at the TALENT proposal)
-\item comparing different tools
-\end{itemize}
-\item The Pairing problem
-\begin{itemize}
-\item theory
-\item analytic / exact results
-\end{itemize}
-\item Building a shell-model code
-\begin{itemize}
-\item Describe the different parts/blocks of the code (basis, SD, states, int, hamiltonian...)
-\item Unit tests / benchmarks (analytic/exact results)
-\item Psedo code?
-\item Accuracy of our code
-\item Where our code fails, why and proposing solutions
-\end{itemize}
-\item NuShellX
-\begin{itemize}
-\item describe why useful / 'powerful tool' and what may be calculated
-\item compare with our own code
-\item Possible 'future calculations'
-\end{itemize}
-\item Conclusions / Summary
-\end{enumerate}
+%\section*{Structure of report (crude first idea):}
+%
+%\begin{enumerate}
+%\item Title
+%\item Abstract
+%\item Introduction
+%\begin{itemize}
+%\item Why useful
+%\item Where useful (nuc. chart)
+%\item (Look at the TALENT proposal)
+%\item comparing different tools
+%\end{itemize}
+%\item The Pairing problem
+%\begin{itemize}
+%\item theory
+%\item analytic / exact results
+%\end{itemize}
+%\item Building a shell-model code
+%\begin{itemize}
+%\item Describe the different parts/blocks of the code (basis, SD, states, int, hamiltonian...)
+%\item Unit tests / benchmarks (analytic/exact results)
+%\item Psedo code?
+%\item Accuracy of our code
+%\item Where our code fails, why and proposing solutions
+%\end{itemize}
+%\item NuShellX
+%\begin{itemize}
+%\item describe why useful / 'powerful tool' and what may be calculated
+%\item compare with our own code
+%\item Possible 'future calculations'
+%\end{itemize}
+%\item Conclusions / Summary
+%\end{enumerate}
 
 %------------------------------------------------
 %------------------------------------------------
