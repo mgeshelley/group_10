@@ -6,3 +6,5 @@
 .DS_Store
 *.pyc
 *.sd
+*.toc
+.DS_Store
