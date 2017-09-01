@@ -161,9 +161,9 @@
 
 \renewcommand{\maketitlehookd}{%
 \begin{abstract}
-In this report we outline the steps we made to create a simple shell-model code starting from scratch. At first we face the pairing problem, for which we calculate an analytical solution and build a numerical implementation coded in Python language.\\
-In parallel we practise with a state-of-art code NushellX, to understand the important features of Configuration Interaction method and the information we can gain from this to study nuclear structure properties.\\
-From the scheleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (it means from $^{17}$O to $^{28}$O). The energy levels obtained for the Oxygen isotopes are exactly equivalent to the results calculated with NushellX.
+In this report we outline the steps we made to create a simple shell-model code starting from scratch. At first we face the pairing problem, for which we calculate an analytical solution and build a numerical implementation coded in the programming language Python.\\
+In parallel we practice with a state-of-art code NushellX, to understand the important features of the Configuration Interaction method and the information we can gain from this to study nuclear structure properties.\\
+From the skeleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (from $^{17}$O to $^{28}$O). The energy levels obtained with our shell model code for the Oxygen isotopes are exactly equivalent to the results calculated with NushellX.
  
 
 %We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
@@ -199,14 +199,14 @@ From the scheleton of the pairing code, we construct a simple shell model code t
 
 % WHY and WHERE USEFUL
 The atomic nucleus is a complex system. 
-It has the dimension of few fm (10$^{-15}$m) so that the quantum mechanics regulates its structure. 
-We are interested in describe low-energy scale that determine the nuclear configuration, so, despite the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, then many-body treatment is required.\\ 
-This sub-atomic system is one of the most attractive laboratory to study physics because in it as well as three different natural forces play an active role: strong, electromagnetic and weak interaction. 
-The Coulomb force among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
-Beta decays are example of weak interactions.
-The strong force is the one that keep together nucleons in a bound state, but this interaction is not yet fully understood (there is not a complete equation for it), then comparing theoretical results of effective interactions with the available experimental data help us to investigate the importance of the different terms in the interaction models.
+It has the dimension of few fm (10$^{-15}$m) so the structure of the nucleus is regulated by quantum mechanics. 
+We are interested in describing the low-energy scale that determine the nuclear configuration. Even though  the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, requiring a many-body treatment.\\ 
+The sub-atomic system is one of the most attractive laboratories to study physics. Three different natural forces play an active role in the nucleus: the strong, electromagnetic and weak interaction. 
+The Coulomb force acting among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
+Beta decays are an example of weak interactions.
+The strong force keeps the nucleons together in a bound state, but this interaction is not yet fully understood. There exist no complete equation for the strong force. Comparing theoretical results of effective interactions with available experimental data help us investigate the importance of the different terms in the interaction models.
 
-One of the aim of nuclear physics is to explain the properties of all the observed  nuclei and also make prediction to the limits of possible bound systems (driplines). With properties we mean observables like binding energy (mass), spin, radius, deformation, electromagnetic moments as well as life-time, excitation energies, electromagnetic transitions, decays and particle emissions...
+One of the aims of nuclear physics is to explain the properties of all the observed nuclei. The properties of the nuclei are also called observables and include the binding energy (mass), spin, radius, deformation, electromagnetic moments as well as life-time, excitation energies, electromagnetic transitions, decays, particle emissions and so on. 
 
 %-(Look at the TALENT proposal) \\
 
@@ -214,23 +214,23 @@ One of the aim of nuclear physics is to explain the properties of all the observ
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{nuclear_chart.pdf}
-\caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional is pictured. The nuclei represented in black are stable ones.}
+\caption{In this nuclear chart the known nuclei are plot according to the neutron number $N$ (x-axis) and proton number $Z$ (y-axis). The domain of Ab-initio, Configuration Interaction and Energy Density Functional  models are pictured. The nuclei represented in black are the stable ones.}
 \label{fig: nuclear_chart}
 \end{figure}
-The nuclear chart can be described by three different theoretical model, as shown in Figure \ref{fig: nuclear_chart}.
-Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, known as shell-model, in which the truncation of the model space is the key to study a large system but with a doable amount of information (computing resources). Heavy nuclei are usually described by Energy Density Functionals, that reduce the volume of information needed with the price that mainly ground state properties can be calculated.
+Another goal is to predict the limits of the possible bound systems (driplines). The nuclear chart can be described by three different theoretical models, as shown in Figure \ref{fig: nuclear_chart}.
+Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where an interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, also known as shell-models. Truncation of the model space is key to study large systems with shell-models due to limitations in computing resources. Heavy nuclei are usually described by Energy Density Functionals that reduce the volume of information needed. The the price for this information reduction is that mainly ground state properties can be calculated.
 
 % ANTICIPATION OF THE CONTENTS
-In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of shell-model, earning analytical results that we implement in a Python code to be used as benchmark.
+In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of the shell-model. We will obtain analytical results that we implement in a Python code to be used as benchmark for our own shell model code later.
 
-In Sec.\ref{sec: NushellX} we learn how to use state-of-the-art Configuration Interaction code NushellX and performed calculations of the Oxygen isotopic chain in the $sd$-model space.
+In Sec.\ref{sec: NushellX} we learn how to use state-of-the-art Configuration Interaction code NushellX and perform calculations of the Oxygen isotopic chain in the $sd$-model space.
 
-We extend our Python code in Sec.\ref{sec:ourcode}to describe, through full Configuration Interaction method, neutrons in $sd$-model space in order to be able to study a simple isotopic chain as $^{17}$O-$^{28}$O. This development allows us to obtain identical energy levels as the ones calculated with NuShellX, that benchmarks our code beyond the pairing model.
+We extend our Python code in Sec.\ref{sec:ourcode} to describe, through full the Configuration Interaction method, neutrons in the $sd$-model space with the goal to study the simple isotopic chain $^{17}$O-$^{28}$O. We develop our shell model code beyond the pairing model and compare our energy levels to calculations done with NuShellX.
 
 Further possible developments are discussed in Sec.\ref{sec:discussion} and finally our achievements are summarized in Sec.\ref{sec:summary}.
  
 %------------------------------------------------
-
+\newpage
 
 \section{The pairing problem}
 \label{sec:pair} 
@@ -259,7 +259,7 @@ The two-body pairing operator $\hat{V}$ is:
 \end{equation}
 where it is explicitly shown that for a given matrix element $\langle pq \vert \hat{V} \vert rs \rangle$ the states $p$ and $q$ (or $r$ and $s$) must have opposite spin ($\sigma=\pm 1$). $g$ is the (constant) strenght of the pairing interaction.
 
-Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
+Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators it can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
 
 
 \paragraph{Constructing the Hamiltonian matrix.}
@@ -333,15 +333,15 @@ The Hamiltonian matrix becomes
 In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}. We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
 %------------------------------------------------
-
+\newpage
 
 \section{NuShellX}
 \label{sec: NushellX}
 
 NushellX is a code developed by W. D. M. Rae \cite{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain energies, eigenvectors and spectrosopic overlaps for low-lying states. Here we are interested in extract energies from NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
-NuShellX uses $J$-scheme and $jj$-coupling. It is written in $pn$-formalism; it uses a J-coupled proton-neutron. % Is this written in the code documentation??? Because we can decide to use pn-interaction or isospin dependent interaction
-The single-particle basis, the states for protons and neutrons are created separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
+%NuShellX uses $J$-scheme and $jj$-coupling. It is written in $pn$-formalism; it uses a J-coupled proton-neutron. % Is this written in the code documentation??? Because we can decide to use pn-interaction or isospin dependent interaction
+NushellX is written in $pn$-formalism, i.e. the model space considers neutron and protons states separately, and couples them in $J$-scheme. The single-particle basis, the states for protons and neutrons are created separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
 
 %The major disadvantage of NuShellX is that it is very easy to produce unrealistic or inappropriate results. 
 Calculations in an infinite space are not possible and therefore some truncation is required. Ideally one would like to do calculations in the largest possible model spaces and one can argue that the best and most complete results are found with the largest model spaces. The major issue is that the computational time increases exponentially with model space size, so the wish for large model spaces are limited by the computational power and time available. When doing a calculation it may be useful to first truncate severely and quickly get a first crude result. Then one can later relax the truncations until the desired accuracy is reached. 
@@ -369,10 +369,9 @@ Another challenge when running shell model calculations is that the chosen inter
 
 The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\cite{help_file}.
 
-Among the extended functionalities (called by the option \texttt{den}) that make NushellX a powerfull program to study atomic nuclei, there are the possibilities to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style.
+The extended functionality (called by the option \texttt{den}) make NushellX a powerful program to study atomic nuclei. This option makes it possible to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style. In this report we will only show the NuShellX calculations that will be used to benchmark our own shell model code. 
 
-We describe in this report only the NuShellX calculations we used to benchmark our code. 
-We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $^{17}$O to $^{28}$O included, using the $usdb$ effective interaction optimized for the 1s0d shells. In this code suite it is also possible to compare the theoretical results with the experimental available values and the agreement is good, as in Figure \ref{expnushellx}.
+\paragraph{NuShellX results.} We calculated the excitation energies of the isotopes $^{17}$O to $^{28}$O using the $usdb$ effective interaction optimized for the 1s0d shells. In Figure \ref{expnushellx} the results for $^{18}$O and $^{20}$O is shown. The plot is generated by the NuShellX@MSU code, we see the theoretical results (left) and the the experimental available values (right) for each isotope. We observe that the agreement between theory and experiment is good, especially for the lowest excited states. 
 
 \begin{figure}[h]
 \begin{center}$
@@ -380,13 +379,13 @@ We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $
 \includegraphics[scale=.4]{o_18b.eps} &\includegraphics[scale=.4]{o_20b.eps} 
 \end{array}$
 \end{center}
-\caption{ Example of calculation done with NushellX for $^{18}$O and $^{20}$O and the relative experimental values. The agreement is good especially for the lowest excited states.}
+\caption{ Example of calculation of the energy levels done with NushellX for $^{18}$O and $^{20}$O and their relative experimental values. The agreement is good especially for the lowest excited states.}
 \label{expnushellx}
 \end{figure}
 
 
 %------------------------------------------------
-
+\newpage
 
 \section{Building our shell-model code}
 \label{sec:ourcode}
@@ -678,20 +677,19 @@ To quickly find the source of a bug during the development and debugging of the 
 \end{itemize}
 
 
-%[is there other ways we tested the code? or crosschecked it?] Gianluca: for me it is enough
+%[is there other ways we tested the code? or crosschecked it?] Gianluca: for me it is enough. Ina: when reading through now I think its perfect as it stands now ;)
 
 
 %------------------------------------------------
 
-% This could be a subsection of the 'Building' chapter
 \subsection{Results and benchmark with NuShellX}
 
 %\paragraph{} 
 Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
 The proper comparison is within $usdb$ interaction for the Oxygen isotopes, where varying the number of valence neutrons in our code (\texttt{N\_particles}) corresponds to varying the number of neutrons on top of the $^{16}$O core. 
 
-We have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to different value of $M$ but same $J$. When we compare our results with NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$\cite{Brown 2006} depends only on $J$ and not on its z-projection.\\
-As an example, we consider respectively our code (Code \ref{eigenvalues}) and NushellX (Code \ref{nushellx})results for the energy levels of $^{20}$O, 4 valence neutrons. In Code \ref{eigenvalues}, we can see that the eigenvalue -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
+We have built our basis of Slater determinats without restrictions on $M$, the z-component of the total angular momentum $J$. This choice is reflected in the eigenvalues of the Hamiltonian matrix. There are degenerate eigenvalues that correspond to a different value of $M$ but same $J$. When we compare our results with the NushellX code, that works in $J$-scheme and gives also the expectation value of $J$ for each eigenstates, we can observe that the number of our degenerate levels corresponds to $2J+1$. This is due to the fact that the interaction $usdb$\cite{Brown 2006} depends only on $J$ and not on its z-projection.\\
+As an example, we consider respectively our code (Code \ref{eigenvalues}) and NushellX (Code \ref{nushellx}) results for the energy levels of $^{20}$O, 4 valence neutrons. In Code \ref{eigenvalues}, we can see that the eigenvalue -23.632 is repeated only one time it means that $J=0$ as we can crosscheck in Code \ref{nushellx}. For the 5 times degenerate level -21.866 we have in fact $J=2$ ...
 
 \begin{lstlisting}[label=eigenvalues,caption= example of the output from \texttt{main.py} when it is run with default inputs. To be noticed the degenerate eigenvalues.]
 Default inputs: 
@@ -750,8 +748,9 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 
 
 %------------------------------------------------
+%Ina: move the paragraph below to discussion? I'll see tomorrow :)
 
-The all Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
+All the Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
 This plot presents interesting features because it show that increasing the number of neutron (moving to the right along the x-axis) the system become more bound (i.e. the ground state energy decrease). This trend happens until valence neutron = 8 ($^{24}$O) and then the binding energy starts to increases sligthly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
  
 \begin{figure}[ht]
@@ -761,9 +760,9 @@ This plot presents interesting features because it show that increasing the numb
 \label{fig: isotopes}
 \end{figure}
 
-[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?] What kind of other results we want???
+%[our shell-model results must go here. output in a listing or table? similar to what is in the 'Further considerations' chapter - move listing up here?] What kind of other results we want??? Ina: I meant to do exactly what you did (moved the listing above to this section and not have it where it was before).
 
-%[also show results from the pairing model / unit test ? ] Gianluca: maybe no, they are already discussed in their Sec.
+%[also show results from the pairing model / unit test ? ] Gianluca: maybe no, they are already discussed in their Sec. Ina: I agree
 
 %\begin{table}
 %\caption{Example table}
@@ -782,7 +781,7 @@ This plot presents interesting features because it show that increasing the numb
 
 
 %------------------------------------------------
-
+\newpage
 
 \section{Discussion / Challenges and possible improvements}
 \label{sec:discussion}
@@ -845,40 +844,39 @@ If other than the total angular momentum we will implement in second quantizatio
 
 
 
-
-\section*{Structure of report (crude first idea):}
-
-\begin{enumerate}
-\item Title
-\item Abstract
-\item Introduction
-\begin{itemize}
-\item Why useful
-\item Where useful (nuc. chart)
-\item (Look at the TALENT proposal)
-\item comparing different tools
-\end{itemize}
-\item The Pairing problem
-\begin{itemize}
-\item theory
-\item analytic / exact results
-\end{itemize}
-\item Building a shell-model code
-\begin{itemize}
-\item Describe the different parts/blocks of the code (basis, SD, states, int, hamiltonian...)
-\item Unit tests / benchmarks (analytic/exact results)
-\item Psedo code?
-\item Accuracy of our code
-\item Where our code fails, why and proposing solutions
-\end{itemize}
-\item NuShellX
-\begin{itemize}
-\item describe why useful / 'powerful tool' and what may be calculated
-\item compare with our own code
-\item Possible 'future calculations'
-\end{itemize}
-\item Conclusions / Summary
-\end{enumerate}
+%\section*{Structure of report (crude first idea):}
+%
+%\begin{enumerate}
+%\item Title
+%\item Abstract
+%\item Introduction
+%\begin{itemize}
+%\item Why useful
+%\item Where useful (nuc. chart)
+%\item (Look at the TALENT proposal)
+%\item comparing different tools
+%\end{itemize}
+%\item The Pairing problem
+%\begin{itemize}
+%\item theory
+%\item analytic / exact results
+%\end{itemize}
+%\item Building a shell-model code
+%\begin{itemize}
+%\item Describe the different parts/blocks of the code (basis, SD, states, int, hamiltonian...)
+%\item Unit tests / benchmarks (analytic/exact results)
+%\item Psedo code?
+%\item Accuracy of our code
+%\item Where our code fails, why and proposing solutions
+%\end{itemize}
+%\item NuShellX
+%\begin{itemize}
+%\item describe why useful / 'powerful tool' and what may be calculated
+%\item compare with our own code
+%\item Possible 'future calculations'
+%\end{itemize}
+%\item Conclusions / Summary
+%\end{enumerate}
 
 %------------------------------------------------
 %------------------------------------------------
