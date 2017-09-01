@@ -259,7 +259,7 @@ The two-body pairing operator $\hat{V}$ is:
 \end{equation}
 where it is explicitly shown that for a given matrix element $\langle pq \vert \hat{V} \vert rs \rangle$ the states $p$ and $q$ (or $r$ and $s$) must have opposite spin ($\sigma=\pm 1$). $g$ is the (constant) strenght of the pairing interaction.
 
-Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
+Using the formalism of second-quantization, the rules of anticommutation for fermions and the products of commutating and anticommutating operators it can be shown that $\hat{H}_0$ and $\hat{V}$ commute with the spin projection $\hat{J}_z$ and the total spin $\hat{J}^2$. This means that $H$ can be diagonalized in separated blocks. And due to the 'no-broken pair' assumption, only $J = 0$ are allowed.
 
 
 \paragraph{Constructing the Hamiltonian matrix.}
@@ -340,8 +340,8 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 
 NushellX is a code developed by W. D. M. Rae \cite{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain energies, eigenvectors and spectrosopic overlaps for low-lying states. Here we are interested in extract energies from NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
-NuShellX uses $J$-scheme and $jj$-coupling. It is written in $pn$-formalism; it uses a J-coupled proton-neutron. % Is this written in the code documentation??? Because we can decide to use pn-interaction or isospin dependent interaction
-The single-particle basis, the states for protons and neutrons are created separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
+%NuShellX uses $J$-scheme and $jj$-coupling. It is written in $pn$-formalism; it uses a J-coupled proton-neutron. % Is this written in the code documentation??? Because we can decide to use pn-interaction or isospin dependent interaction
+NushellX is written in $pn$-formalism, i.e. the model space considers neutron and protons states separately, and couples them in $J$-scheme. The single-particle basis, the states for protons and neutrons are created separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
 
 %The major disadvantage of NuShellX is that it is very easy to produce unrealistic or inappropriate results. 
 Calculations in an infinite space are not possible and therefore some truncation is required. Ideally one would like to do calculations in the largest possible model spaces and one can argue that the best and most complete results are found with the largest model spaces. The major issue is that the computational time increases exponentially with model space size, so the wish for large model spaces are limited by the computational power and time available. When doing a calculation it may be useful to first truncate severely and quickly get a first crude result. Then one can later relax the truncations until the desired accuracy is reached. 
@@ -369,10 +369,9 @@ Another challenge when running shell model calculations is that the chosen inter
 
 The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\cite{help_file}.
 
-Among the extended functionalities (called by the option \texttt{den}) that make NushellX a powerfull program to study atomic nuclei, there are the possibilities to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style.
+The extended functionality (called by the option \texttt{den}) make NushellX a powerful program to study atomic nuclei. This option makes it possible to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style. In this report we will only show the NuShellX calculations that will be used to benchmark our own shell model code. 
 
-We describe in this report only the NuShellX calculations we used to benchmark our code. 
-We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $^{17}$O to $^{28}$O included, using the $usdb$ effective interaction optimized for the 1s0d shells. In this code suite it is also possible to compare the theoretical results with the experimental available values and the agreement is good, as in Figure \ref{expnushellx}.
+\paragraph{NuShellX results.} We calculated the excitation energies of the isotopes $^{17}$O to $^{28}$O using the $usdb$ effective interaction optimized for the 1s0d shells. In Figure \ref{expnushellx} the results for $^{18}$O and $^{20}$O is shown. The plot is generated by the NuShellX@MSU code, we see the theoretical results (left) and the the experimental available values (right) for each isotope. We observe that the agreement between theory and experiment is good, especially for the lowest excited states. 
 
 \begin{figure}[h]
 \begin{center}$
@@ -380,7 +379,7 @@ We run NuShellX to calculated the excitation energies of Oxygen isotopes, from $
 \includegraphics[scale=.4]{o_18b.eps} &\includegraphics[scale=.4]{o_20b.eps} 
 \end{array}$
 \end{center}
-\caption{ Example of calculation done with NushellX for $^{18}$O and $^{20}$O and the relative experimental values. The agreement is good especially for the lowest excited states.}
+\caption{ Example of calculation of the energy levels done with NushellX for $^{18}$O and $^{20}$O and their relative experimental values. The agreement is good especially for the lowest excited states.}
 \label{expnushellx}
 \end{figure}
 
