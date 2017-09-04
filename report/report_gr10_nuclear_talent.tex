@@ -115,6 +115,8 @@
 \usepackage{cancel}
 \usepackage{tcolorbox} %to have boxes w color around text and math mode
 
+\usepackage{footmisc}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -129,11 +131,10 @@
 
 %another title: Using the Pairing Model and NuShellX to build a Shell-Model Code
 
-\author[1]{ \textsc{Gianluca Salvioni}}
-\author[2]{ \textsc{Ina K. B. Kullmann}}
+\author[1]{ \textsc{Gianluca Salvioni} \footnote{Need credits for this report.}}
+\author[2]{ \textsc{Ina K. B. Kullmann} *}
 \author[3]{ \textsc{Matthew Shelley}}
 \author[4]{ \textsc{Gilho Ahn}}
-
 
 \affil[1]{Department of Physics, University of Jyv\"{a}skyl\"{a},  {\textit {\href{mailto:gianlucasalvioni@gmail.com}{gianlucasalvioni@gmail.com} }}}
 
@@ -164,8 +165,6 @@
 In this report we outline the steps we made to create a simple shell-model code starting from scratch. At first we face the pairing problem, for which we calculate an analytical solution and build a numerical implementation coded in the programming language Python.\\
 In parallel we practice with a state-of-art code NushellX, to understand the important features of the Configuration Interaction method and the information we can gain from this to study nuclear structure properties.\\
 From the skeleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (from $^{17}$O to $^{28}$O). The energy levels obtained with our shell model code for the Oxygen isotopes are exactly equivalent to the results calculated with NushellX.
- 
-
 %We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
 
 %developing our own shell-model code that can perform shell-model studies of the oxygen isotopes using standard effective interactions (provided by us) using as example the 1s0d shell as model space.
@@ -173,7 +172,6 @@ From the skeleton of the pairing code, we construct a simple shell model code th
 %We have also used the NushellX code in order to perform more advanced shell-model studies and compare the results obtained with your own shell-model code to those of NushellX
 
 %and found that.....results... (abstract should not be longer than this ish)
-
 \end{abstract}
 }
 
