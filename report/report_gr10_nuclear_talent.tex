@@ -618,6 +618,7 @@ The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{
 
 
 \subsection{Unit tests and debugging}
+\label{subsec:unit}
 
 We have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). The code built a test Hamiltonian using our routine and if this is the same as the analytic one derived in Sec.\ref{sec:pair}, matrix element per matrix element, the code moves to built the actual Hamiltonian asked from the inputs and to diagonalize it. %This is what exactly does the unit test because the Hamiltonian built by the unit test is not the one we want to calculate to obtain eigenvalues and eigenvectors.
 If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See Code \ref{code: unit_test}.
@@ -681,6 +682,7 @@ To quickly find the source of a bug during the development and debugging of the 
 %------------------------------------------------
 
 \subsection{Results and benchmarks with NuShellX}
+\label{subsec: results}
 
 %\paragraph{} 
 Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
@@ -791,6 +793,7 @@ The natural next step in the development of our code would be the introduction o
 An useful extension of our code would also be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
 
 [Gianluca will rewrite this paragraph before submitting] instead of implementing in second quantization only the J operator we implement also the transition operators, the ones that can be written as a one-body operator, we would be able also to describe expecation value of transition between different states (example between an excited state and the ground state)... as in NushellX there is a program that calculates these 1 body operators and then the transition probabilities.
+%If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
 
  %something about the accuracy of our code 
 Compared to NuShellX our code has a numerical precision of KeV energies. The main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states. We are interested in energy levels and therefore consider the precision of our code at 1 KeV to be good. 
@@ -799,13 +802,35 @@ A clear issue of our basic code is the execution time. With our code it takes ab
 The most efficient way to improve the execution time of our code is therefore to adopt an optimized diagonalization routine (such as Lanczos algorithm) to replace the standard diagonalization done with numpy. The code would also speed up significantly if the technique of bit representation where implemented. 
 
 
+%------------------------------------------------
+\newpage
 
-%If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
-
-\section{Conclusions / Summary}
+\section{Conclusion}
 \label{sec:summary}
 
-[here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
+%[here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
+
+In this report we have seen how useful it is to have good routines for bench marking results during the development of a shell model code. We have extensively compared analytic results to our code before implementing new features. In Subsection (\ref{subsec:unit}) we have seen that a lot of time can be saved if unit tests and good debugging routines are implemented early. 
+
+The pairing model (Section \ref{sec:pair}) proved itself as a very useful stepping stone to a more advanced code. NuShellX (Section \ref{sec: NushellX}) provided us with more advanced results to benchmark our code at a later stage. In Subsection (\ref{subsec: results}) we see that the results of our code reproduce calculations done with NuShellX well and with good precision.
+
+There are some major issues with our code, mainly the time spent running the code. NuShellX is a very flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop.  In Section \ref{sec:discussion} provide a few suggestions to make our code more flexible, but we can conclude that the major issue of our code is the execution time. This problem may be solved by implementing a bit representation and a better diagonalization routine for finding the eigenvalues of the Hamiltonian matrix. 
+
+[Ina: did I forget something here in the conclusion?]
+
+
+
+%useful to have good routines for benchmarking and debugging
+%-->pairing model proved itself very useful
+
+%NuShellX flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop
+
+%code reproduce results well
+
+%but there are some major possible improvements, mainly related to time spent running the code
+
+
+
 
 
 %----------------------------------------------------------------------------------------
