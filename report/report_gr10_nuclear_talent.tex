@@ -786,22 +786,19 @@ This plot presents interesting features because it show that when increasing the
 
 %[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ] Gianluca: already done before, here it is time for new things that can be interesting to implement or some remarks not made before. Ina: I agree, it fits well with the rest
 
+The natural next step in the development of our code will be the introduction of valence protons in our model space. It will require some corrections to the body of the code, but we could increase our calculations until $^{40}$Ca (within the $sd$ model space). This would make the code more flexible and also a more powerful tool for theoretical calculations. 
+
+An useful extension of our code would also be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
 
  %something about the accuracy of our code 
-The numerical precision of the results can be crosschecked ut to KeV energies with NushellX. Since we are interested in energy levels, we consider that 1 KeV is enough because the main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states.
+Compared to NuShellX our code has a numerical precision of KeV energies. The main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states. We are interested in energy levels and therefore consider the precision of our code at 1 KeV to be good. 
 
-Instead a clear issue in this basic code is the time. Our code takes around 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test, and the most of the time is spent in bulding the Hamiltonian matrix and diagonalize it. 
-The calculating speed can be improved adopting an optimized diagonalization routine to replace the standard diagonalization done with numpy. Anyway to speed-up in a significative way we would need to introduce technique as the bit representation.
+A clear issue of our basic code is the execution time. With our code it takes about 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test. Most of the time is spent in building the Hamiltonian matrix and diagonalizing it. 
+The most efficient way to improve the execution time of our code is therefore to adopt an optimized diagonalization routine (such as Lanczos algorithm) to replace the standard diagonalization done with numpy. The code would also speed up significantly if the technique of bit representation where implemented. 
 
-We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah %Gianluca: I don't have anything to say here
 
-%\subsection{Challenges and proposed solutions / Future work(?)}
 
-The natural next step in the development of our code will be the introduction of valence protons in our model space. It will require some corrections to the body of the code, but we could increase our calculations until $^{40}$Ca (within the $sd$ model space).
-
-An useful extension of our code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
-
-If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
+%If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
 
 \section{Conclusions / Summary}
 \label{sec:summary}
