@@ -115,6 +115,8 @@
 \usepackage{cancel}
 \usepackage{tcolorbox} %to have boxes w color around text and math mode
 
+\usepackage{footmisc}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -129,11 +131,10 @@
 
 %another title: Using the Pairing Model and NuShellX to build a Shell-Model Code
 
-\author[1]{ \textsc{Gianluca Salvioni}}
-\author[2]{ \textsc{Ina K. B. Kullmann}}
+\author[1]{ \textsc{Gianluca Salvioni} \footnote{Need credits for this report.}}
+\author[2]{ \textsc{Ina K. B. Kullmann} *}
 \author[3]{ \textsc{Matthew Shelley}}
 \author[4]{ \textsc{Gilho Ahn}}
-
 
 \affil[1]{Department of Physics, University of Jyv\"{a}skyl\"{a},  {\textit {\href{mailto:gianlucasalvioni@gmail.com}{gianlucasalvioni@gmail.com} }}}
 
@@ -164,8 +165,6 @@
 In this report we outline the steps we made to create a simple shell-model code starting from scratch. At first we face the pairing problem, for which we calculate an analytical solution and build a numerical implementation coded in the programming language Python.\\
 In parallel we practice with a state-of-art code NushellX, to understand the important features of the Configuration Interaction method and the information we can gain from this to study nuclear structure properties.\\
 From the skeleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (from $^{17}$O to $^{28}$O). The energy levels obtained with our shell model code for the Oxygen isotopes are exactly equivalent to the results calculated with NushellX.
- 
-
 %We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
 
 %developing our own shell-model code that can perform shell-model studies of the oxygen isotopes using standard effective interactions (provided by us) using as example the 1s0d shell as model space.
@@ -173,7 +172,6 @@ From the skeleton of the pairing code, we construct a simple shell model code th
 %We have also used the NushellX code in order to perform more advanced shell-model studies and compare the results obtained with your own shell-model code to those of NushellX
 
 %and found that.....results... (abstract should not be longer than this ish)
-
 \end{abstract}
 }
 
@@ -620,6 +618,7 @@ The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{
 
 
 \subsection{Unit tests and debugging}
+\label{subsec:unit}
 
 We have implemented an unit test for the Hamiltonian of the pairing model (point \ref{list: unit_test}). The code built a test Hamiltonian using our routine and if this is the same as the analytic one derived in Sec.\ref{sec:pair}, matrix element per matrix element, the code moves to built the actual Hamiltonian asked from the inputs and to diagonalize it. %This is what exactly does the unit test because the Hamiltonian built by the unit test is not the one we want to calculate to obtain eigenvalues and eigenvectors.
 If the numerical and analytic Hamiltonian do not match, the code will be exited with an error message. See Code \ref{code: unit_test}.
@@ -682,7 +681,8 @@ To quickly find the source of a bug during the development and debugging of the 
 
 %------------------------------------------------
 
-\subsection{Results and benchmark with NuShellX}
+\subsection{Results and benchmarks with NuShellX}
+\label{subsec: results}
 
 %\paragraph{} 
 Now that our basic Configuration Interaction code for the $sd$ model space is completed we can benchmark it with the results obtained from NushellX (see Sec.\ref{sec: NushellX}).
@@ -751,7 +751,7 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 %Ina: move the paragraph below to discussion? I'll see tomorrow :)
 
 All the Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
-This plot presents interesting features because it show that increasing the number of neutron (moving to the right along the x-axis) the system become more bound (i.e. the ground state energy decrease). This trend happens until valence neutron = 8 ($^{24}$O) and then the binding energy starts to increases sligthly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
+This plot presents interesting features because it show that when increasing the number of neutrons (moving to the right along the x-axis) the system become more bound, i.e. the ground state energy decrease. This trend happens until valence neutron = 8 ($^{24}$O), then the binding energy starts to increases slightly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
  
 \begin{figure}[ht]
 \centering
@@ -783,32 +783,54 @@ This plot presents interesting features because it show that increasing the numb
 %------------------------------------------------
 \newpage
 
-\section{Discussion / Challenges and possible improvements}
+\section{Challenges and possible improvements}
 \label{sec:discussion}
 
-%[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ] Gianluca: already done before, here it is time for new things that can be interesting to implement or some remarks not made before
+%[here we compare our code with NuShellX and comment other stuff (pairing model maybe).... ] Gianluca: already done before, here it is time for new things that can be interesting to implement or some remarks not made before. Ina: I agree, it fits well with the rest
 
+The natural next step in the development of our code would be the introduction of valence protons in our model space. It would require some corrections to the body of the code, but we could increase our calculations until $^{40}$Ca (within the $sd$ model space). This would make the code more flexible and also a more powerful tool for theoretical calculations. 
+
+An useful extension of our code would also be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
+
+[Gianluca will rewrite this paragraph before submitting] instead of implementing in second quantization only the J operator we implement also the transition operators, the ones that can be written as a one-body operator, we would be able also to describe expecation value of transition between different states (example between an excited state and the ground state)... as in NushellX there is a program that calculates these 1 body operators and then the transition probabilities.
+%If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
 
  %something about the accuracy of our code 
-The numerical precision of the results can be crosschecked ut to KeV energies with NushellX. Since we are interested in energy levels, we consider that 1 KeV is enough because the main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states.
+Compared to NuShellX our code has a numerical precision of KeV energies. The main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states. We are interested in energy levels and therefore consider the precision of our code at 1 KeV to be good. 
 
-Instead a clear issue in this basic code is the time. Our code takes around 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test, and the most of the time is spent in bulding the Hamiltonian matrix and diagonalize it. 
-The calculating speed can be improved adopting an optimized diagonalization routine to replace the standard diagonalization done with numpy. Anyway to speed-up in a significative way we would need to introduce technique as the bit representation.
+A clear issue of our basic code is the execution time. With our code it takes about 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test. Most of the time is spent in building the Hamiltonian matrix and diagonalizing it. 
+The most efficient way to improve the execution time of our code is therefore to adopt an optimized diagonalization routine (such as Lanczos algorithm) to replace the standard diagonalization done with numpy. The code would also speed up significantly if the technique of bit representation where implemented. 
 
-We spent a lot of time in debugging our sd-shell code. Future should use the tips given about debugging - could be implemented as unit tests? blah blah blah %Gianluca: I don't have anything to say here
 
-%\subsection{Challenges and proposed solutions / Future work(?)}
+%------------------------------------------------
+\newpage
 
-The natural next step in the development of our code will be the introduction of valence protons in our model space. It will require some corrections to the body of the code, but we could increase our calculations until $^{40}$Ca (within the $sd$ model space).
-
-An useful extension of our code will be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
-
-If other than the total angular momentum we will implement in second quantization generic one-body operators we could calculate one-body transitions.
-
-\section{Conclusions / Summary}
+\section{Conclusion}
 \label{sec:summary}
 
-[here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
+%[here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
+
+In this report we have seen how useful it is to have good routines for bench marking results during the development of a shell model code. We have extensively compared analytic results to our code before implementing new features. In Subsection (\ref{subsec:unit}) we have seen that a lot of time can be saved if unit tests and good debugging routines are implemented early. 
+
+The pairing model (Section \ref{sec:pair}) proved itself as a very useful stepping stone to a more advanced code. NuShellX (Section \ref{sec: NushellX}) provided us with more advanced results to benchmark our code at a later stage. In Subsection (\ref{subsec: results}) we see that the results of our code reproduce calculations done with NuShellX well and with good precision.
+
+There are some major issues with our code, mainly the time spent running the code. NuShellX is a very flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop.  In Section \ref{sec:discussion} provide a few suggestions to make our code more flexible, but we can conclude that the major issue of our code is the execution time. This problem may be solved by implementing a bit representation and a better diagonalization routine for finding the eigenvalues of the Hamiltonian matrix. 
+
+[Ina: did I forget something here in the conclusion?]
+
+
+
+%useful to have good routines for benchmarking and debugging
+%-->pairing model proved itself very useful
+
+%NuShellX flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop
+
+%code reproduce results well
+
+%but there are some major possible improvements, mainly related to time spent running the code
+
+
+
 
 
 %----------------------------------------------------------------------------------------
