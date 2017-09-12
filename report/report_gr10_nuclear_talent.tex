@@ -400,7 +400,7 @@ The extended functionality (called by the option \texttt{den}) make NushellX a p
 \section{Building our shell-model code}
 \label{sec:ourcode}
 
-Our goal is to describe the specific case of the $O$ isotopes within the $sd$ model space. In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in Sec.\ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
+Our goal is to describe the specific case of the Oxygen isotopes. This is the simplest case possible in which only valence neutrons in the $sd$-model space are active on top of inert $^{16}$O core. In this section we will not describe the code of the pairing model in detail, we simply state that we are building on a working code that reproduce the results given in Sec.\ref{sec:pair}. From this we will extend our code to perform shell-model calculations. Our results will be directly compared and benchmarked to the same calculations performed with NushellX.
 
 \subsection{The structure of the code}
 
@@ -416,7 +416,7 @@ We construct our shell-model code step by step, keeping in mind that we are inte
 \end{itemize}
 \smallskip
 
-The \texttt{main.py} program runs the code and calls the functions in the other files. The structure of the \texttt{main.py} program is listed\footnote{We refer to this 'structure list' and its numbering later in the text (point ...).} below:
+The \texttt{main.py} program runs the code and calls the functions from the other files. The structure of the \texttt{main.py} program is listed\footnote{We refer to this 'structure list' and its numbering later in the text (point ...).} below:
 
 \begin{tcolorbox}
 \begin{enumerate}
@@ -428,7 +428,7 @@ The \texttt{main.py} program runs the code and calls the functions in the other 
 \item \texttt{g} - strenght of the pairing (needed only in 'pairing' case)
 \end{itemize}
 \item Read the single-particle basis \label{list: sp}
-\item Create all the possible the Slater Determinants \label{list: SD}
+\item Create all the possible Slater Determinants \label{list: SD}
 \item Read and store the two-body matrix elements (tbme). In the case 'pairing', create all the non-zero pairing matrix elements according to the given strenght $g$. \label{list: tbme}
 \item Build the total Hamiltonian matrix from the one- and two-body terms \label{list: build_ham}
 \item Check (unit test) if the Hamiltonian for the pairing problem is correct. If not exit the program with an error message \label{list: unit_test}
@@ -469,10 +469,10 @@ def create_SD_perm(N_particles, nr_sp_states, sp_matrix, SD_filename, restrictio
     for i in range(1, nr_sp_states+1):
         sp_list.append(i)
     sp_tuple = tuple(sp_list)
-    #print sp_tuple
+
     index = 0
     SD_list = []
-    act_list = []
+
     for x in itertools.combinations(sp_tuple, N_particles):
         m_tot = 0
         for k in range (N_particles):
@@ -520,7 +520,7 @@ and the two-body interaction
 \begin{equation}
 \hat V = \frac{1}{4} \sum_{p,q,r,s} \langle p q\vert \hat v \vert rs \rangle_{AS} \;\hat a_{p}^\dagger \hat a_{q}^\dagger \hat a_{s} \hat a_{r},
 \end{equation}
-where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme})) adapted from Ref.\cite{file_link} for the interaction $usdb$ optimized in the $sd$-model space.
+where $\langle p q\vert \hat v \vert rs \rangle_{AS}$ are the two-body antisymmetrized matrix elements for the $\hat v$ interaction. We read them from the file \texttt{sd\_mscheme.int} (point \ref{list: tbme}) adapted from Ref.\cite{file_link} for the interaction $usdb$ optimized in the $sd$-model space.
 
 The symmetries of the two-body matrix elements for exchanging of two states are explicitly implemented. When the program read the matrix elements from the \texttt{.int} file, it stores it and all the matrix elements related to this for exchange of two states with the correct phase:
 \begin{equation}
@@ -560,7 +560,7 @@ Using Wick's contractions we can calculate the expectation values of the Hamilto
 \begin{equation}\label{h0a}
 \bra{\Phi_0} \hat H \ket{\Phi_i^a} =  \cancel{\langle i \vert \hat h_0 \vert a \rangle} +  \sum_{j \leq F} \langle i j\vert \hat v \vert aj \rangle_{AS} \; 
 \end{equation}
-where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particles states are orthogonal,
+where ${\langle i \vert \hat h_0 \vert a \rangle}=0$ because the single-particle states are orthogonal,
 \begin{equation}\label{h0ab}
 \bra{\Phi_0} \hat H \ket{\Phi_{ij}^{ab}} =  \langle i j\vert \hat v \vert ab \rangle_{AS}
 \end{equation}
@@ -594,17 +594,17 @@ def beta_alpha_compare(beta_list, alpha_list):
     diff_list = []
     beta_list_red = list(beta_list)
     alpha_list_red = list(alpha_list)
-    #if len(beta_list) == len(alpha_list):
+
     for i in range(0, len(beta_list)):
         j=0
         j_found = False
         while j < len(alpha_list) and j_found == False:
-            #print beta_list[i],i, alpha_list[j],j, diff_list
+
             if beta_list[i] == alpha_list[j]:
                 j_found = True
                 alpha_list_red.remove(alpha_list[j])
                 beta_list_red.remove(beta_list[i])
-                #phase = phase+j+len(beta_list)-i-1
+
             else:
                 j = j+1
     diff_list.extend(beta_list_red)
@@ -618,15 +618,13 @@ def beta_alpha_compare(beta_list, alpha_list):
         phase = phase + (list(alpha_list).index(diff_list[i]))
         
     phase = (-1)**phase
-
-    #print diff_list, phase
     
     return diff_list, phase
 
 \end{lstlisting}
 
 %\paragraph{Diagonalization.} 
-The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{list: diag_eigval_vec} in the 'structure list'). The eigenvalues obtained represent the energy of the $N$-particles state and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave function. %In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme. - and maybe move the last sentence to the discussion of our own results?]
+The Hamiltonian matrix is finally diagonalized using \texttt{numpy} (point \ref{list: diag_eigval_vec} in the 'structure list'). The eigenvalues obtained represent the energy of the $N$-particles states and the eigenvectors are the coefficient of the Slater determinants that form the many-body wave functions. %In our case we obtain degenerate energy levels because our Hamiltonian is not dependent from the total azimutal angular momentum $M$ then all the $M$-multiplets with same $J$ have the same energy [write it better with the comparison with NushellX that is in $J$-scheme. - and maybe move the last sentence to the discussion of our own results?]
 
 
 \subsection{Unit tests and debugging}
@@ -763,7 +761,7 @@ usdb           1.00000      0.96889  2.1117 -3.9257 -3.2079 16.0000 18.0000  0.3
 %Ina: move the paragraph below to discussion? I'll see tomorrow :)
 
 All the Oxygen isotopic chain calculations (from $^{17}$O to $^{28}$O) are summarized in Figure \ref{fig: isotopes}, where we can see that the lowest states obtained with our code and with NushellX are identical. \\
-This plot presents interesting features because it show that when increasing the number of neutrons (moving to the right along the x-axis) the system become more bound, i.e. the ground state energy decrease. This trend happens until valence neutron = 8 ($^{24}$O), then the binding energy starts to increases slightly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy $S_n$, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$ becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
+This plot presents interesting features because it show that when increasing the number of neutrons (moving to the right along the x-axis) the system become more bound, i.e. the ground state energy decrease. This trend happens until valence neutron = 8 ($^{24}$O), then the binding energy starts to increases slightly. The physical phenomena that we can understand here is that around $^{24}$O the neutron separation energy, defined as $S_n (N,Z)= BE(N+1,Z)-BE(N,Z)$, becomes negative and the system is not anymore bound. It means that the Oxygen isotopes are approaching the neutron dripline.
  
 \begin{figure}[ht]
 \centering
@@ -802,7 +800,7 @@ This plot presents interesting features because it show that when increasing the
 
 The natural next step in the development of our code would be the introduction of valence protons in our model space. It would require some corrections to the body of the code, but we could increase our calculations until $^{40}$Ca (within the $sd$ model space). This would make the code more flexible and also a more powerful tool for theoretical calculations. 
 
-An useful extension of our code would also be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
+Another useful extension of our code would also be to calculate the expectation value $\bra{\Psi_i} \hat J^2 \ket{\Psi_i}$ for each eigenstate $\ket{\Psi_i}$ of the Hamiltonian matrix, expressing the operator $\hat J^2$ in second quantization and applying Wick's theorem. In this way we could label each of the calculated energy levels with the relative total angular momentum.
 
 In NushellX there is a routine \texttt{runtrans} that calculate one-body transition densities, i.e. expectation values of the one-body density operator between initial and final states. These densities, multiplied by single-particle matrix elements, in the routine \texttt{dens}, give the matrix element for the transition from initial to final state. In our code, with some effort, we also could implement the one-body density operator in second quantization in order to study transitions between different eigenstates of the system (for example between an excited state and the ground state).
 
@@ -810,7 +808,7 @@ In NushellX there is a routine \texttt{runtrans} that calculate one-body transit
 Compared to NuShellX our code has a numerical precision of KeV energies. The main sources of theoretical 'errors' are the truncation of the model space and the values of the matrix elements fitted to reproduce the experimental states. We are interested in energy levels and therefore consider the precision of our code at 1 KeV to be good. 
 
 A clear issue of our basic code is the execution time. With our code it takes about 10s on a laptop to calculate the eigenvalues for 6 valence neutrons (the slowest possible calculation due to the largest possible number of Slater determinants). Among the total time 0.5s are required for the unit test. Most of the time is spent in building the Hamiltonian matrix and diagonalizing it. 
-The most efficient way to improve the execution time of our code is therefore to adopt an optimized diagonalization routine (such as Lanczos algorithm) to replace the standard diagonalization done with numpy. The code would also speed up significantly if the technique of bit representation where implemented. 
+The most efficient way to improve the execution time of our code is therefore to adopt an optimized diagonalization routine (such as Lanczos algorithm \cite{Lanczos}) to replace the standard diagonalization done with \texttt{numpy}. The code would also speed up significantly if the technique of bit representation were implemented.
 
 
 %------------------------------------------------
@@ -821,16 +819,17 @@ The most efficient way to improve the execution time of our code is therefore to
 
 %[here we have an amazing conclusion of our fabulous work and maybe summarize some stuff]
 
-In this report we have seen how useful it is to have good routines for bench marking results during the development of a shell model code. We have extensively compared analytic results to our code before implementing new features. In Subsec. \ref{sec:ourcode}.\ref{subsec:unit} we have seen that a lot of time can be saved if unit tests and good debugging routines are implemented early. 
+In this report we have seen how useful it is to have good routines for benchmarking results during the development of a shell model code. We have extensively compared analytic results to our code before implementing new features. In Subsec. \ref{sec:ourcode}.\ref{subsec:unit} we have seen that a lot of time can be saved if unit tests and good debugging routines are implemented early. 
 
 The pairing model (Sec. \ref{sec:pair}) proved itself as a very useful stepping stone to a more advanced code. NuShellX (Sec. \ref{sec: NushellX}) provided us with more advanced results to benchmark our code at a later stage. In Subsec. \ref{sec:ourcode}.\ref{subsec: results} we see that the results of our code reproduce calculations done with NuShellX well and with good precision.
 
-There are some major issues with our code, mainly the time spent running the code. NuShellX is a very flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop.  In Sec. \ref{sec:discussion} a few suggestions to make our code more flexible are provided, but we can conclude that its major issue is the execution time. This problem may be solved by implementing a bit representation and a better diagonalization routine for finding the eigenvalues of the Hamiltonian matrix.
+%There are some major issues with our code, mainly the time spent running the code. 
+NuShellX is a very flexible tool for theoretical calculations that can be done surprisingly fast on a regular laptop.  In Sec. \ref{sec:discussion} a few suggestions to make our code more flexible are provided, but we can conclude that its major issue is the execution time. This problem may be solved by implementing a bit representation and a better diagonalization routine for finding the eigenvalues of the Hamiltonian matrix.
 
 We consider the development of this simple shell model code to be an absolutely useful tool to practice with the Configuration Interaction method. Coding such routines from scratch has been an highly formative experience for multiple reasons:
 \begin{itemize} 
 \item translating the theoretical notions to a code language was a good way to better understand the formalism 
-\item working on our own code provided us with the real picture of the technical difficulties one face when producing physically interesting results
+\item working on our own code provided us with the real picture of the technical difficulties one faces when producing physically interesting results
 \item this summer school \cite{ref: git_school} gave a lot of inputs to improve our knowledge about the structure of atomic nuclei
 \end{itemize}
 
@@ -869,7 +868,7 @@ We consider the development of this simple shell model code to be an absolutely 
 \bibitem[NushellX]{ref: nushellx} 
 \newblock {\em https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf} $\;$(and references within)
 %
-\bibitem[Lanczos paper]{Lanczos} C. Lanczos, J. Res. Nat’l Bur. Std. \textbf{45} (1950) 255-282 
+\bibitem[Lanczos paper]{Lanczos} C. Lanczos, J. Res. Nat'l Bur. Std. \textbf{45} (1950) 255-282 
 %
 \bibitem[NushellX help]{help_file} from NushellX folder
 \newblock {\em ./help/help.pdf}
