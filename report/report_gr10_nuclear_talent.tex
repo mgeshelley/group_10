@@ -171,7 +171,7 @@
 \begin{abstract}
 In this report we outline the steps we made to create a simple shell-model code starting from scratch. At first we face the pairing problem, for which we calculate an analytical solution and build a numerical implementation coded in the programming language Python.\\
 In parallel we practice with a state-of-art code NushellX, to understand the important features of the Configuration Interaction method and the information we can gain from this to study nuclear structure properties.\\
-From the skeleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (from $^{17}$O to $^{28}$O). The energy levels obtained with our shell model code for the Oxygen isotopes are exactly equivalent to the results calculated with NushellX.
+From the skeleton of the pairing code, we construct a simple shell model code that can perform calculations in 1s0d shell model space for 1 up to 12 valence neutrons (i.e. with $^{16}$O as core nucleus we can describe the Oxygen isotopic chain from $^{17}$O to $^{28}$O). The energy levels obtained with our shell model code for these isotopes are exactly equivalent to the results calculated with NushellX.
 
 \centering \textbf{GitHub repository: } \href{https://github.com/mgeshelley/group$\_$10}{https://github.com/mgeshelley/group$\_$10}
 %We have first implemented the pairing model which have a analytical solution (to benchmark the code). Then implemented the sd shell ---> more general shell-model program that allows you to study general nuclear structure problems.
@@ -210,8 +210,8 @@ From the skeleton of the pairing code, we construct a simple shell model code th
 % WHY and WHERE USEFUL
 The atomic nucleus is a complex system. 
 It has the dimension of few fm (10$^{-15}$m) so the structure of the nucleus is regulated by quantum mechanics. 
-We are interested in describing the low-energy scale that determine the nuclear configuration. Even though  the fundamental particles that form a nucleus are quarks and gluons, the degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, requiring a many-body treatment.\\ 
-The sub-atomic system is one of the most attractive laboratories to study physics. Three different natural forces play an active role in the nucleus: the strong, electromagnetic and weak interaction. 
+We are interested in describing the low-energy scale that determine the nuclear configuration. Even though  the fundamental particles that form a nucleus are quarks and gluons, the relevant degrees of freedom we explore are protons and neutrons. The number of nucleons can be between one and a couple of hundreds, requiring a many-body treatment.\\ 
+This sub-atomic system is one of the most attractive laboratories to study physics. Three different natural forces play an active role in the nucleus: the strong, electromagnetic and weak interaction. 
 The Coulomb force acting among protons and the electromagnetic transitions are manifestations of the electromagnetic force.
 Beta decays are an example of weak interactions.
 The strong force keeps the nucleons together in a bound state, but this interaction is not yet fully understood. There exist no complete equation for the strong force. Comparing theoretical results of effective interactions with available experimental data help us investigate the importance of the different terms in the interaction models.
@@ -228,7 +228,7 @@ One of the aims of nuclear physics is to explain the properties of all the obser
 \label{fig: nuclear_chart}
 \end{figure}
 Another goal is to predict the limits of the possible bound systems (driplines). The nuclear chart can be described by three different theoretical models, as shown in Figure \ref{fig: nuclear_chart}.
-Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where an interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, also known as shell-models. Truncation of the model space is key to study large systems with shell-models due to limitations in computing resources. Heavy nuclei are usually described by Energy Density Functionals that reduce the volume of information needed. The the price for this information reduction is that mainly ground state properties can be calculated.
+Light nuclei, $A \lesssim 20$ is the playground of Ab-initio methods where an interaction derived by first principles (close to quantum chromodinamics) are applied and all the nucleons are taken into account. Medium mass nuclei, $ 16 \lesssim A \lesssim 132$ can be studied by Configuration Interaction theory, also known as shell-models. Truncation of the model space is key to study large systems with shell-models due to limitations in computing resources. Heavy nuclei are usually described by Energy Density Functionals that reduce the volume of information needed. The price for this information reduction is that mainly ground state properties can be calculated.
 
 % ANTICIPATION OF THE CONTENTS
 In this report we consider the Configuration Interaction method. In Sec.\ref{sec:pair} we start to study a basic pairing model to practise with the second quantization formalism and the building block of the shell-model. We will obtain analytical results that we implement in a Python code to be used as benchmark for our own shell model code later.
@@ -261,7 +261,7 @@ The starting point for our shell-model code is a pairing model: the system consi
 \end{equation}
 where the fermion creation and annihilation operators are given by $\hat a_{p}^\dagger$ and $\hat a_{q}$ respectively and $pqrs$ represent all possible single-particle quantum numbers.
 
-The single-particle states $\vert p \rangle$ are chosen as eigenfunctions of the one-particle operator $\hat{h}_0$, then the Hamiltonian $H$ acts in turn on various many-body Slater determinants constructed from the single-basis defined by the one-body operator $\hat{h}_0$.
+The single-particle states $\vert p \rangle$ are chosen as eigenfunctions of the one-particle operator $\hat{h}_0$, then the Hamiltonian $\hat H$ acts in turn on various many-body Slater determinants constructed from the single-basis defined by the one-body operator $\hat{h}_0$.
 
 The two-body pairing operator $\hat{V}$ is:
 \begin{equation}
@@ -322,7 +322,7 @@ For example the first term in Eq.(\ref{Vwick}) is obtained from the contractions
 The Hamiltonian matrix becomes
 
 \begin{equation}
-\hat H = \begin{pmatrix}
+H = \begin{pmatrix}
 2 - g & -g/2 & -g/2 & -g/2 & -g/2 & 0 \\
 -g/2 & 4- g & -g/2 & -g/2 & 0 & -g/2 \\
 -g/2 & -g/2 & 6 -g & 0 & -g/2 & -g/2 \\
@@ -340,7 +340,7 @@ The Hamiltonian matrix becomes
 \label{fig: g_vs_eigval}
 \end{figure}
 
-In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}. We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
+In Figure \ref{fig: g_vs_eigval} we plot the eigenvalues of the Hamiltonian matrix \eqref{eq: analytic_H_matrix} for the pairing model as a function of the strength $g \in [-1,1]$. \footnote{The diagonalization was done with \texttt{numpy}.}. We can observe that the pairing potential increases the gap among the energy levels $E\_i$, eigenvalues of Eq.(\ref{eq: analytic_H_matrix}). The case $g=1$, corresponding to a strong attractive pairing, produces the more stable system (lowest energy levels).
 
 %------------------------------------------------
 \newpage
@@ -348,15 +348,15 @@ In Figure \ref{fig: g_vs_eigval} we see the eigenvalues of the Hamiltonian matri
 \section{NuShellX}
 \label{sec: NushellX}
 
-NushellX is a code developed by W. D. M. Rae \cite{ref: nushellx} that provides an powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain energies, eigenvectors and spectrosopic overlaps for low-lying states. Here we are interested in extract energies from NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
+NushellX is a code developed by W. D. M. Rae \cite{ref: nushellx} that provides a powerful tool for nuclear structure calculations. This shell-model code is capable of Hamiltonian matrix calculations with very large basis dimensions. With NuShellX one can obtain energies, eigenvectors and spectrosopic overlaps for low-lying states. Here we are interested in extract energies from NuShellX that will be used to benchmark our shell-model code in the development beyond the pairing model. 
 
 %NuShellX uses $J$-scheme and $jj$-coupling. It is written in $pn$-formalism; it uses a J-coupled proton-neutron. % Is this written in the code documentation??? Because we can decide to use pn-interaction or isospin dependent interaction
-NushellX is written in $pn$-formalism, i.e. the model space considers neutron and protons states separately, and couples them in $J$-scheme. The single-particle basis, the states for protons and neutrons are created separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
+NushellX is written in $pn$-formalism, i.e. the model space considers neutron and protons states separately, and couples them in $J$-scheme. The single-particle basis is created by states for protons and neutrons separately. The code can consider $J$-scheme matrix dimensions of up to the order of a 100 million. To take advantage of many cores in modern computers, OpenMP for the Lanczos iterations \cite{Lanczos} is used. This way the code can handle quite large model spaces in a reasonable time on a laptop too.  
 
 %The major disadvantage of NuShellX is that it is very easy to produce unrealistic or inappropriate results. 
-Calculations in an infinite space are not possible and therefore some truncation is required. Ideally one would like to do calculations in the largest possible model spaces and one can argue that the best and most complete results are found with the largest model spaces. The major issue is that the computational time increases exponentially with model space size, so the wish for large model spaces are limited by the computational power and time available. When doing a calculation it may be useful to first truncate severely and quickly get a first crude result. Then one can later relax the truncations until the desired accuracy is reached. 
+Calculations in an infinite space are not possible and therefore truncation is required. Ideally one would like to do calculations in the largest possible model spaces and one can argue that the best and most complete results are found with the largest model spaces. The major issue is that the computational time increases exponentially with model space size, so the wish for large model spaces are limited by the computational power and time available. When doing a calculation it may be useful to first truncate severely and quickly get a first crude result. Then one can later relax the truncations until the desired accuracy is reached. 
 
-Another challenge when running shell model calculations is that the chosen interaction must be appropriate for the model space. A calculation in the full model space may be too computationally intensive in itself, but it may also be inappropriate for the interaction. To run a shell model calculation one have to make two major decisions: which interaction will we use, and which model space truncation? In NuShellX only subshell truncations can be made. We can only limit the number of valence particles (protons and neutrons separately) in a given orbital. %We cannot restrict the total number of nucleons in a given orbital since protons and neutrons are treated separately. 
+Another challenge when running shell model calculations is that the chosen interaction must be appropriate for the model space. A calculation in the full model space may be too computationally intensive in itself, but it may also be inappropriate for the interaction. To run a shell model calculation two major decisions have to be taken: which interaction to use, and which model space truncation? In NuShellX only subshell truncations can be made. We can only limit the number of valence particles (protons and neutrons separately) in a given orbital. %We cannot restrict the total number of nucleons in a given orbital since protons and neutrons are treated separately. 
 
 \begin{figure}[ht]
 \centering
@@ -377,11 +377,11 @@ Another challenge when running shell model calculations is that the chosen inter
 \item extended functionalities
 \end{itemize}
 
-The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\cite{help_file}.
+The NuShellX@MSU code provides the model spaces (\texttt{*.sp}) and hamiltonians (\texttt{*.int}) found in the \texttt{sps} folder. The file \texttt{label.dat} contains a list of available model space and Hamiltonian combinations. For a more detailed description of how to run the NuShellX code see Ref.\cite{help_file}.
 
 The extended functionality (called by the option \texttt{den}) make NushellX a powerful program to study atomic nuclei. This option makes it possible to calculate electromagnetic transitions, neutron and proton emission, beta decay as well as Hartree-Fock calculations in Energy Density Functional style. In this report we will only show the NuShellX calculations that will be used to benchmark our own shell model code. 
 
-\paragraph{NuShellX results.} We calculated the excitation energies of the isotopes $^{17}$O to $^{28}$O using the $usdb$ effective interaction optimized for the 1s0d shells. In Figure \ref{expnushellx} the results for $^{18}$O and $^{20}$O is shown. The plot is generated by the NuShellX@MSU code, we see the theoretical results (left) and the the experimental available values (right) for each isotope. We observe that the agreement between theory and experiment is good, especially for the lowest excited states. 
+\paragraph{NuShellX results.} We calculated the excitation energies of the isotopes $^{17}$O to $^{28}$O using the $usdb$ effective interaction optimized for the 1s0d shells. In Figure \ref{expnushellx} the results for $^{18}$O and $^{20}$O is shown. The plot is generated by the NuShellX@MSU code. The theoretical results (right) and the the experimental available values (left) for each isotope are compared. We observe that the agreement between theory and experiment is good, especially for the lowest excited states. 
 
 \begin{figure}[h]
 \begin{center}$
@@ -868,6 +868,8 @@ We consider the development of this simple shell model code to be an absolutely 
 %
 \bibitem[NushellX]{ref: nushellx} 
 \newblock {\em https://people.nscl.msu.edu/~brown/brown-all-papers/525-2014-nds120.115-nushellx.pdf} $\;$(and references within)
+%
+\bibitem[Lanczos paper]{Lanczos} C. Lanczos, J. Res. Nat’l Bur. Std. \textbf{45} (1950) 255-282 
 %
 \bibitem[NushellX help]{help_file} from NushellX folder
 \newblock {\em ./help/help.pdf}
