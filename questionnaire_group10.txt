@@ -5,18 +5,19 @@ Gianluca Salvioni, Matthew Shelley, Gilho Ahn, Ina Kristine Berentsen Kullmann
 
 1) What where your expectations and were they met?
 Did not have much expectations..(?)
+Expectations were that we would get good practical experience using a shell-model code, and would understand the basics of writing such a code, as well as the theory behind everything. All these expectations were met!
 
 2) Was the course useful?
-The course has been useful to practise with the theory of shell model methods, to see connections between the theory and the corresponding physics investigated by experiments, to work in group to produce a basic code.
+The course has been useful to practise with the theory of shell model methods, to see connections between the theory and the corresponding physics investigated by experiments, to work in group to produce a basic code. It was useful to learn a little better about the strengths and limitations of the shell model, compared with other theoretical models.
 
 3) What is your overall experience?
-Good. The project/coding was the best academic part - learning hands on is really useful. Socially also a very good experience. 
+Good. The project/coding was the best academic part - learning hands on is really useful. Socially also a very good experience. Location of course was excellent!
 
 4) Daily workload
 Daily workload was adequate if the computational project and the exercises were distributed among the group members. It would be interesting if everyone could practise with both, but then the time would not be enough as is now. The amount of lectures could be reduced without loss of too much needed theory. 
 
 5) Interactions with instructors
-Good! The instructors have been really helpful and open to answer questions. 
+Good! The instructors have been really helpful and open to answer questions. It was nice also to receive feedback from the lecturers when each group presented their work at the end of each week.
 
 6) Content of lectures
 The content of lectures was interesting. It was a pity that the time run out to go deep in the subjects of the last week, like effective interaction, tensor interaction…(But these subjects would only be interesting for the students having the proper (theory) course background, the prerequisites for the course would have to be changed to do this.)
@@ -49,4 +50,4 @@ Good standard, but for the social life after class it would be better if everyon
 15) Other topics you think are useful to mention
 
 16) Would you attend other Talent courses and would you recommend colleagues and fellow students to attend?
-Yes, I would attend another Talent course and I would recommend it. 
+Yes, I would attend another Talent course and I would recommend it. I would recommend the Talent courses to both theoretical and experimental students.
