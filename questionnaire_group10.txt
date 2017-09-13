@@ -1,0 +1,44 @@
+///   questionnaire  group_10
+Gianluca Salvioni, Matthew Shelley, Gilho Ahn, Ina Kristine Berentsen Kullmann
+
+(Feel free to add text and comment, in particular what did function well, what functioned less well, how can we improve etc etc)
+
+1) What where your expectations and were they met?
+
+2) Was the course useful?
+The course has been useful to practise with the theory of shell model methods, to see connections between the theory and the corresponding physics investigated by experiments, to work in group to produce a basic code.
+
+3) What is your overall experience?
+
+4) Daily workload
+Daily workload was adequate if the computational project and the exercises were distribuited among the group members. It would be interesting that everyone could practise with both but then the time would not be enough.
+
+5) Interactions with instructors
+The instructors have been really helpful and open to answer questions.
+
+6) Content of lectures
+The content of lectures was interesting. It was a pity that the time run out to go deep in the subjects of the last week, like effective interaction, tensor interaction...
+The lectures given by  Alexandra, Gustav and Robert were likewise useful, but it would be nice if they were more connected with the final project and exercises.
+
+7) Pedagogical quality of lectures
+
+8) Interest and relevance of exercises
+
+9) Level of exercises
+
+10) Interest and relevance of computational projects
+The computational project was absolutely relevant to the subject studied and well scheduled in small steps.
+
+11) Level of computational projects
+It was good that the level of the computational project was affordable, with a lot of possible improvements for the groups able to complete the basic tasks in advance.
+
+12) Interactions with fellow students
+
+13) The working environment at the ECT
+The working environment at ECT was quite fine, with free space where group could work on their own. The room where we had the lectures on the 2nd and 3rd week was not the best (small and warm).
+
+14) Living accomodations
+
+15) Other topics you think are useful to mention
+
+16) Would you attend other Talent courses and would you recommend colleagues and fellow students to attend?
