@@ -29,13 +29,13 @@ The first lectures connecting theory and the code was very pedagogical! Some of 
 It was useful to see how the NuShellX code may be run, but there was not enough time for everyone to do it, so we had to choose who would focus on the exercises - so only a few of us learned how to use NuShellX. 
 
 9) Level of exercises
-Appropirate level given help while working on them.  
+Appropriate level given help while working on them.  
 
 10) Interest and relevance of computational projects
 The computational project was absolutely relevant to the subject studied and well scheduled in small steps. (I would suggest this is what made the summer school way better than most summer schools.)
 
 11) Level of computational projects
-It was good that the level of the computational project was affordable, with a lot of possible improvements for the groups able to complete the basic tasks in advance. [Ina: I dont understand this sentence…]
+The level of the computational project was affordable, meaning that all the groups more or less completed the Oxygen isotopes calculations with their own code. It was good that there were offered further challenges to improve the code for the groups able to complete the basic tasks before the three weeks time. [Ina: I dont understand this sentence…  Gianluca: hope that now is better]
 
 12) Interactions with fellow students
 The learning environment was very good, friendly and casual. A very good social atmosphere! 
